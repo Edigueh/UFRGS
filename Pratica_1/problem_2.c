@@ -21,30 +21,30 @@
 #include <stdio.h>
 #include <math.h>
 
-#define SQUARE_SIDES 4
+static const int SQUARE_SIDES = 4;
 
-float calculateSquareSides(float radius) {
+double calc_sqr_sides(double radius) {
     return radius * sqrt(2);
 }
 
-float calculateSquarePerimeter(float squareSidesMeasure) {
-    return squareSidesMeasure * SQUARE_SIDES;
+double calc_sqr_perimeter(double sqr_side_measure) {
+    return sqr_side_measure * SQUARE_SIDES;
 }
 
-float calculateSquareArea(float squareSidesMeasure) {
-    return pow(squareSidesMeasure, 2);
+float calc_sqr_area(double sqr_side_measure) {
+    return pow(sqr_side_measure, 2);
 }
 
 int main() {
-    float radius;
+    double radius;
 
     printf("Entre com um valor para o raio: ");
-    scanf("%f", &radius);
+    scanf("%lf", &radius);
 
-    float squareSidesMeasure = calculateSquareSides(radius);
+    double sqr_side_measure = calc_sqr_sides(radius);
 
-    printf("Perímetro do maior quadrado: %.2f\n", calculateSquarePerimeter(squareSidesMeasure));
-    printf("Área do maior quadrado: %.2f\n", calculateSquareArea(squareSidesMeasure));
+    printf("Perímetro do maior quadrado: %.2f\n", calc_sqr_perimeter(sqr_side_measure));
+    printf("Área do maior quadrado: %.2f\n", calc_sqr_area(sqr_side_measure));
 
-    return 0;
+    return sqr_side_measure;
 }
