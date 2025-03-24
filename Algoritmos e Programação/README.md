@@ -16,8 +16,7 @@
     - Example:
         
         ```c
-        c
-        CopierModifier
+        
         int calculate_sum(int a, int b) {
             return a + b;
         }
@@ -29,8 +28,7 @@
     - Always include parameter types:
         
         ```c
-        c
-        CopierModifier
+        
         int calculate_sum(int a, int b);
         
         ```
@@ -44,8 +42,7 @@
     - Example with 4 spaces:
         
         ```c
-        c
-        CopierModifier
+
         int main() {
             printf("Hello, World!\n");
             return 0;
@@ -57,8 +54,7 @@
     - Example:
         
         ```c
-        c
-        CopierModifier
+
         if (x > 0) {
             printf("Positive\n");
         }
@@ -68,8 +64,7 @@
     - Alternatively, you can use **Allman style** (braces on a new line):
         
         ```c
-        c
-        CopierModifier
+
         if (x > 0)
         {
             printf("Positive\n");
@@ -85,8 +80,7 @@
 - Use **inline comments** sparingly and only when necessary.
     
     ```c
-    c
-    CopierModifier
+
     // Calculate the average of two numbers.
     float average = (x + y) / 2.0;
     
@@ -95,8 +89,7 @@
 - Use **block comments** for more complex explanations:
     
     ```c
-    c
-    CopierModifier
+
     /*
      * This function initializes the buffer
      * and checks for memory allocation errors.
@@ -115,8 +108,7 @@
 - Use `#define` for macros and constants.
     
     ```c
-    c
-    CopierModifier
+
     #define PI 3.14159
     #define MAX_BUFFER_SIZE 1024
     
@@ -125,8 +117,7 @@
 - Prefer `const` variables over `#define` where applicable:
     
     ```c
-    c
-    CopierModifier
+
     const double PI = 3.14159;
     
     ```
@@ -139,8 +130,7 @@
 - Always handle errors gracefully and check return values:
     
     ```c
-    c
-    CopierModifier
+
     FILE *file = fopen("data.txt", "r");
     if (file == NULL) {
         perror("Error opening file");
@@ -158,8 +148,7 @@
     - Declare function prototypes, macros, and struct definitions in `.h` files.
         
         ```c
-        c
-        CopierModifier
+
         // utils.h
         void print_message(const char *message);
         
@@ -168,8 +157,7 @@
     - Define actual functions in `.c` files:
         
         ```c
-        c
-        CopierModifier
+
         // utils.c
         #include "utils.h"
         
@@ -182,8 +170,7 @@
 - **Include Guards:** Prevent multiple inclusions of the same header file.
     
     ```c
-    c
-    CopierModifier
+
     #ifndef UTILS_H
     #define UTILS_H
     
@@ -201,8 +188,7 @@
 - Always check for `NULL` when dealing with pointers:
     
     ```c
-    c
-    CopierModifier
+
     if (ptr == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
@@ -219,8 +205,7 @@
 - Use named constants instead of "magic numbers":
     
     ```c
-    c
-    CopierModifier
+
     #define MAX_RETRIES 5
     
     for (int i = 0; i < MAX_RETRIES; i++) {
@@ -256,8 +241,7 @@
 - Always compile with strict warnings:
     
     ```bash
-    bash
-    CopierModifier
+
     gcc -Wall -Wextra -pedantic -o program main.c
     
     ```
