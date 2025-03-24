@@ -23,16 +23,16 @@
 
 static const int SQUARE_SIDES = 4;
 
-double calc_sqr_sides(double radius) {
+double calc_square_side(double radius) {
     return radius * sqrt(2);
 }
 
-double calc_sqr_perimeter(double sqr_side_measure) {
-    return sqr_side_measure * SQUARE_SIDES;
+double calc_square_perimeter(double side_length) {
+    return side_length * SQUARE_SIDES;
 }
 
-float calc_sqr_area(double sqr_side_measure) {
-    return pow(sqr_side_measure, 2);
+double calc_square_area(double side_length) {
+    return pow(side_length, 2);
 }
 
 int main() {
@@ -41,10 +41,10 @@ int main() {
     printf("Entre com um valor para o raio: ");
     scanf("%lf", &radius);
 
-    double sqr_side_measure = calc_sqr_sides(radius);
+    double side_length = calc_square_side(radius);
 
-    printf("Perímetro do maior quadrado: %.2f\n", calc_sqr_perimeter(sqr_side_measure));
-    printf("Área do maior quadrado: %.2f\n", calc_sqr_area(sqr_side_measure));
+    printf("Perímetro do maior quadrado: %.2f\n", calc_square_perimeter(side_length));
+    printf("Área do maior quadrado: %.2f\n", calc_square_area(side_length));
 
-    return sqr_side_measure;
+    return 0;
 }

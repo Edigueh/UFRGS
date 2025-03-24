@@ -20,23 +20,23 @@
 #include <stdio.h>
 #include <math.h>
 
-double calc_alien_population_growth(int initial_population, int years, float growth_rate){
+double calc_alien_population_growth(int initial_population, int years, double growth_rate){
     return initial_population * exp(growth_rate/100 * years);
 }
 
 int main() {
     int initial_population, years;
-    float growth_rate;
+    double growth_rate;
 
     printf("Entre com a população inicial: ");
     scanf("%d", &initial_population);
     printf("Entre com o tempo em anos: ");
     scanf("%d", &years);
     printf("Entre com a taxa de crescimento (em porcentagem): ");
-    scanf("%f", &growth_rate);
+    scanf("%lf", &growth_rate);
 
-    float alien_population_growth = floor(calc_alien_population_growth(initial_population, years, growth_rate));
+    double alien_population_growth = floor(calc_alien_population_growth(initial_population, years, growth_rate));
 
-    printf("Apos %d anos, a populacao sera aproximadamente %.0f aliens!\n", years, alien_population_growth);
-    return alien_population_growth;
+    printf("Apos %d anos, a populacao sera aproximadamente %.0lf aliens!\n", years, alien_population_growth);
+    return 0;
 }
