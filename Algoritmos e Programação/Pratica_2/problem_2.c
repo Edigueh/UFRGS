@@ -26,9 +26,7 @@ Mes de vencimento Maio
 #include <stdio.h>
 
 int get_last_digit(int car_plate) {
-    int last_digit;
-    last_digit = car_plate % 10;
-    return last_digit;
+    return car_plate % 10;
 }
 
 

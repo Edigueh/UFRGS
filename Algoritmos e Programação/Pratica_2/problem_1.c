@@ -33,7 +33,6 @@
 ***********************************************************************/
 
 #include <stdio.h>
-#include <stdbool.h>
 
 #define MINIMUM_WEIGHT 50
 #define MINIMUM_AGE 16
@@ -41,6 +40,7 @@
 
 int main () {
 
+    char * invalid_message = "Você não está apto a doar sangue!\n";
     char did_tatoo;
     float weight;
     int age;
@@ -56,13 +56,13 @@ int main () {
             if (age >= MINIMUM_AGE && age <= MAXIMUM_AGE) {
                 printf("Você está apto a doar sangue!\n");
             } else {
-                printf("Você não está apto a doar sangue!\n");
+                printf(invalid_message);
             }
         } else {
-            printf("Você não está apto a doar sangue!\n");
+            printf(invalid_message);
         }
     } else {
-        printf("Você não está apto a doar sangue!\n");
+        printf(invalid_message);
     }
     return 0;
 }
