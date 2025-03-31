@@ -56,13 +56,13 @@ int main () {
             if (age >= MINIMUM_AGE && age <= MAXIMUM_AGE) {
                 printf("Você está apto a doar sangue!\n");
             } else {
-                printf(invalid_message);
+                printf("%s\n",invalid_message);
             }
         } else {
-            printf(invalid_message);
+            printf("%s\n",invalid_message);
         }
     } else {
-        printf(invalid_message);
+        printf("%s\n",invalid_message);
     }
     return 0;
 }
