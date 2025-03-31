@@ -47,7 +47,7 @@ int main () {
     
     printf("Voce fez tatuagem nos ultimos 12 meses (S/N)? ");
     scanf(" %c", &did_tatoo);
-    if (did_tatoo == 'S' || did_tatoo != 's') {
+    if (did_tatoo == 'S' || did_tatoo == 's') {
         printf("Qual seu peso? ");
         scanf("%f", &weight);
         if (weight >= MINIMUM_WEIGHT) {
@@ -56,13 +56,13 @@ int main () {
             if (age >= MINIMUM_AGE && age <= MAXIMUM_AGE) {
                 printf("Você está apto a doar sangue!\n");
             } else {
-                printf("%s\n",invalid_message);
+                printf("%s\n", invalid_message);
             }
         } else {
-            printf("%s\n",invalid_message);
+            printf("%s\n", invalid_message);
         }
     } else {
-        printf("%s\n",invalid_message);
+        printf("%s\n", invalid_message);
     }
     return 0;
 }

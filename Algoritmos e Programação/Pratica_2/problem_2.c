@@ -29,7 +29,6 @@ int get_last_digit(int car_plate) {
     return car_plate % 10;
 }
 
-
 int main() {
     char months[10][9] = {"Outubro", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro"};
     int car_plate;
