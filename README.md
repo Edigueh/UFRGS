@@ -1,2 +1,2 @@
 # UFRGS
-My studies alongisde my Computer Science Bachelors at UFRGS.
+My studies for Computer Science Bachelor at UFRGS.
