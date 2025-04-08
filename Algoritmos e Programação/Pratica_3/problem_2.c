@@ -27,8 +27,6 @@ Valor de sin(1.570796) pela funcao C eh: 1.000000
 #include <stdlib.h>
 #include <math.h>
 
-#define START_TERM 3
-
 double taylor_sine(double x, int n) {
     double term = x; // first term: (x^1) / 1!
     double sum = term;
