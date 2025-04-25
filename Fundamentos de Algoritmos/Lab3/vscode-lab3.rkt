@@ -352,7 +352,7 @@
     [(> (conta-formas-tipo lf (forma-tipo (first lf))) 1)
      (remove-formas-mesmo-tipo (rest lf))]
     ;; é a última desse tipo: inclui o primeiro dessa parte da lista
-     [else (cons (first lf) (remove-formas-mesmo-tipo (rest lf)))]
+    [else (cons (first lf) (remove-formas-mesmo-tipo (rest lf)))]
     )
   )
 
@@ -367,5 +367,5 @@
 ;; Exemplos:
 
 (define (desenha-formas-sem-tipos-repetidos lf)
-(desenha-lista-formas (remove-formas-mesmo-tipo lf))
-)
+  (desenha-lista-formas (remove-formas-mesmo-tipo lf))
+  )
