@@ -2,6 +2,7 @@
     "files.associations": {
         "complex": "c",
         "math.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "string.h": "c"
     }
 }
