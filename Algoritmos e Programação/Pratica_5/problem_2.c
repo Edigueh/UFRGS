@@ -76,19 +76,16 @@ int get_number_of_elements_between_values(float inputs[], int n_entries, float v
 int main(void) {
     float inputs[MAXLIDOS];
     int n_entries = 0;
-
     printf("Entre os valores: ");
-    for (int i = 0; i < MAXLIDOS; i++) {
-        float entry;
-        scanf(" %f", &entry);
 
-        if (entry > 0) {
-            inputs[i] = entry;
-            n_entries++;
-            continue;
+    /* lê até valor negativo ou até atingir MAXLIDOS */
+    float entry;
+    do {
+        scanf(" %f", &entry);
+        if (entry > 0.0f) {
+            inputs[n_entries++] = entry;
         }
-        break;
-    }
+    } while (entry > 0.0f && n_entries < MAXLIDOS);
 
     float squares_avg = get_squares_avg(inputs, n_entries);
     float sqroots_avg = get_sqroots_avg(inputs, n_entries);
