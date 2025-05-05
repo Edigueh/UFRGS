@@ -1,6 +1,6 @@
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname lab2-template-2025-1) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")) #f)))
-
-;; Vamos trabalhar com formas geométricas coloridas.
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname vscode-lab3) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")) #f)))
 ;; As formas serão usadas são retângulos, círculos, triângulos (equiláteros)
 ;; ou estrelas radiais.
 
@@ -204,7 +204,7 @@
 (define T2 (make-forma "T2" "triângulo" "blue" (cons 60 empty)))
 
 ;; Estrelas:
-(define S1 (make-forma "S1" "estrela" "yellow" (cons 60 (cons 30 (cons 1000 empty)))))
+(define S1 (make-forma "S1" "estrela" "yellow" (cons 1000 (cons 30 (cons 1000 empty)))))
 (define S2 (make-forma "S2" "estrela" "blue" (cons 50 (cons 20 (cons 80 empty)))))
 
 ;; ==============================================================
