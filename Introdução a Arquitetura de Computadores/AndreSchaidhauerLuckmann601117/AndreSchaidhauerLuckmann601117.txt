@@ -1,0 +1,61 @@
+Nome: André Schaidhauer Luckmann
+Cartão UFRGS: 00601117
+
+---- PROGRAMA ----
+  0        LDA 227 -- AC = 2
+  2        STA 221 -- p1 = AC (2)
+  4   *--> STA 225 -- div = AC
+  6 *-|->  NOT
+  7 | |    ADD 226 -- AC = (-div)
+  9 | |    STA 224 -- minus_div = AC
+ 11 | |    ADD 221 -- AC = minus_div + p1
+ 13 | |    JZ  47  -- IF AC == 0    --------* (P1 É PRIMO)
+ 15 | |    LDA 221 -- AC = p1               | 
+ 17 | | *->ADD 224 -- AC = p1 + (minus_div) |
+ 19 | | |  JZ  37  -- IF AC == 0 ----------------* (P1 NÃO É PRIMO)
+ 21 | | |  JN  29  -- IF AC < 0 ----* (DEU RESTO)|
+ 23 | | |  STA 223 -- rest = AC     |       |    |
+ 25 | | |  LDA 223 -- AC = rest     |       |    |
+ 27 | | *- JMP 17                   |       |    |
+ 29 | |    LDA 225 -- AC = div <----*       |    |
+ 31 | |    ADD 226 -- AC += 1               |    |
+ 33 | |    STA 225 -- div = AC              |    |
+ 35 *-|--- JMP 6                            |    |
+ 37   |    LDA 221 -- AC = p1        <-----------*-*
+ 39   |    ADD 226 -- AC += 1               |      |
+ 41   |    STA 221 -- p1 = AC               |      |
+ 43   |    LDA 227 -- AC = 2                |      |
+ 45   *--- JMP 4                            |      |
+ 47        LDA 221 -- AC = p1        <------*      |
+ 49        NOT                                     *---*
+ 50        ADD 226 -- AC = (-p1)                       |
+ 52        ADD 220 -- AC += n                          |
+ 54        STA 222 -- p2 = AC                          |
+ 56        LDA 227 -- AC = 2                           |
+ 58 *--->  STA 225 -- div = AC                         |
+ 60 |      NOT                                         |
+ 61 |      ADD 226 -- AC = (-div)                      |
+ 63 |      STA 224 -- minus_div = AC                   |
+ 65 |      LDA 222 -- AC = p2                          |
+ 67 |      ADD 224 -- AC += minus_div                  |
+ 69 |      JZ  89  -- IF AC == 0 ---------* (FIM, P2 É PRIMO)
+ 71 | *--> ADD 224 -- AC += minus_div     |            |
+ 73 | |    JZ  37  -- IF AC == 0  ---------------------* (P2 NÃO É PRIMO)
+ 75 | |    JN  83  -- IF AC < 0 --*       |
+ 77 | |    STA 223 -- rest = AC   |       |
+ 79 | |    LDA 223 -- AC = rest   |       |
+ 81 | *--- JMP 71                 |       |
+ 83 |      LDA 225 -- AC = div <--*       |
+ 85 |      ADD 226 -- AC += 1             |
+ 87 *----- JMP 58                         |
+ 89        HLT          <-----------------* (FIM, P1 e P2 foram encontrados)
+
+---- MEMÓRIA ----
+220    0  --> n         (input)
+221    0  --> p1        (output)
+222    0  --> p2        (output)
+223    0  --> rest      (var)
+224    0  --> minus_div (var)
+225    0  --> div       (var)
+226    1  --> 1         (const)
+227    2  --> 2         (const)
