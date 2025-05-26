@@ -2,7 +2,8 @@ CC = gcc
 CFLAGS = $(shell pkg-config --cflags raylib)
 LDFLAGS = $(shell pkg-config --libs raylib)
 
-FILE?=main.c
+FILE ?= main.c
+OUTPUT ?= praticaray
 
 # Specifically for macOS
 ifeq ($(shell uname), Darwin)
@@ -14,5 +15,8 @@ endif
 compile-raylib: $(FILE)
 	$(CC) -o $(OUTPUT) $^ $(CFLAGS) $(LDFLAGS)
 
+run: compile-raylib
+	./$(OUTPUT)
+
 clean:
-	rm -f praticaray
+	rm -f $(OUTPUT)
