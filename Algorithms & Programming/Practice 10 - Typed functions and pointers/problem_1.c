@@ -70,7 +70,6 @@ float triangulo(float a, float b, float c, float *area) {
 bool triangleIsValid(float a, float b, float c) {
     if (a < 0 || b < 0 || c < 0 || a >= b + c || b >= a + c || c >= a + b){
         return false;
-    } else {
-        return true;
     }
+    return true;
 }

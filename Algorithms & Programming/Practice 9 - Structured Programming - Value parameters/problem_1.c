@@ -101,26 +101,6 @@ float m_harmonica(float a, float b, float c);
 // Calcula a media geometrica de 3 valores e retorna.
 float m_geometrica(float a, float b, float c);
 
-int menu(void) {
-    int opt;
-    printf("Entre com uma das opcoes:\n1 – Calcula a media aritmetica de 3 numeros reais\n2 - Calcula a media harmonica de 3 numeros reais\n3 – Calcula a media geometrica de 3 numeros reais\n4 – Sair\n\nOpcao: ");
-    scanf(" %d", &opt);
-    return opt;
-}
-
-
-float m_aritmetica(float a, float b, float c) {
-    return (a + b + c) / 3;
-}
-
-float m_harmonica(float a, float b, float c) {
-    return 3 / (1/a + 1/b + 1/c);
-}
-
-float m_geometrica(float a, float b, float c) {
-    return cbrt(a * b * c);
-}
-
 int main(void) {
     int opt;
     do {
@@ -151,4 +131,23 @@ int main(void) {
     } while(opt != EXIT);
 
     return EXIT_SUCCESS;
+}
+
+int menu(void) {
+    int opt;
+    printf("Entre com uma das opcoes:\n1 – Calcula a media aritmetica de 3 numeros reais\n2 - Calcula a media harmonica de 3 numeros reais\n3 – Calcula a media geometrica de 3 numeros reais\n4 – Sair\n\nOpcao: ");
+    scanf(" %d", &opt);
+    return opt;
+}
+
+float m_aritmetica(float a, float b, float c) {
+    return (a + b + c) / 3;
+}
+
+float m_harmonica(float a, float b, float c) {
+    return 3 / (1/a + 1/b + 1/c);
+}
+
+float m_geometrica(float a, float b, float c) {
+    return cbrt(a * b * c);
 }
