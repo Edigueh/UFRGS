@@ -1,5 +1,5 @@
 #reader(lib "htdp-intermediate-reader.ss" "lang")((modname vscode-lab5) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")) #f)))
-;; Nomes: André e Arthur
+;; Nomes: André
 
 ;; Funções úteis do pacote de imagens (para maiores informações e exemplos, consultar o manual):
 
@@ -22,7 +22,8 @@
 ;; ---------------------------------------------------
 ;; (define-struct color (red blue green alpha))
 ;; Um elemento de Color tem o formato
-;;    (make-color red green blue alpha), one
+;;    (make-color red green blue alpha),
+;;    onde:
 ;;    red, green, blue: NúmeroRGB, representam a quantidade de cada cor básica na cor
 ;;    alpha: NúmeroRGB, representa a tranparência da cor, 0 significa totalmente transparente.
 
@@ -60,7 +61,8 @@
 ;;     (desenha-triangulo 20 VERMELHO) = .
 ;;     (desenha-triangulo 50 VERDE) = .
 (define (desenha-triangulo lado cor)
-  (triangle lado "outline" cor))
+  (triangle lado "outline" cor)
+)
 
 ;; ========================
 ;; FUNÇÃO DESENHA-QUADRADO:
@@ -71,7 +73,8 @@
 ;;     (desenha-quadrado 20 VERMELHO) = .
 ;;     (desenha-quadrado 50 VERDE) = .
 (define (desenha-quadrado lado cor)
-  (square lado "outline" cor))
+  (square lado "outline" cor)
+)
 
 ;; ========================
 ;; FUNÇÃO DESENHA-QUAD:
@@ -83,7 +86,8 @@
 ;;    (desenha-quad Q2) = .
 (define (desenha-quad Q)
            (overlay (square (quadrado-lado Q) "outline" "black")
-                    (square (quadrado-lado Q) "solid" (quadrado-cor Q))))
+                    (square (quadrado-lado Q) "solid" (quadrado-cor Q)))
+)
 
 
 ;; ========================
@@ -93,7 +97,7 @@
 ;; aleatorio: Numero -> Numero
 ;; Dado o número RGB de uma cor, devolve um novo número aleatorio entre 0 e 255.
 ;; Exemplo:
-;;     (aleaorio 10) = 245
+;;     (aleatorio 10) = 245
 (define (aleatorio c)
         (random 255))
 
@@ -109,7 +113,7 @@
 ;;     (fun-muda-cor aleatorio) gera uma função que, dada uma cor, gera uma outra aleatoriamente
 ;; dada a cada componente rgb da cor.
 (define (fun-muda-cor fun-muda-componente)
-    (lambda (cor)
+    (lambda (cor) ;; parâmetro da função que é retornada
       (make-color (fun-muda-componente (color-red cor))
                   (fun-muda-componente (color-green cor))
                   (fun-muda-componente (color-blue cor)))))
@@ -162,7 +166,18 @@
 ;; desta cor cujo lado do triângulo externo é o lado passado como argumento. 
 ;; Exemplos:
 ;;        (sierpinski-sem-def-local 50 VERMELHO) = .
-
+(define (sierpinski-sem-def-local lado cor);; Dados um lado e uma cor 
+  (cond
+       ;; se o lado for muito pequeno, desenhar um triângulo com o lado dado
+       [(<= lado 5)  (desenha-triangulo lado cor)]
+       ;; senão
+       ;;      desenha um triângulo de sierpinksi com a metade do tamanho do lado
+       ;;      e dá o nome de TRIANGULO para este desenho:
+       [else
+                ;; e monta a imagem do triângulo de sierpinski colocando um TRIANGULO
+                ;; acima de dois outros TRIANGULOs, lado a lado:
+               (above (sierpinski (/ lado 2) cor)
+                      (beside (sierpinski (/ lado 2) cor) (sierpinski (/ lado 2) cor)))]))
 
 ;;===============================================================
 ;; 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
@@ -175,7 +190,24 @@
 ;;        (tapete-sierpinski 200 VERMELHO) = . ou . ou . ou . ou ...
 
 ;; Definição da função:
-
+(define (tapete-sierpinski lado cor);; Dados um lado e uma cor 
+  (cond
+       ;; se o lado for muito pequeno, desenhar um quadrado com o lado dado
+       [(<= lado 5)  (desenha-quad (make-quadrado lado "black"))]
+       ;; senão
+       ;;      desenha um quadrado de sierpinksi com a metade do tamanho do lado
+       ;;      e dá o nome de QUADRADO para este desenho:
+       [else (local
+               (
+                (define NOVO-LADO (/ lado 3))
+                (define QUADRADO (tapete-sierpinski NOVO-LADO ((fun-muda-cor aleatorio) CINZA)))
+                (define 3QUADRADOS (beside QUADRADO QUADRADO QUADRADO))
+                (define MEIO (beside QUADRADO (desenha-quad (make-quadrado NOVO-LADO cor)) QUADRADO))
+               )
+               (above 3QUADRADOS
+               MEIO
+               3QUADRADOS
+               ))]))
 ;; Argumentação de terminação:
 ;; Este programa sempre termina porque:
 ;; (a) ...
@@ -234,5 +266,3 @@
 
 
 ;; (iv) Argumentação sobre a terminação das chamadas:  
-
-
