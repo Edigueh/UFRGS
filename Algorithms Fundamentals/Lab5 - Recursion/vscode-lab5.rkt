@@ -1,4 +1,4 @@
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname vscode-lab5) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")) #f)))
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname vscode-lab5) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")) #f)))
 ;; Nomes: André
 
 ;; Funções úteis do pacote de imagens (para maiores informações e exemplos, consultar o manual):
