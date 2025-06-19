@@ -1,0 +1,123 @@
+ORG 0
+; código
+INIT:
+    LDA ZERO
+    STA p1_MSB
+    STA p1_MSB
+    LDA DOIS
+    STA p1_LSB
+    STA div
+    STA p_LSB
+
+P_EH_PRIMO:
+    LDA p_LSB
+    SUB div
+    STA p_LSB
+    LDA p_MSB
+    JNB P_EH_IGUAL_DIV
+
+        BORROW:
+            SUB UM
+
+        ADD p_LSB
+        JNZ OBTER_RESTO ; p != div -> obter o resto
+        JMP CALCULA_P2; p == div, vai para p2 = n - p1
+
+    OBTER_RESTO: ; p % div
+        inicializa:
+            LDA p_LSB
+            STA dividendo_lsb
+            STA dividendo_lsb_t
+            LDA p1_MSB
+            STA dividendo_msb
+            STA dividendo_msb_t
+            LDA OITO
+            STA i
+
+        repetir:
+            LDA dividendo_lsb_t
+            SHL
+            STA dividendo_lsb_t
+            LDA dividendo_msb_t
+            ROL
+            STA dividendo_msb_t
+            JC msb_dividendo_maior
+            LDA dividendo_msb_t
+            SUB div
+            JB msb_dividendo_menor
+
+        msb_dividendo_maior:
+            LDA dividendo_msb_t
+            SUB div         
+            STA dividendo_msb_t
+            LDA dividendo_lsb_t
+            OR  UM
+            STA dividendo_lsb_t
+        
+        msb_dividendo_menor:
+            LDA i
+            SUB UM        ; decrementa contador
+            STA i
+            JNZ repetir   ; se i > 0, repete o laço
+    
+    RESTO_EH_ZERO:
+        LDA dividendo_msb_t
+        JZ INCREMENTA_P1_LSB ; p1 não é primo
+    
+    INCREMENTA_DIV:
+        LDA div
+        ADD UM
+        STA div
+        JMP P_EH_PRIMO
+    
+
+
+
+
+CALCULA_P2:
+
+    
+
+INCREMENTA_P1_LSB:
+    LDA p1_LSB
+    ADD UM
+    STA p1_LSB
+    JV INCREMENTA_P1_MSB
+    JMP P1_EH_PRIMO
+
+INCREMENTA_P1_MSB:
+    LDA p1_MSB
+    ADD UM
+    STA p1_MSB
+    JMP_P1_EH_PRIMO
+
+
+
+ORG 220
+; entradas
+    n_MSB: DB    ; byte mais significativo de n
+    n_LSB: DB    ; byte menos significativo de n
+    
+; saídas
+    p1_MSB: DB 0 ; byte mais significativo de p1
+    p1_LSB: DB 0 ; byte menos significativo de p1
+    p2_MSB: DB 0 ; byte mais significativo de p2
+    p2_LSB: DB 0 ; byte menos significativo de p2
+
+ORG 226
+; variáveis
+    div: DB 0
+    p_MSB: DB 0
+    p_LSB: DB 0
+    dividendo_msb: DB 0
+    dividendo_lsb: DB 0
+    dividendo_msb_t: DB 0 ; (no fim é o resto)
+    dividendo_lsb_t: DB 0
+    i: DB 0
+
+
+; constantes
+    ZERO: DB 0
+    UM: DB 1
+    DOIS: DB 2
+    OITO: DB 8

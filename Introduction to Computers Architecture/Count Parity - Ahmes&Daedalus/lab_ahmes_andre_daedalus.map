@@ -1,0 +1,11 @@
+Símbolo         Valor Decimal   Valor Hexadecimal
+-------         -------------   -----------------
+LOOP                       10                   A
+FLIP_BITS                  15                   F
+MASK_P                     29                  1D
+FIM                        35                  23
+N                         128                  80
+P                         129                  81
+N_AUX                     130                  82
+UM                        131                  83
+ZERO                      132                  84
