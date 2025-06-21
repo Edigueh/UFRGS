@@ -1,5 +1,5 @@
-; Nome completo : AndrÈ Schaidhauer Luckmann
-; N˙mero do cart„o UFRGS: 00601117
+; Nome completo : Andr√© Schaidhauer Luckmann
+; N√∫mero do cart√£o UFRGS: 00601117
 
 ORG 0
 
@@ -18,26 +18,26 @@ VERIFICA_P1_EH_PRIMO:
         SUB VAR_DIV
         STA VAR_LSB_AUX ; VAR_LSB_AUX = p1_LSB - VAR_DIV
         LDA p1_MSB
-        JB DEU_BORROW_P1	; se deu borrow na subtraÁ„o, temos que tirar manualmente
-        JMP NAO_DEU_BORROW_P1	; se n„o, d· pra tirar VAR_LSB_AUX direto
+        JB DEU_BORROW_P1	; se deu borrow na subtra√ß√£o, temos que tirar manualmente
+        JMP NAO_DEU_BORROW_P1	; se n√£o, d√° pra tirar VAR_LSB_AUX direto
 
         DEU_BORROW_P1:
             SUB CONST_UM       ; tira '1' da parte alta
 
         NAO_DEU_BORROW_P1:
             ADD VAR_LSB_AUX
-            JZ P1_EH_PRIMO     ; p1_MSB + p1_LSB = 0? Se sim, È porque p1 È igual a div, o que significa que p1 È primo
+            JZ P1_EH_PRIMO     ; p1_MSB + p1_LSB = 0? Se sim, √© porque p1 √© igual a div, o que significa que p1 √© primo
 
     MOD_P1_DIV: ; p1 % div
         INICIALIZA_P1:
             LDA p1_MSB
-            STA DIVD_P_MSB  ; vari·vel do dividendo p1 msb
+            STA DIVD_P_MSB  ; vari√°vel do dividendo p1 msb
             LDA p1_LSB
-            STA DIVD_P_LSB  ; vari·vel do dividendo p1 lsb
+            STA DIVD_P_LSB  ; vari√°vel do dividendo p1 lsb
             LDA CONST_OITO
             STA VAR_I       ; contador = 8
 
-        REPETIR_P1: ; inÌcio do laÁo
+        REPETIR_P1: ; in√≠cio do la√ßo
             LDA DIVD_P_LSB
             SHL
             STA DIVD_P_LSB  ; desloca DIVD_P_LSB p/esquerda
@@ -53,7 +53,7 @@ VERIFICA_P1_EH_PRIMO:
             LDA DIVD_P_MSB  ; se D >= v
             SUB VAR_DIV     ; pode subtrair
             STA DIVD_P_MSB
-            LDA DIVD_P_LSB  ; e novo dÌgito de DIVD_P_LSB
+            LDA DIVD_P_LSB  ; e novo d√≠gito de DIVD_P_LSB
             OR CONST_UM     ; deve ser igual a 1
             STA DIVD_P_LSB
 
@@ -61,19 +61,19 @@ VERIFICA_P1_EH_PRIMO:
             LDA VAR_I
             SUB CONST_UM    ; decrementa contador
             STA VAR_I
-            JNZ REPETIR_P1  ; se i > 0, repete o laÁo
+            JNZ REPETIR_P1  ; se i > 0, repete o la√ßo
 
     ; ------ aqui, o resto vai estar em DIVD_P_MSB ---------
 
     RESTO_EH_ZERO_P1:
         LDA DIVD_P_MSB
-        JZ INCREMENTA_P1     ; se o resto È zero, p1 n„o È primo, pois È divisivel por um numero que n„o È ele ou 1
+        JZ INCREMENTA_P1     ; se o resto √© zero, p1 n√£o √© primo, pois √© divisivel por um numero que n√£o √© ele ou 1
 
     INCREMENTA_DIV_P1:
         LDA VAR_DIV
         ADD CONST_UM
         STA VAR_DIV 	; VAR_DIV += 1
-        JMP P1_EH_IGUAL_DIV ; testamos se P1 È divisivel por algum outro n˙mero
+        JMP P1_EH_IGUAL_DIV ; testamos se P1 √© divisivel por algum outro n√∫mero
 
 INCREMENTA_P1:
     LDA p1_LSB
@@ -81,7 +81,7 @@ INCREMENTA_P1:
     STA p1_LSB	; p1_LSB += 1
     LDA p1_MSB
     JV DEU_CARRY_P1 	; se V = 1, precisamos somar + 1 na parte alta
-    JMP NAO_DEU_CARRY_P1	; sen„o, podemos verificar se o novo p1 È primo
+    JMP NAO_DEU_CARRY_P1	; sen√£o, podemos verificar se o novo p1 √© primo
 
     DEU_CARRY_P1:
         ADD CONST_UM
@@ -96,7 +96,7 @@ P1_EH_PRIMO:
     STA p2_LSB	; p2_LSB = n_LSB - p1_LSB
     LDA n_MSB
     JB DEU_BORROW_P2	; se deu borrow, temos que tirar 1 manualmente da parte alta
-    JMP NAO_DEU_BORROW_P2 ; sen„o, podemos tirar p1_MSB direto
+    JMP NAO_DEU_BORROW_P2 ; sen√£o, podemos tirar p1_MSB direto
 
     DEU_BORROW_P2:
         SUB CONST_UM
@@ -113,8 +113,8 @@ P1_EH_PRIMO:
             LDA p2_LSB
             SUB VAR_DIV
             STA VAR_LSB_AUX
-	    JZ P2_EH_PRIMO ; se p2_LSB - VAR_DIV for zero aqui, o numero pode ter 9 bits, mas j· podemos resetar aqui
-			   ; pois no nosso caso o divisor sÛ vai ter atÈ oito bits como queremos a soma de dois numeros de 16 bits
+	    JZ P2_EH_PRIMO ; se p2_LSB - VAR_DIV for zero aqui, o numero pode ter 9 bits, mas j√° podemos resetar aqui
+			           ; pois no nosso caso o divisor s√≥ vai ter at√© oito bits como queremos a soma de dois numeros de 16 bits
             LDA p2_MSB
             JB DEU_BORROW_P2_DIV
             JMP NAO_DEU_BORROW_P2_DIV
@@ -124,18 +124,18 @@ P1_EH_PRIMO:
 
             NAO_DEU_BORROW_P2_DIV:
                 ADD VAR_LSB_AUX
-                JZ P2_EH_PRIMO     ; p2_MSB + p2_LSB = 0? Se sim, È porque p2 È igual a div, o que significa que p2 È primo
+                JZ P2_EH_PRIMO     ; p2_MSB + p2_LSB = 0? Se sim, √© porque p2 √© igual a div, o que significa que p2 √© primo
         
         MOD_P2_DIV: ; p2 % div
             INICIALIZA_P2:
                 LDA p2_MSB
-                STA DIVD_P_MSB ; vari·vel do dividendo p2 msb
+                STA DIVD_P_MSB ; vari√°vel do dividendo p2 msb
                 LDA p2_LSB 
-                STA DIVD_P_LSB ; vari·vel do dividendo p2 lsb
+                STA DIVD_P_LSB ; vari√°vel do dividendo p2 lsb
                 LDA CONST_OITO
                 STA VAR_I
             
-            REPETIR_P2: ; inÌcio do laÁo
+            REPETIR_P2: ; in√≠cio do la√ßo
                 LDA DIVD_P_LSB
                 SHL
                 STA DIVD_P_LSB  ; desloca DIVD_P_LSB p/esquerda
@@ -151,7 +151,7 @@ P1_EH_PRIMO:
                 LDA DIVD_P_MSB  ; se dividendo >= vai
                 SUB VAR_DIV     ; pode subtrair
                 STA DIVD_P_MSB
-                LDA DIVD_P_LSB  ; e novo dÌgito de DIVD_P_LSB
+                LDA DIVD_P_LSB  ; e novo d√≠gito de DIVD_P_LSB
                 OR CONST_UM     ; deve ser igual a 1
                 STA DIVD_P_LSB
 
@@ -159,12 +159,12 @@ P1_EH_PRIMO:
                 LDA VAR_I
                 SUB CONST_UM    ; decrementa contador
                 STA VAR_I
-                JNZ REPETIR_P2  ; se i > 0, repete o laÁo
+                JNZ REPETIR_P2  ; se i > 0, repete o la√ßo
 
     ; ------- aqui, o resto vai estar em DIVD_P_MSB ------------------------
 
-        RESTO_EH_ZERO_P2:      ; se o resto for zero, p2 n„o È primo, 
-                               ; ent„o deve se fazer p1 += 1 e procurar outro p1 primo
+        RESTO_EH_ZERO_P2:      ; se o resto for zero, p2 n√£o √© primo, 
+                               ; ent√£o deve se fazer p1 += 1 e procurar outro p1 primo
             LDA DIVD_P_MSB
             JZ INCREMENTA_P1
         
@@ -172,30 +172,30 @@ P1_EH_PRIMO:
             LDA VAR_DIV
             ADD CONST_UM
             STA VAR_DIV ; VAR_DIV += 1
-            JMP P2_EH_IGUAL_DIV ; checamos se p2 È divisivel por algum outro numero
+            JMP P2_EH_IGUAL_DIV ; checamos se p2 √© divisivel por algum outro numero
 
     P2_EH_PRIMO:
-        HLT	; fim, os dois numeros s„o primos.
+        HLT	; fim, os dois numeros s√£o primos.
 
 
 
-ORG 220          ; comeÁando na palavra 220
+ORG 220          ; come√ßando na palavra 220
     ; entradas
     n_MSB: DB    ; byte mais significativo de n
     n_LSB: DB    ; byte menos significativo de n
     
-    ; saÌdas
+    ; sa√≠das
     p1_MSB: DB 0 ; byte mais significativo de p1
     p1_LSB: DB 0 ; byte menos significativo de p1
     p2_MSB: DB 0 ; byte mais significativo de p2
     p2_LSB: DB 0 ; byte menos significativo de p2
 
-ORG 226                  ; comeÁando na palavra 226
-    ; vari·veis
-    VAR_DIV:      DB 0   ; vari·vel div
-    VAR_LSB_AUX:  DB 0   ; vari·vel auxiliar para verificaÁıes
-    DIVD_P_MSB:   DB 0   ; msbits do dividendo p (no fim, È o resto)
-    DIVD_P_LSB:   DB 0   ; lsbits do dividendo p (no fim È o quociente)
+ORG 226                  ; come√ßando na palavra 226
+    ; vari√°veis
+    VAR_DIV:      DB 0   ; vari√°vel div
+    VAR_LSB_AUX:  DB 0   ; vari√°vel auxiliar para verifica√ß√µes
+    DIVD_P_MSB:   DB 0   ; msbits do dividendo p (no fim, √© o resto)
+    DIVD_P_LSB:   DB 0   ; lsbits do dividendo p (no fim √© o quociente)
     VAR_I:        DB 0   ; contador
 
     ; constantes
