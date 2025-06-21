@@ -2,7 +2,7 @@ ORG 0
 
 INIT:
     LDA CONST_ZERO
-    STA p1_MSB     ; zera a parte alta de p1
+    STA p1_MSB     ; zera parte alta de p1_MSB
     LDA CONST_DOIS
     STA p1_LSB     ; armazena '2' na parte baixa de p1
 
@@ -13,10 +13,10 @@ VERIFICA_P1_EH_PRIMO:
     P1_EH_IGUAL_DIV:
         LDA p1_LSB
         SUB VAR_DIV
-        STA VAR_LSB_AUX
+        STA VAR_LSB_AUX ; VAR_LSB_AUX = p1_LSB - VAR_DIV
         LDA p1_MSB
-        JB DEU_BORROW_P1
-        JMP NAO_DEU_BORROW_P1
+        JB DEU_BORROW_P1	; se deu borrow na subtração, temos que tirar manualmente
+        JMP NAO_DEU_BORROW_P1	; se não, dá pra tirar VAR_LSB_AUX direto
 
         DEU_BORROW_P1:
             SUB CONST_UM       ; tira '1' da parte alta
@@ -25,7 +25,7 @@ VERIFICA_P1_EH_PRIMO:
             ADD VAR_LSB_AUX
             JZ P1_EH_PRIMO     ; p1_MSB + p1_LSB = 0? Se sim, é porque p1 é igual a div, o que significa que p1 é primo
 
-    MOD_P1_DIV:
+    MOD_P1_DIV: ; p1 % div
         INICIALIZA_P1:
             LDA p1_MSB
             STA DIVD_P_MSB  ; variável do dividendo p1 msb
@@ -64,21 +64,21 @@ VERIFICA_P1_EH_PRIMO:
 
     RESTO_EH_ZERO_P1:
         LDA DIVD_P_MSB
-        JZ INCREMENTA_P1     ; se o resto é zero, p1 não é primo
+        JZ INCREMENTA_P1     ; se o resto é zero, p1 não é primo, pois é divisivel por um numero que não é ele ou 1
 
     INCREMENTA_DIV_P1:
         LDA VAR_DIV
         ADD CONST_UM
-        STA VAR_DIV
-        JMP P1_EH_IGUAL_DIV 
+        STA VAR_DIV 	; VAR_DIV += 1
+        JMP P1_EH_IGUAL_DIV ; testamos se P1 é divisivel por algum outro número
 
 INCREMENTA_P1:
     LDA p1_LSB
     ADD CONST_UM
-    STA p1_LSB
+    STA p1_LSB	; p1_LSB += 1
     LDA p1_MSB
-    JV DEU_CARRY_P1
-    JMP NAO_DEU_CARRY_P1
+    JV DEU_CARRY_P1 	; se V = 1, precisamos somar + 1 na parte alta
+    JMP NAO_DEU_CARRY_P1	; senão, podemos verificar se o novo p1 é primo
 
     DEU_CARRY_P1:
         ADD CONST_UM
@@ -90,17 +90,17 @@ INCREMENTA_P1:
 P1_EH_PRIMO:
     LDA n_LSB
     SUB p1_LSB  
-    STA p2_LSB
+    STA p2_LSB	; p2_LSB = n_LSB - p1_LSB
     LDA n_MSB
-    JB DEU_BORROW_P2
-    JMP NAO_DEU_BORROW_P2
+    JB DEU_BORROW_P2	; se deu borrow, temos que tirar 1 manualmente da parte alta
+    JMP NAO_DEU_BORROW_P2 ; senão, podemos tirar p1_MSB direto
 
     DEU_BORROW_P2:
         SUB CONST_UM
 
     NAO_DEU_BORROW_P2:
         SUB p1_MSB
-        STA p2_MSB
+        STA p2_MSB	; p2_MSB = n_MSB - p1_MSB
     
     VERIFICA_P2_EH_PRIMO:
         LDA CONST_DOIS
@@ -110,6 +110,8 @@ P1_EH_PRIMO:
             LDA p2_LSB
             SUB VAR_DIV
             STA VAR_LSB_AUX
+	    JZ P2_EH_PRIMO ; se p2_LSB - VAR_DIV for zero aqui, o numero pode ter 9 bits, mas já podemos resetar aqui
+			   ; pois no nosso caso o divisor só vai ter até oito bits como queremos a soma de dois numeros de 16 bits
             LDA p2_MSB
             JB DEU_BORROW_P2_DIV
             JMP NAO_DEU_BORROW_P2_DIV
@@ -121,7 +123,7 @@ P1_EH_PRIMO:
                 ADD VAR_LSB_AUX
                 JZ P2_EH_PRIMO     ; p2_MSB + p2_LSB = 0? Se sim, é porque p2 é igual a div, o que significa que p2 é primo
         
-        MOD_P2_DIV:
+        MOD_P2_DIV: ; p2 % div
             INICIALIZA_P2:
                 LDA p2_MSB
                 STA DIVD_P_MSB ; variável do dividendo p2 msb
@@ -133,9 +135,9 @@ P1_EH_PRIMO:
             REPETIR_P2: ; início do laço
                 LDA DIVD_P_LSB
                 SHL
-                STA DIVD_P_LSB  ; descola DIVD_P_LSB p/esquerda
+                STA DIVD_P_LSB  ; desloca DIVD_P_LSB p/esquerda
                 LDA DIVD_P_MSB
-                ROL             ; descola DIVD_P_MSB p/esquerda
+                ROL             ; desloca DIVD_P_MSB p/esquerda
                 STA DIVD_P_MSB  ; msbit de DIVD_P_MSB em carry
                 JC p2_MSB_MAIOR ; se C=1, dividendo > divisor
                 LDA DIVD_P_MSB
@@ -159,18 +161,18 @@ P1_EH_PRIMO:
     ; ------- aqui, o resto vai estar em DIVD_P_MSB ------------------------
 
         RESTO_EH_ZERO_P2:      ; se o resto for zero, p2 não é primo, 
-                            ; então deve se fazer p1 += 1 e procurar outro p1 primo
+                               ; então deve se fazer p1 += 1 e procurar outro p1 primo
             LDA DIVD_P_MSB
             JZ INCREMENTA_P1
         
         INCREMENTA_DIV_P2:
             LDA VAR_DIV
             ADD CONST_UM
-            STA VAR_DIV
-            JMP P2_EH_IGUAL_DIV
+            STA VAR_DIV ; VAR_DIV += 1
+            JMP P2_EH_IGUAL_DIV ; checamos se p2 é divisivel por algum outro numero
 
     P2_EH_PRIMO:
-        HLT
+        HLT	; fim, os dois numeros são primos.
 
 
 
