@@ -6,135 +6,172 @@ INIT:
     LDA CONST_DOIS
     STA p1_LSB     ; armazena '2' na parte baixa de p1
 
-P1_IS_PRIME:
-    LDA CONST_ZERO  
-    STA VAR_DIV_MSB ; zera a parte alta de div
+VERIFICA_P1_EH_PRIMO:
     LDA CONST_DOIS
-    STA VAR_DIV_LSB ; armazena '2' na parte baixa de div
+    STA VAR_DIV     ; armazena '2'em div
 
-P1_EQUALS_DIV:
-    LDA p1_LSB        
-    SUB VAR_DIV_LSB   
-    STA VAR_P1_LSB  ; VAR_P1_LSB = p1_LSB - VAR_DIV_LSB
-    LDA p1_MSB
-    JNB NO_BORROW   ; Se não deu borrow, pula a lógica de empréstimo
+    P1_EH_IGUAL_DIV:
+        LDA p1_LSB
+        SUB VAR_DIV
+        STA VAR_LSB_AUX
+        LDA p1_MSB
+        JB DEU_BORROW_P1
+        JMP NAO_DEU_BORROW_P1
 
-BORROW:
-    SUB VAR_DIV_MSB 
-    SUB CONST_UM         ; tira o borrow
-    STA VAR_P1_MSB       ; VAR_P1_MSB = p1_MSB - VAR_DIV_MSB
-    JMP CHECK_P1_IS_ZERO
+        DEU_BORROW_P1:
+            SUB CONST_UM       ; tira '1' da parte alta
 
-NO_BORROW:
-    SUB VAR_DIV_MSB 
-    STA VAR_MSB_AUX
+        NAO_DEU_BORROW_P1:
+            ADD VAR_LSB_AUX
+            JZ P1_EH_PRIMO     ; p1_MSB + p1_LSB = 0? Se sim, é porque p1 é igual a div, o que significa que p1 é primo
 
-CHECK_P1_IS_ZERO:
-    ADD VAR_LSB_AUX
-    JZ CALCULATE_P2 ; Se VAR_MSB_AUX + VAR_LSB_AUX = 0, então p1 é primo, deve ir procurar P2
-                    ; Caso p1 não seja primo, obter o resto da divisão de p1 por div.
+    MOD_P1_DIV:
+        INICIALIZA_P1:
+            LDA p1_MSB
+            STA DIVD_P_MSB  ; variável do dividendo p1 msb
+            LDA p1_LSB
+            STA DIVD_P_LSB  ; variável do dividendo p1 lsb
+            LDA CONST_OITO
+            STA VAR_I       ; contador = 8
 
-INIT_DIV:
-    LDA p1_MSB
-    STA VAR_P1_MSB      ; variavel da parte alta de p1 como dividendo
+        REPETIR_P1: ; início do laço
+            LDA DIVD_P_LSB
+            SHL
+            STA DIVD_P_LSB  ; desloca DIVD_P_LSB p/esquerda
+            LDA DIVD_P_MSB
+            ROL             ; desloca DIVD_P_MSB p/esquerda
+            STA DIVD_P_MSB  ; msbit de DIVD_P_MSB em carry
+            JC p1_MSB_MAIOR ; se C=1, dividendo > divisor
+            LDA DIVD_P_MSB
+            SUB VAR_DIV     ; calcula dividendo - divisor
+            JB p1_MSB_MENOR ; se B=1, dividendo < divisor
+
+        p1_MSB_MAIOR:
+            LDA DIVD_P_MSB  ; se D >= v
+            SUB VAR_DIV     ; pode subtrair
+            STA DIVD_P_MSB
+            LDA DIVD_P_LSB  ; e novo dígito de DIVD_P_LSB
+            OR CONST_UM     ; deve ser igual a 1
+            STA DIVD_P_LSB
+
+        p1_MSB_MENOR:
+            LDA VAR_I
+            SUB CONST_UM    ; decrementa contador
+            STA VAR_I
+            JNZ REPETIR_P1  ; se i > 0, repete o laço
+
+    ; ------ aqui, o resto vai estar em DIVD_P_MSB ---------
+
+    RESTO_EH_ZERO_P1:
+        LDA DIVD_P_MSB
+        JZ INCREMENTA_P1     ; se o resto é zero, p1 não é primo
+
+    INCREMENTA_DIV_P1:
+        LDA VAR_DIV
+        ADD CONST_UM
+        STA VAR_DIV
+        JMP P1_EH_IGUAL_DIV 
+
+INCREMENTA_P1:
     LDA p1_LSB
-    STA VAR_P1_LSB      ; variavel da parte baixa de p1 como dividendo
-    LDA CONST_DEZESSEIS 
-    STA VAR_I           ; contador = 16
-
-repetir:              ; início do laço
-    LDA VAR_P1_LSB
-    SHL 
-    STA VAR_P1_LSB    ; parte baixa de p1 desloca p/esquerda
-    LDA VAR_P1_MSB
-    ROL               ; parte alta de p1 desloca p/esquerda, valor vai pro Carry
-    STA VAR_P1_MSB    ; msbit de VAR_P1_MSB em carry
-    JC  P1_MSB_MAIOR  ; se C=1, dividendo > divisor
-    LDA VAR_P1_MSB
-    SUB VAR_DIV       ; calcula D - VAR_DIV
-    JB  P1_MSB_MENOR  ; se B=1, D < VAR_DIV
-
-P1_MSB_MAIOR:
-     LDA VAR_P1_MSB ; se D >= VAR_DIV
-     SUB VAR_DIV    ; pode subtrair
-     STA VAR_P1_MSB
-     LDA VAR_P1_LSB ; e novo dígito de dq
-     OR  CONST_UM   ; deve ser igual a 1
-     STA VAR_P1_LSB
-
-P1_MSB_MENOR:
-     LDA VAR_I
-     SUB CONST_UM  ; decrementa contador
-     STA VAR_I
-     JNZ repetir   ; se i > 0, repete o laço
-
-; Aqui a divisão acabou
-CHECK_REMAINDER:
-    LDA VAR_P1_MSB
-    JZ INCREMENT_P1     ; SE O resto é zero, p1 não é primo e deve se achar um p1 primo
-    JMP INCREMENT_DIV
-
-INCREMENT_DIV:
-    LDA VAR_DIV
-    ADD CONST_UM
-    JMP P1_EQUALS_DIV
-
-INCREMENT_P1:
-    LDA p1_LSB ; carrega 'p1_LSB'
     ADD CONST_UM
     STA p1_LSB
-    JNV P1_IS_PRIME
     LDA p1_MSB
-    ADD CONST_UM
-    STA p1_MSB
-    JMP P1_IS_PRIME
+    JV DEU_CARRY_P1
+    JMP NAO_DEU_CARRY_P1
 
-CALCULATE_P2:
+    DEU_CARRY_P1:
+        ADD CONST_UM
+        STA p1_MSB
+
+    NAO_DEU_CARRY_P1:
+        JMP VERIFICA_P1_EH_PRIMO
+
+P1_EH_PRIMO:
     LDA n_LSB
-    SUB p1_LSB
+    SUB p1_LSB  
     STA p2_LSB
     LDA n_MSB
-    JNB NO_BORROW_P2_DEF
+    JB DEU_BORROW_P2
+    JMP NAO_DEU_BORROW_P2
 
-BORROW_P2_DEF:
-    SUB p1_MSB
-    SUB CONST_UM
-    STA p2_MSB
-    JMP P2_IS_PRIME
+    DEU_BORROW_P2:
+        SUB CONST_UM
 
-NO_BORROW_P2_DEF:
-    SUB p1_MSB
-    STA p2_MSB
-
-P2_IS_PRIME:
-    LDA CONST_ZERO  
-    STA VAR_DIV_MSB ; zera a parte alta de div
-    LDA CONST_DOIS
-    STA VAR_DIV_LSB ; armazena '2' na parte baixa de div
-
-P2_EQUALS_DIV:
-    LDA p2_LSB        
-    SUB VAR_DIV_LSB
-    STA VAR_LSB_AUX  ; VAR_LSB_AUX = p2_LSB - VAR_DIV_LSB
-    LDA p2_MSB
-    JNB NO_BORROW_P2   ; Se não deu borrow, pula a lógica de empréstimo
-
-BORROW_P2:
-    SUB VAR_DIV_MSB 
-    SUB CONST_UM          ; tira o borrow
-    JMP CHECK_P2_IS_ZERO
-
-NO_BORROW_P2:
-    SUB VAR_DIV_MSB
-
-CHECK_P2_IS_ZERO:
-    ADD VAR_LSB_AUX
-    JZ END           ; Se VAR_MSB_AUX + VAR_LSB_AUX = 0, então p2 é primo, podemos guardar os resultados e acabar
-
-INIT_DIV_P2:
+    NAO_DEU_BORROW_P2:
+        SUB p1_MSB
+        STA p2_MSB
     
+    VERIFICA_P2_EH_PRIMO:
+        LDA CONST_DOIS
+        STA VAR_DIV
 
-END:
+        P2_EH_IGUAL_DIV:
+            LDA p2_LSB
+            SUB VAR_DIV
+            STA VAR_LSB_AUX
+            LDA p2_MSB
+            JB DEU_BORROW_P2_DIV
+            JMP NAO_DEU_BORROW_P2_DIV
+
+            DEU_BORROW_P2_DIV:
+                SUB CONST_UM       ; tira '1' da parte alta
+
+            NAO_DEU_BORROW_P2_DIV:
+                ADD VAR_LSB_AUX
+                JZ P2_EH_PRIMO     ; p2_MSB + p2_LSB = 0? Se sim, é porque p2 é igual a div, o que significa que p2 é primo
+        
+        MOD_P2_DIV:
+            INICIALIZA_P2:
+                LDA p2_MSB
+                STA DIVD_P_MSB ; variável do dividendo p2 msb
+                LDA p2_LSB 
+                STA DIVD_P_LSB ; variável do dividendo p2 lsb
+                LDA CONST_OITO
+                STA VAR_I
+            
+            REPETIR_P2: ; início do laço
+                LDA DIVD_P_LSB
+                SHL
+                STA DIVD_P_LSB  ; descola DIVD_P_LSB p/esquerda
+                LDA DIVD_P_MSB
+                ROL             ; descola DIVD_P_MSB p/esquerda
+                STA DIVD_P_MSB  ; msbit de DIVD_P_MSB em carry
+                JC p2_MSB_MAIOR ; se C=1, dividendo > divisor
+                LDA DIVD_P_MSB
+                SUB VAR_DIV     ; calcula dividendo - divisor
+                JB p2_MSB_MENOR ; se B=1, dividendo < divisor
+
+            p2_MSB_MAIOR:
+                LDA DIVD_P_MSB  ; se dividendo >= vai
+                SUB VAR_DIV     ; pode subtrair
+                STA DIVD_P_MSB
+                LDA DIVD_P_LSB  ; e novo dígito de DIVD_P_LSB
+                OR CONST_UM     ; deve ser igual a 1
+                STA DIVD_P_LSB
+
+            p2_MSB_MENOR:
+                LDA VAR_I
+                SUB CONST_UM    ; decrementa contador
+                STA VAR_I
+                JNZ REPETIR_P2  ; se i > 0, repete o laço
+
+    ; ------- aqui, o resto vai estar em DIVD_P_MSB ------------------------
+
+        RESTO_EH_ZERO_P2:      ; se o resto for zero, p2 não é primo, 
+                            ; então deve se fazer p1 += 1 e procurar outro p1 primo
+            LDA DIVD_P_MSB
+            JZ INCREMENTA_P1
+        
+        INCREMENTA_DIV_P2:
+            LDA VAR_DIV
+            ADD CONST_UM
+            STA VAR_DIV
+            JMP P2_EH_IGUAL_DIV
+
+    P2_EH_PRIMO:
+        HLT
+
 
 
 ORG 220          ; começando na palavra 220
@@ -148,23 +185,16 @@ ORG 220          ; começando na palavra 220
     p2_MSB: DB 0 ; byte mais significativo de p2
     p2_LSB: DB 0 ; byte menos significativo de p2
 
-ORG 226                 ; começando na palavra 226
+ORG 226                  ; começando na palavra 226
     ; variáveis
-    VAR_N_MSB: DB 0     ; variavel de trabalho para n_MSB
-    VAR_N_LSB: DB 0     ; variavel de trabalho para n_LSB
-    VAR_DIV: DB 0       ; variável div
-    VAR_MSB_AUX: DB 0   ; variável auxiliar para verificações
-    VAR_LSB_AUX: DB 0   ; variável auxiliar para verificações
-    VAR_P1_MSB: DB 0    ; msbits do dividendo p1
-    VAR_P1_LSB: DB 0    ; lsbits do dividendo p1
-    VAR_P2_MSB: DB 0    ; msbits do dividendo p2
-    VAR_P2_LSB: DB 0    ; lsbits do dividendo p2
-    VAR_STATE: DB 0     ; estado: estouro = -1
-                        ;         normal = 1
-    VAR_I: DB 0         ; contador
+    VAR_DIV:      DB 0   ; variável div
+    VAR_LSB_AUX:  DB 0   ; variável auxiliar para verificações
+    DIVD_P_MSB:   DB 0   ; msbits do dividendo p (no fim, é o resto)
+    DIVD_P_LSB:   DB 0   ; lsbits do dividendo p (no fim é o quociente)
+    VAR_I:        DB 0   ; contador
 
     ; constantes
-    CONST_ZERO: DB 0         ; constante 0
-    CONST_UM: DB 1           ; constante 1
-    CONST_DOIS: DB 2         ; constante 2
-    CONST_DEZESSEI: DB 16    ; constante 16
+    CONST_ZERO: DB 0    ; constante 0
+    CONST_UM:   DB 1    ; constante 1
+    CONST_DOIS: DB 2    ; constante 2
+    CONST_OITO: DB 8    ; constante 8
