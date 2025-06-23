@@ -1,0 +1,6 @@
+Cruzeiro	23	6	6	31020.53
+Gremio		17	9	9	28123.12
+Goias		16	11	8	15321.87
+Atletico-PR	16	10	9	17231.72
+Botafogo	16	9	10	21421.12
+Vitoria		15	9	11	26312.34

@@ -1,0 +1,7 @@
+Numero de clubes: 6
+Cruzeiro, 75 pontos, aproveitamento de 71.43%.
+Gremio, 60 pontos, aproveitamento de 57.14%.
+Goias, 59 pontos, aproveitamento de 56.19%.
+Atletico-PR, 58 pontos, aproveitamento de 55.24%.
+Botafogo, 57 pontos, aproveitamento de 54.29%.
+Vitoria, 54 pontos, aproveitamento de 51.43%.
