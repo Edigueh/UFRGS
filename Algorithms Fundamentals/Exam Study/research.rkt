@@ -74,17 +74,17 @@
 ;; criterio-metade: Número Número -> Booleano
 ;; Dados dois números, indica se o segundo número é metade do primeiro.
 (define (criterio-metade n1 n2)
-    (= n2 (/ n1 2))
-)
+  (= n2 (/ n1 2))
+  )
 (check-expect (criterio-metade 4 2) true)
 (check-expect (criterio-metade 2 4) false)
 ;; ehPlagio: Número Número -> String
 (define (ehPlagio numOcorrencias numLim)
- (cond
+  (cond
     [(>= numOcorrencias numLim) "É plágio"]
     [else "Não é Plágio"]
- )
-)
+    )
+  )
 
 ;; analisa-artigo: Artigo Símbolo Número (Número Número -> Tipo) -> Tipo
 ;; Dado um artigo, uma palavra, e um número, compara este número com o número de ocorrências da palavra no artigo
@@ -92,7 +92,7 @@
 ;; Dessa forma, indica se o artigo indica a ocorrencia do criterio ou não.
 (define (analisa-artigo art pal fun-criterio num)
   (fun-criterio (ocorrencias-simbolo art pal) num)
-)
+  )
 
 ;; Exemplos/teste:
 (check-expect (analisa-artigo A1 'Mais > 1) false)
@@ -123,11 +123,11 @@
 (check-expect (autores-que-citam 'banana A2) false)
 
 (define (autores-que-citam pal art)
-    (cond
-        [(empty? (busca-autores pal art)) false]
-        [else (busca-autores pal art)]
+  (cond
+    [(empty? (busca-autores pal art)) false]
+    [else (busca-autores pal art)]
     )
-)
+  )
 
 ;; busca-autores: Símbolo Artigo -> ListaDeSímbolos
 ;; Dada uma palavra e um artigo, retorna os autores que citaram essa palavra no texto científico desse artigo ou sub-artigo.
@@ -138,12 +138,12 @@
 (check-expect (busca-autores 'banana A2) empty)
 
 (define (busca-autores pal art)
-    (cond 
-        [(= 0 (ocorrencias-simbolo art pal)) empty]
-        [else (append (artigo-autores art)
-                      (busca-autores-texto pal (artigo-texto art)))]
+  (cond
+    [(= 0 (ocorrencias-simbolo art pal)) empty]
+    [else (append (artigo-autores art)
+                  (busca-autores-texto pal (artigo-texto art)))]
     )
-)
+  )
 
 ;; busca-autores-texto: Símbolo Texto-científico -> ListaDeSímbolos
 ;; Dada uma palavra e um texto científico, retorna a lista de autores que citaram essa palavra em seus textos científicos ou sub-textos.
@@ -153,14 +153,74 @@
 (check-expect (busca-autores-texto 'banana TC2) empty)
 
 (define (busca-autores-texto pal txt)
-    (cond
-        [(empty? txt) empty]
-        [(symbol? (first txt)) (busca-autores-texto pal (rest txt))]
-        [(artigo? (first txt)) 
-            (append
-                (busca-autores pal (first txt))
-                (busca-autores-texto pal (rest txt))
-            )
-        ]
+  (cond
+    [(empty? txt) empty]
+    [(symbol? (first txt)) (busca-autores-texto pal (rest txt))]
+    [(artigo? (first txt))
+     (append
+      (busca-autores pal (first txt))
+      (busca-autores-texto pal (rest txt))
+      )
+     ]
     )
-)
+  )
+
+(define (testa-soma x y z)
+  (local (
+          (define (soma i nivel)
+            (cond
+              [(or (> x y) (< x 1) (< y 1)) 'ArgumentosInvalidos]
+              [(= i y) i]
+              [(= nivel 1) (+ (soma i 2) (soma (+ i 1) 1))]
+              [else (+ i (soma (+ i 1) 2))]
+              )
+            )
+          (define SOMA (soma x 1))
+          )
+    (cond
+      [(symbol? SOMA) SOMA]
+      [(> SOMA z) 'Maior]
+      [(< SOMA z) 'Menor]
+      [(= SOMA z) SOMA]
+      )
+    )
+  )
+
+;; (testa-soma 2 4 20)
+;; x = 2, y = 4, z = 20
+;; SOMA = (soma 2 1)
+;; (soma 2 1) = (+ (soma 2 2) (soma 3 1))
+
+;; Resolvendo (soma 2 2)
+;; i = 2, nivel = 2
+;; (soma 2 2) = (+ 2 (soma 3 2))
+;; (soma 3 2) = (+ 3 (soma 4 2))
+;; (soma 4 2) = 4
+;; VOLTANDO:
+;; (soma 3 2) = (+ 3 4) = 7
+;; (soma 2 2) = (+ 2 7) = 9
+;; (soma 2 1) = (+ 9 (soma 3 1))
+
+;; Resolvendo (soma 3 1)
+;; i = 3, nivel = 1
+;; (soma 3 1) = (+ (soma 3 2) (soma 4 1))
+;; (soma 3 2) = 7
+;; (soma 4 1) = 4
+;; Voltando:
+;; (soma 3 1) = (+ 7 4) = 11
+
+;; Logo: 
+;; (soma 2 1) = (+ 9 11) = 20
+;; SOMA = 20
+;; [(= SOMA z) SOMA] = 20
+;; OU, tudo numa linha só:
+;; (soma 2 1) = (+ (+ 2 (+ 3 4)) (+ (+ 3 4) 4))
+
+
+
+
+;;   00000010
+;; - 10000000
+;; --------------
+;;   10000010
+;;   01111101
