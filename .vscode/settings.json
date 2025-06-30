@@ -7,5 +7,5 @@
         "time.h": "c",
         "raylib.h": "c",
         "stdlib.h": "c"
-    }
+    },
 }
