@@ -2,10 +2,10 @@ UFRGS Computer Science Curriculum
 
 Stage 1
 - [ ] Calculus & Analytical Geometry I
-- [ ] Algorithms and Programming 🔄
-- [ ] Algorithms Fundamentals 🔄
-- [ ] Introduction to Computer Architecture 🔄
-- [ ] Discrete Mathematics 🔄
+- [X] Algorithms and Programming
+- [X] Algorithms Fundamentals
+- [X] Introduction to Computer Architecture
+- [X] Discrete Mathematics
 
 Stage 2
 - [ ] Calculus & Analytical Geometry II
