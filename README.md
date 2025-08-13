@@ -1,7 +1,7 @@
 UFRGS Computer Science Curriculum
 
 Stage 1
-- [ ] Calculus & Analytical Geometry I
+- [ ] Calculus & Analytical Geometry I 🔃
 - [X] Algorithms and Programming
 - [X] Algorithms Fundamentals
 - [X] Introduction to Computer Architecture
@@ -10,8 +10,8 @@ Stage 1
 Stage 2
 - [ ] Calculus & Analytical Geometry II
 - [ ] Computers Architecture
-- [ ] Data Structures
-- [ ] Computation Logic
+- [ ] Data Structures 🔃
+- [ ] Computation Logic 🔃
 - [ ] Probability & Statistics
 - [ ] Software Test & Verification
 
