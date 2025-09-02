@@ -1,18 +1,20 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "name": "C/C++: clang Générer et déboguer le fichier actif",
+            "name": "(lldb) Launch and Debug Project",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            // This tells the debugger which executable to run.
+            "program": "${fileDirname}/main",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "C/C++: clang générer le fichier actif"
+            // This is the magic link! It tells the debugger to run your build task before launching.
+            "preLaunchTask": "Build Current Project Folder"
         }
-    ],
-    "version": "2.0.0"
+    ]
 }

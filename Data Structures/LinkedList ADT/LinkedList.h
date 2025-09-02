@@ -37,3 +37,27 @@ Node* removeNodeById(Node* head, int targetId);
 
 // destroyLinkedList disallocate the memory alllocated for it and returns an empty list.
 Node* destroyLinkedList(Node* head);
+
+// insertSorted inserts a new element in the list in the right position by sorting it by the id of the new element.
+Node* insertSorted(Node* head, NodeInfo newNodeInfo);
+
+/*
+Exercises:
+1) Create a function that receives a pointer to a linked list and returns the number of elements in it.
+    int listLength(Node* head) ✅;
+
+2) Create a function that receives a pointer to a linked list of integers and return the biggest value in it.
+    int biggest(Node* head) ✅;
+
+3) Create a function that iterates over a linked list and removes the duplicated elements.
+    Node* removeDuplicates(Node* head) ✅;
+*/
+
+// listLength receives a pointer to a linked list and returns the number of elements in it.
+int listLength(Node* head);
+
+// biggest receives a pointer to a linked list of integers and return the biggest value in it.
+int biggest(Node* head);
+
+// removeDuplicates iterates over a linked list and removes the duplicated elements.
+Node* removeDuplicates(Node* head);

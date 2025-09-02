@@ -90,7 +90,7 @@ Node* insertAtMiddle(Node* head, NodeInfo newNodeInfo, int previousNodeId) {
 }
 
 Node* removeNodeById(Node* head, int targetId) {
-    Node *prevNode, *currNode = head;
+    Node *prevNode = NULL, *currNode = head;
 
     while(currNode != NULL && currNode->nodeInfo.id != targetId) {
         prevNode = currNode;
@@ -123,4 +123,80 @@ Node* destroyLinkedList(Node* head) {
 
     free(head);
     return NULL;
+}
+
+Node* insertSorted(Node* head, NodeInfo newNodeInfo) {
+    Node* newNode = (Node*)malloc(sizeof(NodeInfo));
+    newNode->nodeInfo = newNodeInfo;
+    newNode->nextNode = NULL;
+    Node *prevNode, *currNode = head;
+
+    if (head == NULL || newNode->nodeInfo.id < head->nodeInfo.id) {
+        newNode->nextNode = head;
+        head = newNode;
+        return head;
+    }
+
+    while(currNode != NULL && newNodeInfo.id > currNode->nodeInfo.id) {
+        prevNode = currNode;
+        currNode = currNode->nextNode;
+    }
+
+    newNode->nextNode = currNode;
+    prevNode->nextNode = newNode;
+
+    return head;
+}
+
+int listLength(Node* head) {
+    int i = 0;
+    
+    for (Node* currNode = head; currNode != NULL; currNode = currNode->nextNode) {
+        i++;
+    }
+
+    return i;
+}
+
+int biggest(Node* head) {
+    int max;
+    if (head == NULL) {
+        return -1;
+    }
+
+    max = head->nodeInfo.id;
+
+    for (Node* currNode = head; currNode != NULL; currNode = currNode->nextNode) {
+        if (currNode->nodeInfo.id > max) {
+            max = currNode->nodeInfo.id;
+        }
+    }
+
+    return max;
+}
+
+Node* removeDuplicates(Node* head) {
+    if (head == NULL) {
+        return head;
+    }
+    
+    Node *currNode = head, *prevNode;
+    while (currNode != NULL) {
+        Node* nodeCheck = currNode->nextNode;
+        prevNode = currNode;
+        while (nodeCheck != NULL && nodeCheck->nodeInfo.id != currNode->nodeInfo.id) {
+            prevNode = nodeCheck;
+            nodeCheck = nodeCheck->nextNode;     
+        }
+
+
+        if (nodeCheck != NULL && nodeCheck->nodeInfo.id == currNode->nodeInfo.id) {
+            prevNode->nextNode = nodeCheck->nextNode;
+            free(nodeCheck);
+        } else {
+            currNode = currNode->nextNode;
+        }
+    }
+
+    return head;
 }

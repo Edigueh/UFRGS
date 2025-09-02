@@ -1,49 +1,18 @@
 {
+    "version": "2.0.0",
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C/C++: clang générer le fichier actif",
-            "command": "/usr/bin/clang",
-            "args": [
-                "-fcolor-diagnostics",
-                "-fansi-escape-codes",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build",
-            "detail": "Tâche générée par le débogueur."
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: gcc générer le fichier actif",
-            "command": "/usr/bin/gcc",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
+            "label": "Build Current Project Folder",
+            "type": "shell",
+            "command": "gcc -g -o \"${fileDirname}/main\" \"${fileDirname}\"/*.c",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Tâche générée par le débogueur."
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "Compiles all .c files in the active project subfolder."
         }
-    ],
-    "version": "2.0.0"
+    ]
 }
