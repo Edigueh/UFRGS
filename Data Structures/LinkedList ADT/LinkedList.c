@@ -189,7 +189,6 @@ Node* removeDuplicates(Node* head) {
             nodeCheck = nodeCheck->nextNode;     
         }
 
-
         if (nodeCheck != NULL && nodeCheck->nodeInfo.id == currNode->nodeInfo.id) {
             prevNode->nextNode = nodeCheck->nextNode;
             free(nodeCheck);
