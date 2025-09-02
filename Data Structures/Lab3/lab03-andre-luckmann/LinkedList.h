@@ -1,5 +1,3 @@
-#include <stdbool.h>
-
 #define MAX_NAME_CHARS 30
 
 typedef struct {
