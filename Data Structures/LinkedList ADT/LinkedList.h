@@ -51,6 +51,10 @@ Exercises:
 
 3) Create a function that iterates over a linked list and removes the duplicated elements.
     Node* removeDuplicates(Node* head) ✅;
+
+4) Create a function that iterates over a linked list of integers and remove the odd elements.
+    Node* removeOddNumbers(Node* head) ✅;
+elementos ímpares
 */
 
 // listLength receives a pointer to a linked list and returns the number of elements in it.
@@ -61,3 +65,6 @@ int biggest(Node* head);
 
 // removeDuplicates iterates over a linked list and removes the duplicated elements.
 Node* removeDuplicates(Node* head);
+
+// removeOddNumbers iterates over a linked list of integers and remove the odd elements.
+Node* removeOddNumbers(Node* head);

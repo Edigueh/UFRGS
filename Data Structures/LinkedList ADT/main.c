@@ -1,9 +1,11 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include "LinkedList.h"
 
 #define TC_LIST_LENGTH 1
 #define TC_BIGGEST 2
 #define TC_DUPLICATES_REMOVAL 3
+#define TC_ODDS_REMOVAL 4
 
 void runTestCase(int tc);
 
@@ -14,6 +16,7 @@ int main(void) {
     printf("%d - int listLength(Node* head)\n", TC_LIST_LENGTH);
     printf("%d - int biggest(Node* head)\n", TC_BIGGEST);
     printf("%d - Node* removeDuplicates(Node* head)\n", TC_DUPLICATES_REMOVAL);
+    printf("%d - Node* removeOddNumbers(Node* head)\n", TC_ODDS_REMOVAL);
     printf("\n");
 
     scanf("%d", &tc);
@@ -101,6 +104,38 @@ void runTestCase(int tc) {
             printf("Removed duplicates: ✅\n");
         } else {
             printf("Removed duplicates: ❌\n");
+        }
+        break;
+    }
+    case TC_ODDS_REMOVAL: {
+        // given
+        Node* ll = initLinkedList();
+        ll = insertAtHead(ll, (NodeInfo){1});
+        ll = insertAtHead(ll, (NodeInfo){2});
+        ll = insertAtHead(ll, (NodeInfo){3});
+        ll = insertAtHead(ll, (NodeInfo){4});
+        ll = insertAtHead(ll, (NodeInfo){5});
+        ll = insertAtHead(ll, (NodeInfo){6});
+        ll = insertAtHead(ll, (NodeInfo){8});
+        ll = insertAtHead(ll, (NodeInfo){7});
+        ll = insertAtHead(ll, (NodeInfo){9});
+        
+        // when
+        ll = removeOddNumbers(ll);
+
+        // assert
+        bool oddFound = false;
+        for (Node *n = ll; n != NULL; n = n->nextNode) {
+            if (n->nodeInfo.id % 2 != 0) {
+                oddFound = true;
+                break;
+            }
+        }
+
+        if (!oddFound) {
+            printf("Removed odds: ✅\n");
+        } else {
+            printf("Removed odds: ❌\n");
         }
         break;
     }
