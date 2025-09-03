@@ -201,26 +201,20 @@ Node* removeDuplicates(Node* head) {
 }
 
 Node* removeOddNumbers(Node* head) {
-    if (head == NULL) {
-        return head;
-    }
-
     Node *currNode = head, *prevNode = NULL;
     while (currNode != NULL) {
+        Node* nextNode = currNode->nextNode;
         if (currNode->nodeInfo.id % 2 != 0) {
-            Node* nodeToRemove = currNode;
             if (prevNode == NULL) {
-                head = currNode->nextNode;
+                head = nextNode;
             } else {
-                prevNode->nextNode = currNode->nextNode;
+                prevNode->nextNode = nextNode;
             }
+            free(currNode);
+        } else {
             prevNode = currNode;
-            currNode = currNode->nextNode;
-            free(nodeToRemove);
-            continue;
         }
-        prevNode = currNode;
-        currNode = currNode->nextNode;
+        currNode = nextNode;
     }
 
     return head;
