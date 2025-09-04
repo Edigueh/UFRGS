@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "LinkedList.h"
+#include "DoublyLinkedList.h"
 
 Node* initLinkedList(void) {
     return NULL;
@@ -43,69 +43,52 @@ Node* insertAtHead(Node* head, NodeInfo newNodeInfo) {
     Node* newNode = (Node*) malloc(sizeof(Node));
     newNode->nodeInfo = newNodeInfo;
     newNode->nextNode = head;
-    head = newNode;
-    return head;
+    newNode->prevNode = NULL;
+
+    if (head != NULL) {
+        head->prevNode = newNode;
+    }
+
+    return newNode;
 }
 
 Node* insertAtTail(Node* head, NodeInfo newNodeInfo) {
     Node* newNode = (Node*) malloc(sizeof(Node));
     newNode->nodeInfo = newNodeInfo;
     newNode->nextNode = NULL;
+    newNode->prevNode = NULL;
     
     if (head == NULL) {
-        head = newNode;
-        return head;
-    }
-
-    Node* currLastNode = head;
-    while (currLastNode->nextNode != NULL) {
-        currLastNode = currLastNode->nextNode;
-    }
-
-    currLastNode->nextNode = newNode;
-    return head;
-}
-
-Node* insertAtMiddle(Node* head, NodeInfo newNodeInfo, int previousNodeId) {
-    Node* newNode = (Node*) malloc(sizeof(Node));
-    newNode->nodeInfo = newNodeInfo;
-    newNode->nextNode = NULL;
-
-    if (head == NULL) {
-        head = newNode;
-        return head;
+        return newNode;
     }
 
     Node* currNode = head;
-    while (currNode->nodeInfo.id != previousNodeId && currNode->nextNode != NULL) currNode = currNode->nextNode;
-
-    if (currNode->nextNode == NULL) {
-        currNode->nextNode = newNode;
-    } else {
-        newNode->nextNode = currNode->nextNode;
-        currNode->nextNode = newNode;
+    while (currNode->nextNode != NULL) {
+        currNode = currNode->nextNode;
     }
+
+    currNode->nextNode = newNode;
+    newNode->prevNode = currNode;
 
     return head;
 }
 
 Node* removeNodeById(Node* head, int targetId) {
-    Node *prevNode = NULL, *currNode = head;
+    Node *currNode = head;
 
     while(currNode != NULL && currNode->nodeInfo.id != targetId) {
-        prevNode = currNode;
         currNode = currNode->nextNode;
     }
 
     if (currNode == NULL) {
         // Node was not found in the list.
         return head;
-    } else if (prevNode == NULL){
+    } else if (currNode->prevNode == NULL){
         // First node is removed.
         head = currNode->nextNode;
     } else {
         // Node is at the middle or the end of the list.
-        prevNode->nextNode = currNode->nextNode;
+        currNode->prevNode->nextNode = currNode->nextNode;
     }
 
     free(currNode);
@@ -113,37 +96,45 @@ Node* removeNodeById(Node* head, int targetId) {
 }
 
 Node* destroyLinkedList(Node* head) {
-    Node* currNode = head;
-
-    while (head != NULL) {
-        currNode = head;
-        head = currNode->nextNode;
-        free(currNode);
+    Node* current = head;
+    
+    while (current != NULL) {
+        Node* nextNode = current->nextNode;
+        free(current);
+        current = nextNode;
     }
 
-    free(head);
     return NULL;
 }
 
 Node* insertSorted(Node* head, NodeInfo newNodeInfo) {
-    Node* newNode = (Node*)malloc(sizeof(NodeInfo));
+    Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->nodeInfo = newNodeInfo;
     newNode->nextNode = NULL;
-    Node *prevNode, *currNode = head;
+    newNode->prevNode = NULL;
 
-    if (head == NULL || newNode->nodeInfo.id < head->nodeInfo.id) {
-        newNode->nextNode = head;
-        head = newNode;
-        return head;
+    if (head == NULL) {
+        return newNode;
     }
 
-    while(currNode != NULL && newNodeInfo.id > currNode->nodeInfo.id) {
-        prevNode = currNode;
+    if (newNode->nodeInfo.id < head->nodeInfo.id) {
+        newNode->nextNode = head;
+        head->prevNode = newNode;
+        return newNode;
+    }
+
+    Node *currNode = head;
+    while(currNode != NULL && newNodeInfo.id > currNode->nextNode->nodeInfo.id) {
         currNode = currNode->nextNode;
     }
 
-    newNode->nextNode = currNode;
-    prevNode->nextNode = newNode;
+    
+    newNode->nextNode = currNode->nextNode;
+    if (currNode->nextNode != NULL) {
+        currNode->nextNode->prevNode = newNode;
+    }
+    currNode->nextNode = newNode;
+    newNode->prevNode = currNode;
 
     return head;
 }
@@ -179,41 +170,60 @@ Node* removeDuplicates(Node* head) {
     if (head == NULL) {
         return head;
     }
-    
-    Node *currNode = head, *prevNode;
+
+    Node* currNode = head;
     while (currNode != NULL) {
         Node* nodeCheck = currNode->nextNode;
-        prevNode = currNode;
-        while (nodeCheck != NULL && nodeCheck->nodeInfo.id != currNode->nodeInfo.id) {
-            prevNode = nodeCheck;
-            nodeCheck = nodeCheck->nextNode;
-        }
+        Node* prevNode = currNode;
 
-        if (nodeCheck != NULL && nodeCheck->nodeInfo.id == currNode->nodeInfo.id) {
-            prevNode->nextNode = nodeCheck->nextNode;
-            free(nodeCheck);
-        } else {
-            currNode = currNode->nextNode;
+        while (nodeCheck != NULL) {
+            if (nodeCheck->nodeInfo.id == currNode->nodeInfo.id) {
+                Node* nodeToRemove = nodeCheck;
+
+                prevNode->nextNode = nodeToRemove->nextNode;
+
+                if (nodeToRemove->nextNode != NULL) {
+                    nodeToRemove->nextNode->prevNode = prevNode;
+                }
+
+                nodeCheck = nodeToRemove->nextNode;
+                free(nodeToRemove);
+
+            } else {
+                prevNode = nodeCheck;
+                nodeCheck = nodeCheck->nextNode;
+            }
         }
+        
+        currNode = currNode->nextNode;
     }
 
     return head;
 }
 
 Node* removeOddNumbers(Node* head) {
-    Node *currNode = head, *prevNode = NULL;
+    if (head == NULL) {
+        return head;
+    }
+
+    Node* currNode = head;
     while (currNode != NULL) {
         Node* nextNode = currNode->nextNode;
+
         if (currNode->nodeInfo.id % 2 != 0) {
-            if (prevNode == NULL) {
+            if (currNode->prevNode == NULL) {
                 head = nextNode;
             } else {
-                prevNode->nextNode = nextNode;
+                currNode->prevNode->nextNode = nextNode;
             }
+
+            if (nextNode != NULL) {
+                nextNode->prevNode = currNode->prevNode;
+            }
+
             free(currNode);
-        } else {
-            prevNode = currNode;
         }
+        
         currNode = nextNode;
     }
 
