@@ -7,20 +7,11 @@ Node* initLinkedList(void) {
 }
 
 void printList(Node* head) {
-    printf("----------------------------\n");
-    if (head == NULL) {
-        printf("Empty list\n");
-        printf("----------------------------\n");
-        return;
+    printf("List: ");
+    for (Node *n = head; n != NULL; n = n->nextNode) {
+        printf("[%d] -> ", n->nodeInfo.id);
     }
-
-    Node* currNode;
-    int i = 1;
-    for(currNode = head; currNode != NULL; currNode = currNode->nextNode) {
-        printf("Element %d has id=%d\n", i, currNode->nodeInfo.id);
-        i++;
-    }
-    printf("----------------------------\n");
+    printf("NULL\n");
 }
 
 Node* queryList(Node* head, int targetId) {

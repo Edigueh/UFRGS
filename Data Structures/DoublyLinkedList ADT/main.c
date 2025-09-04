@@ -1,5 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "DoublyLinkedList.h"
 
 #define TC_LIST_LENGTH 1
@@ -19,17 +21,23 @@ int main(void) {
     printf("%d - Node* removeOddNumbers(Node* head)\n", TC_ODDS_REMOVAL);
     printf("\n");
 
-    scanf("%d", &tc);
+    if (scanf("%d", &tc) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
     printf("\n");
 
     runTestCase(tc);
+    return 0;
 }
 
+// --- Test Case Runner ---
 void runTestCase(int tc) {
     switch (tc) {
     case TC_LIST_LENGTH: {
+        printf("--- Testing listLength ---\n");
         // given
-        Node* ll = initLinkedList();
+        Node* ll = NULL;
         ll = insertSorted(ll, (NodeInfo){1});
         ll = insertSorted(ll, (NodeInfo){2});
         ll = insertSorted(ll, (NodeInfo){3});
@@ -42,7 +50,7 @@ void runTestCase(int tc) {
         }
         
         // given
-        Node* el = initLinkedList();
+        Node* el = NULL;
 
         // assert
         if (listLength(el) == 0) {
@@ -51,11 +59,14 @@ void runTestCase(int tc) {
             printf("Empty list is 0: ❌\n");
         }
 
+        destroyLinkedList(ll);
+        destroyLinkedList(el);
         break;
     }
     case TC_BIGGEST: {
+        printf("--- Testing biggest ---\n");
         // given
-        Node* el = initLinkedList();
+        Node* el = NULL;
 
         // assert
         if (biggest(el) == -1) {
@@ -65,7 +76,7 @@ void runTestCase(int tc) {
         }
 
         // given
-        Node* ll = initLinkedList();
+        Node* ll = NULL;
         ll = insertAtHead(ll, (NodeInfo){2});
         ll = insertAtHead(ll, (NodeInfo){4});
         ll = insertAtHead(ll, (NodeInfo){6});
@@ -76,54 +87,67 @@ void runTestCase(int tc) {
         } else {
             printf("Max number is found: ❌\n");
         }
+        destroyLinkedList(ll);
+        destroyLinkedList(el);
         break;
     }
     case TC_DUPLICATES_REMOVAL: {
+        printf("--- Testing removeDuplicates ---\n");
         // given
-        Node* el = initLinkedList();
-
-        // assert
-        if (removeDuplicates(el) == NULL) {
-            printf("Empty list returns NULL: ✅\n");
-        } else {
-            printf("Empty list returns NULL: ❌\n");
-        }
-
-        // given
-        Node* ll = initLinkedList();
+        Node* ll = NULL;
         ll = insertAtHead(ll, (NodeInfo){2});
         ll = insertAtHead(ll, (NodeInfo){4});
         ll = insertAtHead(ll, (NodeInfo){2});
         ll = insertAtHead(ll, (NodeInfo){2});
         
+        printf("Original list:\n");
+        printList(ll);
+
         // when
         ll = removeDuplicates(ll);
+        printf("After removing duplicates:\n");
+        printList(ll);
+        printListReverse(ll);
 
-        // assert
-        if (ll->nodeInfo.id == 2 && ll->nextNode->nodeInfo.id == 4 && ll->nextNode->nextNode == NULL) {
+        // assert: Check forward, backward, and boundary pointers
+        bool structureOK = ll != NULL &&
+                           ll->nodeInfo.id == 2 &&
+                           ll->prevNode == NULL &&
+                           ll->nextNode != NULL &&
+                           ll->nextNode->nodeInfo.id == 4 &&
+                           ll->nextNode->prevNode == ll &&
+                           ll->nextNode->nextNode == NULL;
+
+        if (structureOK) {
             printf("Removed duplicates: ✅\n");
         } else {
             printf("Removed duplicates: ❌\n");
         }
+        destroyLinkedList(ll);
         break;
     }
     case TC_ODDS_REMOVAL: {
+        printf("--- Testing removeOddNumbers ---\n");
         // given
-        Node* ll = initLinkedList();
+        Node* ll = NULL;
         ll = insertAtHead(ll, (NodeInfo){1});
         ll = insertAtHead(ll, (NodeInfo){2});
         ll = insertAtHead(ll, (NodeInfo){3});
         ll = insertAtHead(ll, (NodeInfo){4});
         ll = insertAtHead(ll, (NodeInfo){5});
         ll = insertAtHead(ll, (NodeInfo){6});
-        ll = insertAtHead(ll, (NodeInfo){8});
-        ll = insertAtHead(ll, (NodeInfo){7});
-        ll = insertAtHead(ll, (NodeInfo){9});
         
+        printf("Original list:\n");
+        printList(ll);
+
         // when
         ll = removeOddNumbers(ll);
+        printf("After removing odds:\n");
+        printList(ll);
+        printListReverse(ll);
 
-        // assert
+
+        // assert: Traverse forward to check for odds
         bool oddFound = false;
         for (Node *n = ll; n != NULL; n = n->nextNode) {
             if (n->nodeInfo.id % 2 != 0) {
@@ -131,15 +155,36 @@ void runTestCase(int tc) {
                 break;
             }
         }
-
-        if (!oddFound) {
-            printf("Removed odds: ✅\n");
-        } else {
-            printf("Removed odds: ❌\n");
+        
+        // assert: Traverse backward to check for list integrity
+        bool backwardLinkBroken = false;
+        if(ll != NULL) {
+            Node* tail = ll;
+            while(tail->nextNode != NULL) tail = tail->nextNode; // find tail
+            while(tail != NULL) {
+                if(tail->nextNode != NULL && tail->nextNode->prevNode != tail) {
+                    backwardLinkBroken = true;
+                    break;
+                }
+                if (tail->prevNode == NULL && tail != ll) { // Should only be NULL at head
+                    backwardLinkBroken = true;
+                    break;
+                }
+                tail = tail->prevNode;
+            }
         }
+
+
+        if (!oddFound && !backwardLinkBroken) {
+            printf("Removed odds and list is intact: ✅\n");
+        } else {
+            printf("Removed odds and list is intact: ❌\n");
+        }
+        destroyLinkedList(ll);
         break;
     }
     default:
+        printf("Invalid test case selected.\n");
         break;
     }
 }

@@ -16,6 +16,9 @@ Node* initLinkedList(void);
 // printList prints all elements contained inside the linked list.
 void printList(Node* head);
 
+// printListReverse prints all elements contained inside the linked list in reverse order.
+void printListReverse(Node* head);
+
 // queryList queries the list for a determined element,
 // returns the element if found, otherwise returns NULL.
 Node* queryList(Node* head, int targetId);

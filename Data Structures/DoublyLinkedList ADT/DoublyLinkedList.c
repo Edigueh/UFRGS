@@ -7,20 +7,29 @@ Node* initLinkedList(void) {
 }
 
 void printList(Node* head) {
-    printf("----------------------------\n");
+    printf("List (forward):  NULL <- ");
+    for (Node *n = head; n != NULL; n = n->nextNode) {
+        printf("[%d] <-> ", n->nodeInfo.id);
+    }
+    printf("NULL\n");
+}
+
+void printListReverse(Node* head) {
     if (head == NULL) {
-        printf("Empty list\n");
-        printf("----------------------------\n");
+        printList(head);
         return;
     }
 
-    Node* currNode;
-    int i = 1;
-    for(currNode = head; currNode != NULL; currNode = currNode->nextNode) {
-        printf("Element %d has id=%d\n", i, currNode->nodeInfo.id);
-        i++;
+    Node* tail = head;
+    while (tail->nextNode != NULL) {
+        tail = tail->nextNode;
     }
-    printf("----------------------------\n");
+
+    printf("List (backward): NULL <- ");
+    for (Node *n = tail; n != NULL; n = n->prevNode) {
+        printf("[%d] <-> ", n->nodeInfo.id);
+    }
+    printf("NULL\n");
 }
 
 Node* queryList(Node* head, int targetId) {
@@ -124,10 +133,9 @@ Node* insertSorted(Node* head, NodeInfo newNodeInfo) {
     }
 
     Node *currNode = head;
-    while(currNode != NULL && newNodeInfo.id > currNode->nextNode->nodeInfo.id) {
+    while (currNode->nextNode != NULL && newNodeInfo.id > currNode->nextNode->nodeInfo.id) {
         currNode = currNode->nextNode;
     }
-
     
     newNode->nextNode = currNode->nextNode;
     if (currNode->nextNode != NULL) {
@@ -135,7 +143,7 @@ Node* insertSorted(Node* head, NodeInfo newNodeInfo) {
     }
     currNode->nextNode = newNode;
     newNode->prevNode = currNode;
-
+    
     return head;
 }
 
