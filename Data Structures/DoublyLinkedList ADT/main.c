@@ -1,6 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include "LinkedList.h"
+#include "DoublyLinkedList.h"
 
 #define TC_LIST_LENGTH 1
 #define TC_BIGGEST 2
