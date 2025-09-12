@@ -210,3 +210,71 @@ Node* removeOddNumbers(Node* head) {
 
     return head;
 }
+
+void splitByParity(Node* head, Node **evens, Node **odds) {
+    *evens = NULL;
+    *odds = NULL;
+
+    for (Node* currNode = head; currNode != NULL; currNode = currNode->nextNode) {
+        if (currNode->nodeInfo.id % 2 == 0){
+            *evens = insertSorted(*evens, currNode->nodeInfo);
+        } else {
+            *odds = insertSorted(*odds, currNode->nodeInfo);
+        }
+    }
+}
+
+bool equalLists(Node *l1, Node *l2) {
+    while(l1 != NULL && l2 != NULL) {
+        if (l1->nodeInfo.id != l2->nodeInfo.id) {
+            return false;
+        }
+        l1 = l1->nextNode;
+        l2 = l2->nextNode;
+    }
+
+    return l1 == NULL && l2 == NULL;
+}
+
+Node* overwriteValue(Node *head, int targetValue, int newValue) {
+    for (Node *currNode = head; currNode != NULL; currNode = currNode->nextNode) {
+        if (currNode->nodeInfo.id == targetValue) {
+            currNode->nodeInfo.id = newValue;
+        }
+    }
+
+    return head;
+}
+
+void reverseListIterative(Node** head) {
+    Node *prev = NULL, *curr = *head, *next = NULL;
+
+    while (curr != NULL) {
+        next = curr->nextNode;
+        curr->nextNode = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    *head = prev;
+}
+
+Node* reverseListRecursive(Node *head) {
+    // Base: empty list or only one node.
+    if (head == NULL || head->nextNode == NULL) {
+        return head;
+    }
+
+    // Go to the end of the list. 'newHead' will be the original last node.
+    Node *newHead = reverseListRecursive(head->nextNode);
+
+    // After the recursive call returns, 'head' is the second-to-last node.
+    // Make the original next node point back to the current head.
+    head->nextNode->nextNode = head;
+    
+    // Set the current head's next pointer to NULL, breaking the original link.
+    head->nextNode = NULL;
+
+    // Propagate the new head all the way back up the call stack.
+    return newHead;
+}

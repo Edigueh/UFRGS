@@ -57,7 +57,20 @@ Exercises:
 
 4) Create a function that iterates over a linked list of integers and remove the odd elements.
     Node* removeOddNumbers(Node* head) ✅;
-elementos ímpares
+
+5) Create a function that receives a linked list of integers and returns two lists, 
+    one with the odd numbers and other with the even numbers.
+    void splitByParity(Node* head, Node **l1, Node **l2)✅;
+
+6) Create a function that receives two linked lists and returns true if they are equal, otherwise false.
+    bool equalLists(Node *l1, Node *l2) ✅;
+
+7) Create a function that receives a pointer to a list and two integers.
+    It should overwrite any occurrence of the first value for the second one.
+    Node* overwriteValue(Node *head, int target, int newValue) ✅;
+
+8) Create a function to invert the elements of a linked list without using arrays or auxiliar structures, only pointers.
+    Node* invertList(Node* head);
 */
 
 // listLength receives a pointer to a linked list and returns the number of elements in it.
@@ -71,3 +84,18 @@ Node* removeDuplicates(Node* head);
 
 // removeOddNumbers iterates over a linked list of integers and remove the odd elements.
 Node* removeOddNumbers(Node* head);
+
+// splitByParity receives a list and segregates it in two new lists, by parity of numbers.
+void splitByParity(Node* head, Node **evens, Node **odds);
+
+// equalLists receives two linked lists and returns true if they are equal, otherwise false.
+bool equalLists(Node *l1, Node *l2);
+
+// overwriteValue overwrites all occurrences of the target value for the newValue in a given list.
+Node* overwriteValue(Node *head, int targetValue, int newValue);
+
+// reverseListIterative inverts the given list.
+void reverseListIterative(Node **head);
+
+// reverseListRecursive invers the given list.
+Node* reverseListRecursive(Node *head);
