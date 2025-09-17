@@ -8,6 +8,11 @@
         "raylib.h": "c",
         "stdlib.h": "c",
         "singlylinkedlist.h": "c",
-        "__locale": "c"
+        "linkedlist.h": "c",
+        "stdbool.h": "c",
+        "queue.h": "c",
+        "span": "c",
+        "chrono": "c",
+        "type_traits": "c"
     },
 }
