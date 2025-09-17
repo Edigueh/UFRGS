@@ -19,7 +19,7 @@ bool isEmpty(Queue *queue) {
     return false;
 }
 
-bool push(Queue **queue, Info newInfo) {
+bool enqueue(Queue **queue, Info newInfo) {
     Node *new;
     if (*queue) {
         new = (Node*)malloc(sizeof(Node));
@@ -38,7 +38,7 @@ bool push(Queue **queue, Info newInfo) {
     return false;
 }
 
-bool pop(Queue **queue, Info *data) {
+bool dequeue(Queue **queue, Info *data) {
     Node *curr;
     if (*queue) {
         if (!isEmpty(*queue)){
