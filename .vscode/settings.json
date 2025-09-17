@@ -13,6 +13,7 @@
         "queue.h": "c",
         "span": "c",
         "chrono": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "stack.h": "c"
     },
 }

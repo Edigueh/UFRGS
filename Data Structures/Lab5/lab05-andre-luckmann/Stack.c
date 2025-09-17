@@ -61,7 +61,7 @@ void printStack(Stack *top) {
 
     if (top != NULL) {
         puts("---Printing stack---");
-        for (curr=top; curr!=NULL; curr=curr->next) printf("%d\n",curr->info);
+        for (curr=top; curr!=NULL; curr=curr->next) printf("%d\n",curr->info.id);
         puts("-------End of Stack------");
     } else {
         puts("Pilha vazia");
@@ -70,11 +70,14 @@ void printStack(Stack *top) {
 
 bool equal(Stack *s1, Stack *s2) {
     Info s1Info, s2Info;
-    while(pop(&s1, &s1Info) && pop(&s2, &s2Info)) {
+
+    while(!isEmpty(s1) && !isEmpty(s2)) {
+        pop(&s1, &s1Info);
+        pop(&s2, &s2Info);
         if (s1Info.id != s2Info.id) {
             return false;
         }
     }
 
-    return true;
+    return isEmpty(s1) && isEmpty(s2);
 }
