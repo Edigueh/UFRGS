@@ -6,7 +6,7 @@ typedef struct {
 
 typedef struct Node {
     Info info;
-    struct Node* next;
+    struct Node *next;
 } Node;
 
 typedef struct Queue{
