@@ -26,13 +26,13 @@ bool pop(Stack **top, Info *data) {
         return false; 
     }
 
-    Stack* curr;
+    Stack *curr;
 
     *data = (*top)->info;
     curr = *top;
     *top = (*top)->next;
     free(curr);
-    curr=NULL;
+    curr = NULL;
 
     return true;
 }
