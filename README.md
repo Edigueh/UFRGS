@@ -1,58 +1,70 @@
-UFRGS Computer Science Curriculum
+# UFRGS Computer Science Curriculum
 
 Stage 1
-- [ ] Calculus & Analytical Geometry I 🔃
+
 - [X] Algorithms and Programming
-- [X] Algorithms Fundamentals
-- [X] Introduction to Computer Architecture
-- [X] Discrete Mathematics
+- [ ] Calculus & Analytical Geometry I 🔃
+- [X] Computational Thinking
+- [X] Introduction to Computer Science
+- [ ] Program Logic and Correction 🔃
 
 Stage 2
+
 - [ ] Calculus & Analytical Geometry II
 - [ ] Computers Architecture
 - [ ] Data Structures 🔃
-- [ ] Computation Logic 🔃
+- [X] Discrete Mathematics
 - [ ] Probability & Statistics
-- [ ] Software Test & Verification
+- [ ] Software Testing & Verification 🔃
 
 Stage 3
-- [ ] Software Development
-- [ ] Algorithms Analysis & Projects I 
-- [ ] Theory of Computation I 
-- [ ] Databases
-- [ ] Digital Circuits Project
+
+- [ ] Databases Fundamentals
+- [ ] Digital Circuits
+- [ ] Project & Analysis of Algorithms I
+- [ ] Quality in Software Development
+- [ ] Theory of Computation I - Formal Languages ​​and Automata
 
 Stage 4
-- [ ] Theory of Computation II
-- [ ] Algorithms Analysis & Projects II
-- [ ] Linear Algebra
-- [ ] Software Engineering
-- [ ] User Experience & Human-Computer Interaction
+
 - [ ] Computers Organization
+- [ ] Human-Computer Interaction & User Experience
+- [ ] Linear Algebra
+- [ ] Project & Analysis of Algorithms II
+- [ ] Software Engineering
+- [ ] Theory of Computation II - Computability and Complexity
 
 Stage 5
-- [ ] Numerical Calculus
+
 - [ ] Artificial Intelligence
-- [ ] Science & Innovation Project
+- [ ] Computational Science
 - [ ] Computer Graphics & Visualization
-- [ ] Software Engineering
 - [ ] Operating Systems
+- [ ] Project in Science & Innovation
+- [ ] Software Engineering
 
 Stage 6
-- [ ] Machine Learning
-- [ ] Compilers I
-- [ ] Parallel Programming
-- [ ] Computer Vision & Images Processing
+
 - [ ] Computer Networks
+- [ ] Images Processing & Computer Vision
+- [ ] Machine Learning
+- [ ] Parallel Programming
+- [ ] Programming Languages I
 
 Stage 7
-- [ ] Cybersecurity
-- [ ] Natural Language Processing
-- [ ] Algorithms Analysis & Projects III
-- [ ] Compilers II
+
 - [ ] Distributed and Fault-tolerant Systems
+- [ ] Natural Language Processing
+- [ ] Programming Languages II
+- [ ] Project & Analysis of Algorithms III
+- [ ] Security of Systems and Information
+
+Stage 8
+
+- [ ] Integrator Project
 
 Electives
+
 - [ ] Elective 1
 - [ ] Elective 2
 - [ ] Elective 3
