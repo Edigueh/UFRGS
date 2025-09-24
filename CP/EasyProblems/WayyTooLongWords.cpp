@@ -6,7 +6,16 @@ using namespace std; // Includes std:: before every call like vector, cin, cout.
 
 // Write your solution here.
 void solve() {
-    
+    string word;
+    cin >> word;
+
+    int len = word.length();
+
+    if (len > 10) {
+        cout << word.front() << len - 2 << word.back() << endl;
+    } else {
+        cout << word << endl;
+    }
 }
 
 int main() {
