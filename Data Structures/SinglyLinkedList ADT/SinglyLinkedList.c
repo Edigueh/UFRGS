@@ -246,7 +246,7 @@ Node* overwriteValue(Node *head, int targetValue, int newValue) {
     return head;
 }
 
-void reverseListIterative(Node** head) {
+void reverseListIterative(Node **head) {
     Node *prev = NULL, *curr = *head, *next = NULL;
 
     while (curr != NULL) {
