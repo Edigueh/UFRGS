@@ -10,8 +10,8 @@ void solve() {
 }
 
 int main() {
-    ios::sync_with_stdio(0); // Turns inputs/outputs of streams off.
-    cin.tie(0); // Unties cin from cout, cin will no longer force cout to flush its buffer before every input operation.
+    ios::sync_with_stdio(false); // Turns inputs/outputs of streams off.
+    cin.tie(NULL); // Unties cin from cout, cin will no longer force cout to flush its buffer before every input operation.
     
     int tc;
     cin >> tc; // Stores the number of test cases.
