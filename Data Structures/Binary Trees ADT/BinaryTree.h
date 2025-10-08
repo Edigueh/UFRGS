@@ -1,4 +1,4 @@
-
+// Node represents a node in a binary tree.
 typedef struct Node {
     int info;
     struct Node *left, *right;
