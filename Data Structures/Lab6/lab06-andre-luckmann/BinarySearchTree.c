@@ -128,4 +128,3 @@ int countBSTNodes(Node *r) {
 
     return 1 + countBSTNodes(r->left) + countBSTNodes(r->right);
 }
-
