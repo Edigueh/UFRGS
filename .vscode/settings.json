@@ -49,6 +49,7 @@
         "tuple": "cpp",
         "utility": "cpp",
         "ostream": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "binarysearchtree.h": "c"
     },
 }
