@@ -191,15 +191,13 @@ int getBalanceFactor(Node *r) {
 }
 
 int getTreeBalanceFactor(Node *r) {
-    if (r != NULL) {
-        int rootBf = getBalanceFactor(r);
-
-        int rightBf = getTreeBalanceFactor(r->right);
-        int leftBf = getTreeBalanceFactor(r->left);
-
-        int maxChildrenBf = max(rightBf, leftBf);
-        return max(maxChildrenBf, rootBf);
+    if (r == NULL) {
+        return 0;
     }
 
-    return 0;
+    int rootBf = getBalanceFactor(r);
+    int rightBf = getTreeBalanceFactor(r->right);
+    int leftBf = getTreeBalanceFactor(r->left);
+
+    return max(max(rightBf, leftBf), rootBf);
 }
