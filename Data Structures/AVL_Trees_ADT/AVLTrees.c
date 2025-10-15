@@ -37,13 +37,6 @@ Node* rebalanceRight(Node *r, bool *ok) {
     return r;
 }
 
-/*
- * Note on Design:
- * The rotation functions below are self-contained. They are responsible
- * for updating all node pointers and all balance factors involved in the
- * rotation. This makes the calling code simpler and more robust.
- */
-
 Node* singleRightRotate(Node *r) {
     Node *newRoot = r->left;
     r->left = newRoot->right;
