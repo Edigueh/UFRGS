@@ -10,32 +10,21 @@
 #define EXPECTED_INPUTS 4
 #define MAX_LINE_LENGTH 90
 
-
-
-BstNode* buildBst(FILE *dataset) {
+void buildTrees(FILE *dataset, BstNode **bst, AvlNode **avl) {
     char line[MAX_LINE_LENGTH];
-    BstNode* bst = newBinSearchTree();
     while (fgets(line, MAX_LINE_LENGTH, dataset) != NULL) {
         NodeInfo newInfo;
-        char *name = strtok(line, ",");
-        float time = strtof(strtok(NULL, ","), NULL);
-        bst = insertBstNode(bst, (NodeInfo){strdup(name), time});
-    }
-
-    return bst;
-}
-
-AvlNode* buildAvlTree(FILE *dataset) {
-    char line[MAX_LINE_LENGTH];
-    AvlNode* avl = newAvlTree();
-    while (fgets(line, MAX_LINE_LENGTH, dataset) != NULL) {
-        char *name = strtok(line, ",");
-        float time = strtof(strtok(NULL, ","), NULL);
         bool ok;
-        avl = insertAvlNode(avl, (NodeInfo){strdup(name), time}, &ok);
-    }
 
-    return avl;
+        char *name = strtok(line, ",");
+        float time = strtof(strtok(NULL, ","), NULL);
+
+        newInfo.name = strdup(name);
+        newInfo.avg_play_time = time;
+
+        *bst = insertBstNode(*bst, newInfo);
+        *avl = insertAvlNode(*avl, newInfo, &ok);
+    }
 }
 
 /*
@@ -44,7 +33,7 @@ AvlNode* buildAvlTree(FILE *dataset) {
 */
 int main(int argc, char *argv[]) {
     if (argc != EXPECTED_INPUTS) {
-        printf("Expected %d parameters but found %d.\n Correct usage: <dataset.csv> <player_wishlist.txt> <output.txt>\n", EXPECTED_INPUTS, argc);
+        printf("Expected %d parameters but found %d.\n  Correct usage: <dataset.csv> <player_wishlist.txt> <output.txt>\n", EXPECTED_INPUTS, argc);
         return EXIT_FAILURE;
     }
 
@@ -54,9 +43,11 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    BstNode *bst = buildBst(dataset);
-    rewind(dataset);
-    AvlNode *avl = buildAvlTree(dataset);
+    BstNode *bst = newBinSearchTree();
+    AvlNode *avl = newAvlTree();
+
+    buildTrees(dataset, &bst, &avl);
+
     printf("====BST PRINT START====\n");
     bstPreOrderTraversalPrint(bst);
     printf("====BST PRINT END====\n");
