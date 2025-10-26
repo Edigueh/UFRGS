@@ -72,6 +72,9 @@
         "generator": "c",
         "ranges": "c",
         "stacktrace": "c",
-        "text_encoding": "c"
+        "text_encoding": "c",
+        "avl.h": "c",
+        "bst.h": "c",
+        "info.h": "c"
     },
 }
