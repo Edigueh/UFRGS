@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
-#include "includes/bst.h"
+#include "bst.h"
 
 BstNode* newBinSearchTree(void) {
     return NULL;
@@ -49,10 +50,10 @@ BstNode* insertBstNode(BstNode *r, NodeInfo newInfo) {
     } else {
         if (strcasecmp(newInfo.name, r->info.name) < 0) {
             // Repeat for the subtree on the left.
-            r->left = insertNode(r->left, newInfo);
+            r->left = insertBstNode(r->left, newInfo);
         } else {
             // Repeat for the subtree on the right.
-            r->right = insertNode(r->right, newInfo);
+            r->right = insertBstNode(r->right, newInfo);
         }
     }
 
@@ -75,10 +76,10 @@ BstNode* removeBstNode(BstNode *r, char *target) {
         printf("Target not found.\n");
     } else if (strcasecmp(r->info.name, target) > 0) {
         // Repeat for the subtree on the left.
-        r->left = removeNode(r->left, target);
+        r->left = removeBstNode(r->left, target);
     } else if (strcasecmp(r->info.name, target) < 0) {
         // Repeat for the subtree on the right.
-        r->right = removeNode(r->right, target);
+        r->right = removeBstNode(r->right, target);
     } else { // Target node is found.
         BstNode *tmpNode;
         if (r->left && r->right) { // Target has two subtrees.
@@ -108,19 +109,19 @@ BstNode* removeBstNode(BstNode *r, char *target) {
     return r;
 }
 
-void preOrderTraversalIndented(BstNode *r, int level) {
+void bstPreOrderTraversalIndented(BstNode *r, int level) {
     if (r != NULL) {
         for (int i = 0; i < level; i++) {
             printf("=");
         }
-        printf("%d\n", r->info);
-        preOrderTraversalIndented(r->left, level + 1);
-        preOrderTraversalIndented(r->right, level + 1);
+        printf("%s\n", r->info.name);
+        bstPreOrderTraversalIndented(r->left, level + 1);
+        bstPreOrderTraversalIndented(r->right, level + 1);
     }
 }
 
 void bstPreOrderTraversalPrint(BstNode *r) {
-    preOrderTraversalIndented(r, 1);
+    bstPreOrderTraversalIndented(r, 1);
 }
 
 int countBSTNodes(BstNode *r) {

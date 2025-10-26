@@ -4,7 +4,8 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/opt/homebrew/include"
+                "/opt/homebrew/include",
+                "${workspaceFolder}/Data Structures/games_time_measurer/include"
             ],
             "defines": [],
             "macFrameworkPath": [

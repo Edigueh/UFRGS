@@ -1,12 +1,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdio.h>
 
-#include "includes/avl.h"
+#include "avl.h"
 
 // max is a helper function that returns the max value between two integers.
 int max(int a, int b) {
     return (a > b) ? a : b;
+}
+
+AvlNode* newAvlTree(void) {
+    return NULL;
 }
 
 // rebalanceLeft handles a left-heavy imbalance at node r.
@@ -114,7 +119,7 @@ AvlNode* insertAvlNode(AvlNode *r, NodeInfo newInfo, bool *ok) {
         r->bf = 0;
         *ok = true; // Sign that height has increased.
     } else if (strcasecmp(newInfo.name, r->info.name) < 0) {
-        r->left = insertNode(r->left, newInfo, ok);
+        r->left = insertAvlNode(r->left, newInfo, ok);
         if (*ok) { // If left subtree grew...
             switch (r->bf) {
                 case -1: r->bf = 0; *ok = false; break;  // Was right-heavy, now balanced.
@@ -123,7 +128,7 @@ AvlNode* insertAvlNode(AvlNode *r, NodeInfo newInfo, bool *ok) {
             }
         }
     } else {
-        r->right = insertNode(r->right, newInfo, ok);
+        r->right = insertAvlNode(r->right, newInfo, ok);
         if (*ok) { // If right subtree grew...
             switch (r->bf) {
                 case 1: r->bf = 0; *ok = false; break;     // Was left-heavy, now balanced.
@@ -147,19 +152,19 @@ int height(AvlNode *r) {
     return 1 + max(leftHeight, rightHeight);
 }
 
-void preOrderTraversalIndented(AvlNode *r, int level) {
+void avlPreOrderTraversalIndented(AvlNode *r, int level) {
     if (r != NULL) {
         for (int i = 0; i < level; i++) {
             printf("=");
         }
-        printf("%d\n", r->info);
-        preOrderTraversalIndented(r->left, level + 1);
-        preOrderTraversalIndented(r->right, level + 1);
+        printf("%s\n", r->info.name);
+        avlPreOrderTraversalIndented(r->left, level + 1);
+        avlPreOrderTraversalIndented(r->right, level + 1);
     }
 }
 
-void preOrderTraversalPrint(AvlNode *r) {
-    preOrderTraversalIndented(r, 1);
+void avlPreOrderTraversalPrint(AvlNode *r) {
+    avlPreOrderTraversalIndented(r, 1);
 }
 
 int getBalanceFactor(AvlNode *r) {

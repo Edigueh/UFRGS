@@ -10,6 +10,9 @@ typedef struct AvlNode {
     struct AvlNode *right;
 } AvlNode;
 
+// newAvlTree initializes a new Avl Tree.
+AvlNode* newAvlTree(void);
+
 // singleRightRotate is used when a node is inserted into the left subtree of the left child,
 // causing the balance factor to become more than +1.
 AvlNode* singleRightRotate(AvlNode *r);
@@ -35,7 +38,7 @@ AvlNode* insertAvlNode(AvlNode *r, NodeInfo newInfo, bool *ok);
 int height(AvlNode *r);
 
 // preOrderTraversalPrint prints the given binary tree in following the Pre Order Traversal algorithm.
-void preOrderTraversalPrint(AvlNode *r);
+void avlPreOrderTraversalPrint(AvlNode *r);
 
 // getBalanceFactor returns the balance factor of the given node.
 // this is given by leftHeight - rightHeight.
