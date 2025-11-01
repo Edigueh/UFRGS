@@ -28,6 +28,14 @@ $(OUTPUT): $(OBJS)
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $< -o $@ $(CFLAGS)
 
+visualize:
+	@mkdir -p visualization
+	@echo "Generating graph images..."
+	@dot -Tsvg visualization/bst.dot -o visualization/bst.svg
+	@dot -Tsvg visualization/avl.dot -o visualization/avl.svg
+	@dot -Tsvg visualization/rbt.dot -o visualization/rbt.svg
+	@echo "Graph generation complete."s
+
 # Compila e roda o jogo e depois limpa os executáveis.
 run: all
 	./$(OUTPUT)

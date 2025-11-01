@@ -2,15 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "avl.h"
-#include "bst.h"
+#include "visualizer.h"
 
 #define READ_ACCESS "r"
 #define WRITE_ACCESS "w"
 #define EXPECTED_INPUTS 4
 #define MAX_LINE_LENGTH 90
 
-void buildTrees(FILE *dataset, BstNode **bst, AvlNode **avl) {
+void buildTrees(FILE *dataset, BstNode **bst, AvlNode **avl, RbtNode **rbt) {
     char line[MAX_LINE_LENGTH];
     while (fgets(line, MAX_LINE_LENGTH, dataset) != NULL) {
         NodeInfo newInfo;
@@ -24,6 +23,7 @@ void buildTrees(FILE *dataset, BstNode **bst, AvlNode **avl) {
 
         *bst = insertBstNode(*bst, newInfo);
         *avl = insertAvlNode(*avl, newInfo, &ok);
+        *rbt = insertRbtNode(*rbt, newInfo);
     }
 }
 
@@ -45,15 +45,29 @@ int main(int argc, char *argv[]) {
 
     BstNode *bst = newBinSearchTree();
     AvlNode *avl = newAvlTree();
+    RbtNode *rbt = newRedBlackTree();
 
-    buildTrees(dataset, &bst, &avl);
+    buildTrees(dataset, &bst, &avl, &rbt);
 
-    printf("====BST PRINT START====\n");
-    bstPreOrderTraversalPrint(bst);
-    printf("====BST PRINT END====\n");
+    // printf("====BST PRINT START====\n");
+    // bstPreOrderTraversalPrint(bst);
+    // printf("====BST PRINT END====\n");
 
 
-    printf("====AVL PRINT START====\n");
-    avlPreOrderTraversalPrint(avl);
-    printf("====AVL PRINT END====\n");
+    // printf("====AVL PRINT START====\n");
+    // avlPreOrderTraversalPrint(avl);
+    // printf("====AVL PRINT END====\n");
+
+    // printf("====RBT PRINT START====\n");
+    // rbtPreOrderTraversalPrint(rbt);
+    // printf("====RBT PRINT END====\n");
+
+    printf("\nGenerating DOT files for visualization...\n");
+    
+    bstGenerateDotFile(bst, "visualization/bst.dot");
+    avlGenerateDotFile(avl, "visualization/avl.dot");
+    rbtGenerateDotFile(rbt, "visualization/rbt.dot");
+
+    printf("Generated bst.dot, avl.dot, and rbt.dot\n");
+    printf("Use a Graphviz tool to view them (e.g., 'dot -Tpng bst.dot -o bst.png')\n");
 }
