@@ -1,3 +1,5 @@
+#ifndef AVL_H
+#define AVL_H
 #include <stdbool.h>
 
 #include "info.h"
@@ -46,3 +48,4 @@ int getBalanceFactor(AvlNode *r);
 
 // getTreeBalanceFactor returns the balance factor of the tree, which is the biggest balance factor of the tree's nodes.
 int getTreeBalanceFactor(AvlNode *r);
+#endif

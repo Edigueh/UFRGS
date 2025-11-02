@@ -1,3 +1,5 @@
+#ifndef VISUALIZER_H
+#define VISUALIZER_H
 #include "avl.h"
 #include "bst.h"
 #include "rbt.h"
@@ -10,3 +12,4 @@ void bstGenerateDotFile(BstNode *r, char *filename);
 
 // Public wrapper function to create the .dot file for RBTrees.
 void rbtGenerateDotFile(RbtNode *r, char *filename);
+#endif

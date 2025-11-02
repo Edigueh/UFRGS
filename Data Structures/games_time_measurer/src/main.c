@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "avl.h"
+#include "bst.h"
+#include "rbt.h"
 #include "visualizer.h"
 
 #define READ_ACCESS "r"

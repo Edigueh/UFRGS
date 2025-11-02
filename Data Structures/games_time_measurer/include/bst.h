@@ -1,3 +1,5 @@
+#ifndef BST_H
+#define BST_H
 #include "info.h"
 
 // BstNode represents a node in a binary tree.
@@ -29,3 +31,4 @@ void bstPreOrderTraversalPrint(BstNode *r);
 
 // countBSTNodes counts the nodes in the given binary tree.
 int countBSTNodes(BstNode *r);
+#endif
