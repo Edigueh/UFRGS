@@ -44,14 +44,12 @@ Node* insertNode(Node *r, int newInfo) {
         r->info = newInfo;
         r->left = NULL;
         r->right = NULL;
+    } else if (newInfo < r->info) {
+        // Repeat for the subtree on the left.
+        r->left = insertNode(r->left, newInfo);
     } else {
-        if (newInfo < r->info) {
-            // Repeat for the subtree on the left.
-            r->left = insertNode(r->left, newInfo);
-        } else {
-            // Repeat for the subtree on the right.
-            r->right = insertNode(r->right, newInfo);
-        }
+        // Repeat for the subtree on the right.
+        r->right = insertNode(r->right, newInfo);
     }
 
     return r;
