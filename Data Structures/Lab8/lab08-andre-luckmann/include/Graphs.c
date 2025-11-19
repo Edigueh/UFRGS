@@ -3,7 +3,7 @@
 void dfs(int graph[N][N], int visited[N], int node) {
     visited[node] = 1;
 
-    printf("%d ", node + 1);
+    printf("%d ", node);
 
     for (int adj = 0; adj < N; adj++) {
         if (!visited[adj] && graph[node][adj]) {
@@ -19,11 +19,11 @@ void bfs(int graph[N][N], int visited[N], Queue *queue, int startNode) {
     while(!isEmpty(queue)) {
         int currentNode;
         dequeue(&queue, &currentNode);
-        printf("%d ", currentNode + 1);
-        for (int c = 0; c < N; c++) {
-            if (!visited[c] && graph[currentNode][c]) {
-                enqueue(&queue, c);
-                visited[c] = 1;
+        printf("%d ", currentNode);
+        for (int adj = 0; adj < N; adj++) {
+            if (!visited[adj] && graph[currentNode][adj]) {
+                enqueue(&queue, adj);
+                visited[adj] = 1;
             }
         }
     }
