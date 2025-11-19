@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "Graphs.h"
 
 void dfs(int graph[N][N], int visited[N], int node) {

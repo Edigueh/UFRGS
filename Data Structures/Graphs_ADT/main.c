@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "Graphs.h"
 
 int main(void) {

@@ -1,7 +1,8 @@
-#define N 6
+#include <stdio.h>
 
 #include "Queue.h"
 
+#define N 6
 // DFS is a Depth First Search.
 void DFS(int graph[N][N], int node);
 
