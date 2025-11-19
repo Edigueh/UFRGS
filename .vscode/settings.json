@@ -75,6 +75,5 @@
         "text_encoding": "c",
         "avl.h": "c",
         "bst.h": "c",
-        "info.h": "c"
     },
 }
