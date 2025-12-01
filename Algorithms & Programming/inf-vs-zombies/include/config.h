@@ -1,0 +1,111 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define GAME_TITLE "Memes vs Zombies"
+
+#define BUTTONS_X 504
+#define BUTTONS_TILE_HEIGHT 24
+#define BUTTONS_WIDTH 312
+#define BUTTONS_HEIGHT 73
+#define BUTTONS_X_GLOW 480
+#define BUTTONS_WIDTH_GLOW 360
+#define BUTTONS_HEIGHT_GLOW 121
+#define MAX_INPUT_NAME 3
+
+#define MAX_HORDES 10
+#define TIME_BETWEEN_HORDES 5.0f
+
+#define TILE_TYPE_BUTTON 0
+#define TILE_TYPE_METALLIC 1
+
+#define GOLDEN_ZOMBIE_CHANCE 5
+
+#define MAX_PLAYERS_LEADERBOARD 5
+
+#define LEADERBOARD_FILE "top_scores.bin"
+
+#define BASE_WIDTH_FLOAT 1280.0f
+#define BASE_HEIGHT_FLOAT 720.0f
+#define BASE_WIDTH_INT 1280
+#define BASE_HEIGHT_INT 720
+#define TILE_WIDTH 96
+#define TILE_HEIGHT 78
+
+#define FRAME_CHANGE_RATE 0.2f
+
+extern const int SELL_POS_X;
+extern const int SELL_POS_Y;
+extern const int FONT_SIZE;
+
+#define ROWS 7
+#define COLUMNS 9
+#define GRID_MARGIN_X 418
+#define GRID_MARGIN_Y 174
+
+#define MAX_ZOMBIES_ON_SCREEN 50
+#define ZOMBIE_HP 100
+#define HORDE_SPAWN_TIMER 12.0f
+#define ZOMBIE_SPEED 20.0f
+#define ZOMBIE_DAMAGE 15
+#define ZOMBIE_KILL_SCORE 100
+#define ZOMBIE_DMG_CD_SECONDS 1.0f
+#define REC_ZOMBIE_WIDTH 40
+#define REC_ZOMBIE_HEIGHT 80
+#define ZOMBIE_RENDER_WIDTH 72.0f
+#define ZOMBIE_RENDER_HEIGHT 90.0f
+#define ZOMBIE_SPRITE_FRAME_WIDTH 340.0f
+#define ZOMBIE_SPRITE_FRAME_HEIGHT 550.0f
+
+#define CHIMPANZINI_FRAME_ID 0
+#define CHIMPANZINI_COST 50
+#define CHIMPANZINI_CD 7.5f
+#define CHIMPANZINI_LOOPS_GENERATE 20
+#define CHIMPAZINI_INITIAL_HP 20
+#define CHIMPAZINI_TEXTURE "chimpanzini"
+#define CHIMPAZINI_MONEY_AWARD 50
+
+#define TRALALERO_FRAME_ID 1
+#define TRALALERO_COST 100
+#define TRALALERO_CD 7.5f
+#define TRALALERO_INITIAL_HP 50
+#define TRALALERO_TEXTURE "tralalero"
+#define TRALALERO_PROJECTILE_CD 3
+#define PROJECTILE_SPEED 400.0f
+#define PROJECTILE_DAMAGE 20
+
+#define SAHUR_FRAME_ID 2
+#define SAHUR_COST 150
+#define SAHUR_CD 0.0f
+#define SAHUR_INITIAL_HP 50
+#define SAHUR_TEXTURE "sahur"
+#define SAHUR_LOOPS 30
+
+#define LIRILI_FRAME_ID 3
+#define LIRILI_COST 50
+#define LIRILI_CD 30
+#define LIRILI_TEXTURE "lirili"
+#define LIRILI_INITIAL_HP 300
+
+#define BOMBARDINI_FRAME_ID 4
+#define BOMBARDINI_COST 25
+#define BOMBARDINI_CD 30
+#define BOMBARDINI_TEXTURE "bombardini"
+#define BOMBARDINI_REIMBURSEMENT 10
+#define BOMBARDINI_INITIAL_HP 10
+#define BOMBARDINI_LOOPS 15	
+#define BOMB_SPEED 1800.0f
+
+#define TARGET_FPS 60
+#define BASE_FONT_SIZE 40
+#define MONEY_BAG_RANDOMNESS 500
+#define MONEY_BAG_AMOUNT 50
+#define MAX_PROJECTILES_ON_SCREEN 100
+#define REC_PROJ_WIDHT 20
+#define REC_PROJ_HEIGHT 20
+
+#define INITIAL_MONEY 150
+#define DEFAULT_REIMBURSEMENT_RATE 0.5f
+
+// ReadHordesConfig lê o arquivo de configPath e retorna o array com a configuração de hordas e o número de hordas.
+int ReadHordesConfig(char *configPath, int hordes[], int maxHordes);
+#endif
