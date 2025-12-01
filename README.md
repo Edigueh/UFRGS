@@ -3,10 +3,10 @@
 Stage 1
 
 - [X] Algorithms and Programming
-- [ ] Calculus & Analytical Geometry I 🔃
+- [X] Calculus & Analytical Geometry I
 - [X] Computational Thinking
 - [X] Introduction to Computer Science
-- [ ] Program Logic and Correction 🔃
+- [X] Program Logic and Correction
 
 Stage 2
 
