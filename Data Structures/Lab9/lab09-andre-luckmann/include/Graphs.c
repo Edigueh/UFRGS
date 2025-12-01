@@ -66,7 +66,7 @@ int colorVertex(int graph[N][N], int *colors, int vertex) {
         }
     }
     
-    return 0; // Fallback
+    return 0;
 }
 
 // DFS helper with inline coloring
@@ -126,7 +126,7 @@ void greedyColoringDFS(int graph[N][N], int startNode) {
     printf("DFS Greedy Coloring starting from node %d:\n", startNode);
     dfsColoring(graph, visited, colors, startNode, order, &index);
     
-    // Color disconnected vertices (if any)
+    // Color disconnected vertices
     for (int i = 0; i < N; i++) {
         if (!visited[i]) {
             dfsColoring(graph, visited, colors, i, order, &index);
@@ -155,7 +155,7 @@ void greedyColoringBFS(int graph[N][N], int startNode) {
     printf("BFS Greedy Coloring starting from node %d:\n", startNode);
     bfsColoring(graph, visited, colors, initQueue(), startNode, order, &index);
     
-    // Color disconnected vertices (if any)
+    // Color disconnected vertices
     for (int i = 0; i < N; i++) {
         if (!visited[i]) {
             bfsColoring(graph, visited, colors, initQueue(), i, order, &index);
