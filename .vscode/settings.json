@@ -77,4 +77,10 @@
         "bst.h": "c",
         "graphs.h": "c"
     },
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.executorMap": {
+        "c": "cd $dir && clang -std=c17 $(find . -name \"*.c\") -I./include -I../include -o main && ./main"
+    }
 }

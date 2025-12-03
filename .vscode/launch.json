@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(lldb) Launch and Debug Project",
+            "name": "Debug C Project (Dynamic)",
             "type": "cppdbg",
             "request": "launch",
-            // This tells the debugger which executable to run.
+            // Aponta para o executável 'main' que nossa task gerou
             "program": "${fileDirname}/main",
             "args": [],
             "stopAtEntry": false,
@@ -13,8 +13,8 @@
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            // This is the magic link! It tells the debugger to run your build task before launching.
-            "preLaunchTask": "Build Current Project Folder"
+            // IMPORTANTE: Este nome deve ser IDÊNTICO ao label no tasks.json
+            "preLaunchTask": "C/C++: clang build all (dynamic)"
         }
     ]
 }

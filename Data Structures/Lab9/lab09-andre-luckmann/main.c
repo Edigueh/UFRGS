@@ -13,7 +13,6 @@ int main(void) {
         {1, 0, 0, 1, 1, 0}, // Node 6 connects to 1, 4, 5
     };
 
-
     greedyColoringDFS(graph, 3);
     printf("\n\n");
 

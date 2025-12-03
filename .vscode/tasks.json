@@ -2,27 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Current Project Folder",
             "type": "shell",
-            "command": "gcc -g -o \"${fileDirname}/main\" \"${fileDirname}\"/*.c",
-            "group": "build",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "detail": "Compiles all .c files in the active project subfolder."
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: clang générer le fichier actif",
-            "command": "/usr/bin/clang",
-            "args": [
-                "-fcolor-diagnostics",
-                "-fansi-escape-codes",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
+            "label": "C/C++: clang build all (dynamic)",
+            "command": "find \"${fileDirname}\" -name \"*.c\" -exec /usr/bin/clang -g -fcolor-diagnostics -fansi-escape-codes -std=c17 -I\"${fileDirname}/include\" -I\"${fileDirname}/../include\" -o \"${fileDirname}/main\" {} +",
             "options": {
                 "cwd": "${fileDirname}"
             },
@@ -33,7 +15,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Tâche générée par le débogueur."
+            "detail": "Compila recursivamente (com suporte a espaços no nome da pasta)"
         }
     ]
 }
