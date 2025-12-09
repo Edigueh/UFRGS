@@ -24,13 +24,30 @@ typedef struct RbtNode {
 // newRedBlackTree initializes an empty red black tree.
 RbtNode* newRedBlackTree(void);
 
-// insertRBT inserts a new node with newInfo and re-balances the tree
+// insertRbtNode inserts a new node with newInfo and re-balances the tree
 // to maintain RBT properties.
 RbtNode* insertRbtNode(RbtNode *r, NodeInfo newInfo);
 
 // isRed tells if a node is red or black.
 bool isRed(RbtNode *n);
 
-// preOrderTraversalPrint prints the given binary tree in following the Pre Order Traversal algorithm.
+// rbtPreOrderTraversalPrint prints the given binary tree in following the Pre Order Traversal algorithm.
 void rbtPreOrderTraversalPrint(RbtNode *r);
+
+// countRbtNodes counts the nodes in the given tree.
+int countRbtNodes(RbtNode *r);
+
+// rbtHeight returns the height of the given node.
+int rbtHeight(RbtNode *r);
+
+/* rbtWriteStats prints statistics about the given rbtree, such as:
+    - Number of nodes
+    - Tree Height
+    - Number of rotations
+    - Number of comparisons done
+*/
+void rbtWriteStats(FILE *output, RbtNode *r);
+
+// queryRbt does a query for the given tree incrementing the the global comparison variable.
+RbtNode* queryRbt(RbtNode *r, char *target);
 #endif

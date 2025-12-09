@@ -4,12 +4,8 @@
 #include "bst.h"
 #include "rbt.h"
 
-// Public wrapper function to create the .dot file for AVL Trees.
-void avlGenerateDotFile(AvlNode *r, char *filename);
+#define ENABLE_GENERATE_DOT_FILES false
 
-// Public wrapper function to create the .dot file for BSTrees.
-void bstGenerateDotFile(BstNode *r, char *filename);
-
-// Public wrapper function to create the .dot file for RBTrees.
-void rbtGenerateDotFile(RbtNode *r, char *filename);
+// generateDotFiles generates the dot files for all trees if enabled to.
+void generateDotFiles(BstNode *bst, AvlNode *avl, RbtNode *rbt);
 #endif

@@ -1,38 +1,84 @@
-### Medição de Tempo em Jogos Digitais
+# Game Time Metrics
 
-1. Objetivo
-O objetivo do trabalho é comparar o desempenho de diferentes estruturas de dados vistas na
-disciplina em uma aplicação de estimativa de tempo de jogo com base em dados da plataforma Steam.
-2. Especificação da Aplicação
-Um jogador está montando uma lista de jogos que pretende jogar nas próximas semanas. Ele
-gostaria de saber quanto tempo, em média, precisará investir para jogar todos eles. Para isso, ele
-consulta um arquivo com estatísticas públicas de jogos da Steam, contendo o nome do jogo e o tempo
-médio de jogo efetivamente “jogado” pelos usuários, medido em horas (número float).
-Esse processo de estimar o tempo total é demorado e sujeito a erros, especialmente quando há
-centenas de jogos disponíveis. Por isso, o jogador decidiu automatizar a tarefa.
-★ Sua tarefa é projetar uma aplicação que recebe dois arquivos de entrada:
-3. Um arquivo CSV contendo o nome dos jogos e o número médio de horas jogadas. Para
-teste, use o dataset disponível no Moodle que foi gerado a partir do dataset “steam video
-games” [1].
-4. Um arquivo texto contendo uma lista de jogos que o jogador deseja jogar (um jogo por
-linha).
-A tabela de jogos e suas horas médias devem ser armazenadas em duas estruturas de dados.
-Você deve criar diferentes versões da aplicação utilizando pelo menos duas das quatro árvores vistas em
-aula (ABP, AVL, Rubro-Negra ou Splay).
-★ A tabela de jogos (arquivo CSV) deve ser carregada na árvore na ordem em que os jogos
-aparecem no arquivo. As chaves devem ser os nomes dos jogos. Assuma que não haverá repetição de
-nomes.
-★ A aplicação não é case sensitive: letras maiúsculas e minúsculas devem ser tratadas como
-iguais.
-★ A lista de jogos escolhidos pelo jogador não deve ser armazenada em nenhuma estrutura.
-Cada jogo deve ser usado apenas para consultar a árvore e encontrar seu respectivo tempo médio. Se
-um jogo da lista não se encontra na tabela de jogos, utilize zero como tempo médio e compute seu
-tempo.
-★ Seu programa deverá ser chamado a partir da linha de comando (passando parâmetros para o
-main).
-Exemplo de chamada: C:\estimador\_horas steam\_games.csv lista\_jogos.txt
-saida\_lista.txt
-As entradas e saídas da sua aplicação são:
-Entradas:
-(i) nome do arquivo com a tabela de jogos e suas horas médias;
-(ii) nome do arquivo com os jogos escolhidos pelo jogador.
+This project compares how different tree data structures perform when looking up game playtime data. It reads a CSV file of Steam games with their average playtime, loads them into various tree structures, and measures how long it takes to search for games in a wishlist.
+
+## The data structures
+
+Three tree implementations are included:
+
+- **Binary Search Tree (BST)** - Simple but can become unbalanced with sorted data
+- **AVL Tree** - Self-balancing with strict height constraints
+- **Red-Black Tree** - Self-balancing with looser constraints than AVL
+
+All trees are case-insensitive when comparing game names.
+
+## Building the project
+
+You need GCC and Make installed. To compile:
+
+```bash
+make
+```
+
+This creates the `measurer.o` executable.
+
+To clean up build artifacts:
+
+```bash
+make clean
+```
+
+## Running it
+
+The program takes three command-line arguments:
+
+```bash
+./measurer.o <games_csv> <player_list_txt> <output_txt>
+```
+
+Example:
+
+```bash
+./measurer.o dataset/dataset.csv dataset/player_list.txt output/results.txt
+```
+
+**Input files:**
+
+- `games_csv` - CSV file with game names and average hours (format: `Game Name,Hours`)
+- `player_list_txt` - Text file with one game name per line
+
+**Output:**
+The program writes statistics about the trees and results to the output file.
+
+## Visualizing the trees
+
+If you have Graphviz installed, you can generate visual representations:
+
+```bash
+make visualize
+```
+
+This creates SVG files in the `visualization/` directory showing the structure of each tree type.
+
+## Project structure
+
+```
+├── src/             # Implementation files
+│   ├── main.c       # Main program
+│   ├── bst.c        # Binary Search Tree
+│   ├── avl.c        # AVL Tree  
+│   ├── rbt.c        # Red-Black Tree
+│   ├── utils.c      # File I/O and utilities
+│   └── visualizer.c # Graphviz generation
+├── include/         # Header files
+├── dataset/         # Sample CSV files with game data
+├── output/          # Results directory
+├── visualization/   # Tree diagrams (after make visualize)
+└── report/          # Final analysis report
+```
+
+## Authors
+
+[André Schaidhauer Luckmann](https://github.com/Edigueh)
+
+[Vitor da Cunha Pimentel da Rosa](https://github.com/VitorPimentel17)

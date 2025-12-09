@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug C Project (Dynamic)",
+            "type": "cppdbg",
+            "request": "launch",
+            // Aponta para o executável 'main' que nossa task gerou
+            "program": "${fileDirname}/main",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            // IMPORTANTE: Este nome deve ser IDÊNTICO ao label no tasks.json
+            "preLaunchTask": "C/C++: clang build all (dynamic)"
+        }
+    ]
+}

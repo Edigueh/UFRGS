@@ -3,6 +3,9 @@
 #include <stdio.h>
 
 #include "bst.h"
+#include "utils.h"
+
+int bstComp = 0;
 
 BstNode* newBinSearchTree(void) {
     return NULL;
@@ -130,4 +133,40 @@ int countBSTNodes(BstNode *r) {
     }
 
     return 1 + countBSTNodes(r->left) + countBSTNodes(r->right);
+}
+
+int bstHeight(BstNode *r) {
+    if (r == NULL) {
+        return 0;
+    }
+
+    int leftHeight = bstHeight(r->left);
+    int rightHeight = bstHeight(r->right);
+
+    return 1 + max(leftHeight, rightHeight);
+}
+
+void bstWriteStats(FILE *output, BstNode *r) {
+    fprintf(output, "============ BST STATS ============\n");
+    fprintf(output, "Node count: %d\n", countBSTNodes(r));
+    fprintf(output, "Height: %d\n", bstHeight(r));
+    fprintf(output, "Comparisons: %d\n", bstComp);
+    fprintf(output, "===================================\n\n");
+    return;
+}
+
+BstNode* queryBst(BstNode *r, char *target) {
+    while (r != NULL){
+        bstComp++;
+        if (!strcasecmp(r->info.name, target)){
+            return r;
+        }
+
+        if (strcasecmp(r->info.name, target) > 0) {
+            r = r->left;
+        } else {
+            r = r->right;
+        }
+    }
+    return NULL;
 }

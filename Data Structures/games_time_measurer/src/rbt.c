@@ -3,12 +3,14 @@
 #include <stdio.h>
 
 #include "rbt.h"
+#include "utils.h"
+
+int rbtComp = 0, rbtRotations = 0;
 
 RbtNode* newRedBlackTree(void) {
     return NULL;
 }
 
-// A helper to check color, treating NULL nodes as BLACK
 bool isRed(RbtNode *n) {
     if (n == NULL) {
         return BLACK;
@@ -47,11 +49,13 @@ void flipColors(RbtNode *r) {
 RbtNode* balance(RbtNode *r) {
     // Case 1: Right child is RED (fix left-leaning).
     if (isRed(r->right) && !isRed(r->left)) {
+        rbtRotations++;
         r = rotateLeft(r);
     }
 
     // Case 2: Left child and Left-Left child are RED (fix 4-node).
     if (isRed(r->left) && isRed(r->left->left)) {
+        rbtRotations++;
         r = rotateRight(r);
     }
 
@@ -101,4 +105,49 @@ void rbtPreOrderTraversalIndented(RbtNode *r, int level) {
 
 void rbtPreOrderTraversalPrint(RbtNode *r) {
     rbtPreOrderTraversalIndented(r, 1);
+}
+
+int countRbtNodes(RbtNode *r) {
+    if (r == NULL) {
+        return 0;
+    }
+
+    return 1 + countRbtNodes(r->left) + countRbtNodes(r->right);
+}
+
+int rbtHeight(RbtNode *r) {
+    if (r == NULL) {
+        return 0;
+    }
+
+    int leftHeight = rbtHeight(r->left);
+    int rightHeight = rbtHeight(r->right);
+
+    return 1 + max(leftHeight, rightHeight);
+}
+
+void rbtWriteStats(FILE *output, RbtNode *r) {
+    fprintf(output, "============ RBT STATS ============\n");
+    fprintf(output, "Node count: %d\n", countRbtNodes(r));
+    fprintf(output, "Height: %d\n", rbtHeight(r));
+    fprintf(output, "Rotation count: %d\n", rbtRotations);
+    fprintf(output, "Comparisons: %d\n", rbtComp);
+    fprintf(output, "===================================\n");
+    return;
+}
+
+RbtNode* queryRbt(RbtNode *r, char *target) {
+    while (r != NULL){
+        rbtComp++;
+        if (!strcasecmp(r->info.name, target)){
+            return r;
+        }
+
+        if (strcasecmp(r->info.name, target) > 0) {
+            r = r->left;
+        } else {
+            r = r->right;
+        }
+    }
+    return NULL;
 }

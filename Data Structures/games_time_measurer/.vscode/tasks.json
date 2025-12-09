@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: clang build all (dynamic)",
+            "command": "find \"${fileDirname}\" -name \"*.c\" -exec /usr/bin/clang -g -fcolor-diagnostics -fansi-escape-codes -std=c17 -I\"${fileDirname}/include\" -I\"${fileDirname}/../include\" -o \"${fileDirname}/main\" {} +",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Compila recursivamente (com suporte a espaços no nome da pasta)"
+        }
+    ]
+}

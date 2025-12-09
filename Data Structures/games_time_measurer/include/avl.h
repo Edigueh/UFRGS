@@ -33,11 +33,14 @@ AvlNode* doubleRightRotate(AvlNode *r);
 // It performs a right rotation on the right child, followed by a left rotation on the node.
 AvlNode* doubleLeftRotate(AvlNode *r);
 
-// insertNode inserts a node in an AVL tree.
+// insertAvlNode inserts a node in an AVL tree.
 AvlNode* insertAvlNode(AvlNode *r, NodeInfo newInfo, bool *ok);
 
-// height returns the height of the given node.
-int height(AvlNode *r);
+// countAvlNodes counts the nodes in the given tree.
+int countAvlNodes(AvlNode *r);
+
+// avlHeight returns the height of the given node.
+int avlHeight(AvlNode *r);
 
 // preOrderTraversalPrint prints the given binary tree in following the Pre Order Traversal algorithm.
 void avlPreOrderTraversalPrint(AvlNode *r);
@@ -48,4 +51,15 @@ int getBalanceFactor(AvlNode *r);
 
 // getTreeBalanceFactor returns the balance factor of the tree, which is the biggest balance factor of the tree's nodes.
 int getTreeBalanceFactor(AvlNode *r);
+
+/* avlWriteStats prints statistics about the given avl tree, such as:
+    - Number of nodes
+    - Tree Height
+    - Number of rotations
+    - Number of comparisons done
+*/
+void avlWriteStats(FILE * output, AvlNode *r);
+
+// queryAvl does a query for the given tree incrementing the the global comparison variable.
+AvlNode* queryAvl(AvlNode *r, char *target);
 #endif

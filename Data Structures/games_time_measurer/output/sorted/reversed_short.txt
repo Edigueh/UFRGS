@@ -1,0 +1,21 @@
+Total estimated time for playing all games: 0.0 hours
+
+============ BST STATS ============
+Node count: 100
+Height: 54
+Comparisons: 2388
+===================================
+
+============ AVL STATS ============
+Node count: 100
+Height: 7
+Rotation count: 90
+Comparisons: 1379
+===================================
+
+============ RBT STATS ============
+Node count: 100
+Height: 8
+Rotation count: 176
+Comparisons: 1379
+===================================

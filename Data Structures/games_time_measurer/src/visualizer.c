@@ -128,3 +128,14 @@ void rbtGenerateDotFile(RbtNode *r, char *filename) {
     fprintf(f, "}\n");
     fclose(f);
 }
+
+void generateDotFiles(BstNode *bst, AvlNode *avl, RbtNode *rbt) {
+    printf("\nGenerating DOT files for visualization...\n");
+    
+    bstGenerateDotFile(bst, "visualization/bst.dot");
+    avlGenerateDotFile(avl, "visualization/avl.dot");
+    rbtGenerateDotFile(rbt, "visualization/rbt.dot");
+
+    printf("Generated bst.dot, avl.dot, and rbt.dot\n");
+    printf("Use a Graphviz tool to view them (e.g., 'dot -Tpng bst.dot -o bst.png')\n");
+}

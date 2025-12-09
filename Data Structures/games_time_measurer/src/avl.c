@@ -4,11 +4,9 @@
 #include <stdio.h>
 
 #include "avl.h"
+#include "utils.h"
 
-// max is a helper function that returns the max value between two integers.
-int max(int a, int b) {
-    return (a > b) ? a : b;
-}
+int avlComp = 0, avlRotations = 0;
 
 AvlNode* newAvlTree(void) {
     return NULL;
@@ -20,9 +18,11 @@ AvlNode* rebalanceLeft(AvlNode *r, bool *ok) {
 
     if (leftTree->bf == 1) {
         // Left-Left case (- -).
+        avlRotations++;
         r = singleRightRotate(r);
     } else {
         // Left-Right case (- +).
+        avlRotations++;
         r = doubleRightRotate(r);
     }
 
@@ -36,9 +36,11 @@ AvlNode* rebalanceRight(AvlNode *r, bool *ok) {
 
     if (rightTree->bf == -1) {
         // Right-Right case (+ +).
+        avlRotations++;
         r = singleLeftRotate(r);
     } else {
         // Right-Left case (+ -).
+        avlRotations++;
         r = doubleLeftRotate(r);
     }
 
@@ -141,13 +143,21 @@ AvlNode* insertAvlNode(AvlNode *r, NodeInfo newInfo, bool *ok) {
     return r;
 }
 
-int height(AvlNode *r) {
+int countAvlNodes(AvlNode *r) {
     if (r == NULL) {
         return 0;
     }
 
-    int leftHeight = height(r->left);
-    int rightHeight = height(r->right);
+    return 1 + countAvlNodes(r->left) + countAvlNodes(r->right);
+}
+
+int avlHeight(AvlNode *r) {
+    if (r == NULL) {
+        return 0;
+    }
+
+    int leftHeight = avlHeight(r->left);
+    int rightHeight = avlHeight(r->right);
 
     return 1 + max(leftHeight, rightHeight);
 }
@@ -172,7 +182,7 @@ int getBalanceFactor(AvlNode *r) {
         return 0;
     }
 
-    return abs(height(r->left) - height(r->right));
+    return abs(avlHeight(r->left) - avlHeight(r->right));
 }
 
 int getTreeBalanceFactor(AvlNode *r) {
@@ -185,4 +195,30 @@ int getTreeBalanceFactor(AvlNode *r) {
     int leftBf = getTreeBalanceFactor(r->left);
 
     return max(max(rightBf, leftBf), rootBf);
+}
+
+void avlWriteStats(FILE *output, AvlNode *r) {
+    fprintf(output, "============ AVL STATS ============\n");
+    fprintf(output, "Node count: %d\n", countAvlNodes(r));
+    fprintf(output, "Height: %d\n", avlHeight(r));
+    fprintf(output, "Rotation count: %d\n", avlRotations);
+    fprintf(output, "Comparisons: %d\n", avlComp);
+    fprintf(output, "===================================\n\n");
+    return;
+}
+
+AvlNode* queryAvl(AvlNode *r, char *target) {
+    while (r != NULL){
+        avlComp++;
+        if (!strcasecmp(r->info.name, target)){
+            return r;
+        }
+
+        if (strcasecmp(r->info.name, target) > 0) {
+            r = r->left;
+        } else {
+            r = r->right;
+        }
+    }
+    return NULL;
 }
