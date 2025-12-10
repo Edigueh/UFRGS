@@ -34,7 +34,7 @@
 
 - [ ] Calculus & Analytical Geometry II
 - [ ] Computers Architecture
-- [X] Data Structures 🟢 **A** ()
+- [X] Data Structures 🟢 **A** (9.5)
 - [X] Discrete Mathematics 🟢 **A** (9.6)
 - [ ] Probability & Statistics
 - [X] Software Testing & Verification 🟢 **A** (9.6)
