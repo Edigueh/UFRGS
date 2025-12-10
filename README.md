@@ -1,23 +1,45 @@
 # UFRGS Computer Science Curriculum
 
-Stage 1
+## 📊 Academic Performance
 
-- [X] Algorithms and Programming
-- [X] Calculus & Analytical Geometry I
-- [X] Computational Thinking
-- [X] Introduction to Computer Science
-- [X] Program Logic and Correction
+| Grade | Count | Courses |
+|-------|-------|---------|
+| 🟢 A | 7 | 87.5% |
+| 🔵 B | 1 | 12.5% |
+| 🟡 C | 0 | 0% |
+| 🔴 D | 0 | 0% |
 
-Stage 2
+**Completed:** 8/62 courses | **Average:** Excellent (87.5% A grades)
+
+**Grading Scale:**
+
+- 🟢 **A** (Excellent): Grade ≥ 9.0
+- 🔵 **B** (Good): 7.5 ≤ Grade < 9.0
+- 🟡 **C** (Satisfactory): 6.0 ≤ Grade < 7.5
+- 🔴 **D** (Failed): Grade < 6.0
+
+---
+
+## 📚 Curriculum Progress
+
+### Stage 1
+
+- [X] Algorithms and Programming 🟢 **A** (9.07)
+- [X] Calculus & Analytical Geometry I 🟢 **A** (9.65)
+- [X] Computational Thinking 🔵 **B** (8.52)
+- [X] Introduction to Computer Science 🟢 **A** (9.7)
+- [X] Program Logic and Correction 🟢 **A** (9.5)
+
+### Stage 2
 
 - [ ] Calculus & Analytical Geometry II
 - [ ] Computers Architecture
-- [ ] Data Structures 🔃
-- [X] Discrete Mathematics
+- [X] Data Structures 🟢 **A** ()
+- [X] Discrete Mathematics 🟢 **A** (9.6)
 - [ ] Probability & Statistics
-- [ ] Software Testing & Verification 🔃
+- [X] Software Testing & Verification 🟢 **A** (9.6)
 
-Stage 3
+### Stage 3
 
 - [ ] Databases Fundamentals
 - [ ] Digital Circuits
@@ -25,7 +47,7 @@ Stage 3
 - [ ] Quality in Software Development
 - [ ] Theory of Computation I - Formal Languages ​​and Automata
 
-Stage 4
+### Stage 4
 
 - [ ] Computers Organization
 - [ ] Human-Computer Interaction & User Experience
@@ -34,7 +56,7 @@ Stage 4
 - [ ] Software Engineering
 - [ ] Theory of Computation II - Computability and Complexity
 
-Stage 5
+### Stage 5
 
 - [ ] Artificial Intelligence
 - [ ] Computational Science
@@ -43,7 +65,7 @@ Stage 5
 - [ ] Project in Science & Innovation
 - [ ] Software Engineering
 
-Stage 6
+### Stage 6
 
 - [ ] Computer Networks
 - [ ] Images Processing & Computer Vision
@@ -51,7 +73,7 @@ Stage 6
 - [ ] Parallel Programming
 - [ ] Programming Languages I
 
-Stage 7
+### Stage 7
 
 - [ ] Distributed and Fault-tolerant Systems
 - [ ] Natural Language Processing
@@ -59,11 +81,11 @@ Stage 7
 - [ ] Project & Analysis of Algorithms III
 - [ ] Security of Systems and Information
 
-Stage 8
+### Stage 8
 
 - [ ] Integrator Project
 
-Electives
+### Electives
 
 - [ ] Elective 1
 - [ ] Elective 2
