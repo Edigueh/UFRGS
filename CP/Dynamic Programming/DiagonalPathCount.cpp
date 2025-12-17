@@ -4,7 +4,7 @@ using namespace std;
 #define ll long long
 #define ar array
 
-map<pair<int, int>, int> memo;
+map<pair<int, int>, ll> memo;
 
 ll countDiagonalPaths(int rows, int columns) {
     pair<int, int> p = make_pair(rows, columns);
