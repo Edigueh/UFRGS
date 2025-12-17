@@ -6,7 +6,7 @@ using namespace std;
 
 map<pair<int, int>, int> memo;
 
-int countDiagonalPaths(int rows, int columns) {
+ll countDiagonalPaths(int rows, int columns) {
     pair<int, int> p = make_pair(rows, columns);
 
     if (memo.count(p)) {
@@ -17,7 +17,7 @@ int countDiagonalPaths(int rows, int columns) {
         return 1;
     }
 
-    int res = countDiagonalPaths(rows - 1, columns) + countDiagonalPaths(rows, columns - 1);
+    ll res = countDiagonalPaths(rows - 1, columns) + countDiagonalPaths(rows, columns - 1);
     memo[p] = res;
     return res;
 }
