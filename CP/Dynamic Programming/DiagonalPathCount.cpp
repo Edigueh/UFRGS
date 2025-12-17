@@ -26,5 +26,5 @@ int main() {
     int rows, columns;
     cin >> rows >> columns;
 
-    printf("%d\n", countDiagonalPaths(rows, columns));
+    cout << countDiagonalPaths(rows, columns) << "\n";
 }
