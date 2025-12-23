@@ -2,8 +2,6 @@
 
 A comprehensive C++ reference guide organized for competitive programming and quick reference.
 
-## 📚 Table of Contents
-
 1. [Keywords](#keywords)
 2. [Data Types](#data-types)
 3. [Operators](#operators)
