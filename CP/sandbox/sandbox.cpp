@@ -6,5 +6,5 @@ int main(void) {
 
     auto it = min_element(v.begin(), v.end());
 
-    cout << *it << endl;
+    cout << *it << "\n";
 }

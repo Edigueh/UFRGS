@@ -21,7 +21,7 @@ void solve() {
         res = "No";
     }
 
-    cout << res << endl;
+    cout << res << "\n";
 }
 
 int main(void) {

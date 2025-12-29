@@ -43,7 +43,7 @@ void solve() {
         }
     }
 
-    cout << pr << endl;
+    cout << pr << "\n";
 }
 
 int main() {

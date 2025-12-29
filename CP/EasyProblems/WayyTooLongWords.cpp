@@ -33,9 +33,9 @@ void solve() {
     int len = word.length();
 
     if (len > 10) {
-        cout << word.front() << len - 2 << word.back() << endl;
+        cout << word.front() << len - 2 << word.back() << "\n";
     } else {
-        cout << word << endl;
+        cout << word << "\n";
     }
 }
 

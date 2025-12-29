@@ -40,7 +40,7 @@ void solve() {
         else if(op[1] == '-') x--;
     }
 
-    cout << x << endl;
+    cout << x << "\n";
 }
 
 int main() {

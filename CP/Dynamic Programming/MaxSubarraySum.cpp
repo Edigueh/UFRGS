@@ -27,7 +27,7 @@ void solve() {
         best = max(sum, best);
     }
 
-    cout << best << endl;
+    cout << best << "\n";
 }
 
 int main(void) {

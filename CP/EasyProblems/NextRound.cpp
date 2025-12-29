@@ -45,7 +45,7 @@ void solve() {
         }
     }
 
-    cout << pass << endl;
+    cout << pass << "\n";
 }
 
 int main() {

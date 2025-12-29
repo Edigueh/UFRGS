@@ -23,7 +23,7 @@ void solve() {
         }
     }
 
-    cout << res << endl;
+    cout << res << "\n";
 }
 
 int main(void) {
