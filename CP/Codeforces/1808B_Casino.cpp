@@ -11,19 +11,30 @@ using namespace std;
 #define all(x) x.begin(), x.end()
 
 void solve() {
-    int n, m, sum = 0;
+    int n, m;
     cin >> n >> m;
-    int g[n][m];
+    vector<vector<ll>> g(m, vector<ll>(n));
 
-    for(int r = 0; r < n; r++)
-        for (int c = 0; c < m; c++)
+    // Create rotated matrix.
+    // Rows = m, Columns = n.
+    for(int c = 0; c < n; c++)
+        for (int r = 0; r < m; r++)
             cin >> g[r][c];
 
-    for (int c = 0; c < m; c++) {
-        for (int r = 0; r < n; r++) {
-            for (int j = r + 1; j < n; j++) {
-                sum += abs(g[r][c] - g[j][c]);
-            }
+    // Sort each row (as the matrix is rotated, sorts the columns of the original input).
+    for (int i = 0; i < m; i++) {
+        sort(all(g[i]));
+    }
+
+    // Sums up each time a number appears with positive and negative signs in that row
+    // (column of the original matrix).
+    ll sum = 0L;
+    for (int r = 0; r < m; r++) {
+        for (int c = 0; c < n; c++) {
+            int pos = c;
+            int neg = (n - c - 1);
+            sum -= (g[r][c] * neg);
+            sum += (g[r][c] * pos);
         }
     }
 
