@@ -9,6 +9,7 @@ using namespace std;
 #define F first
 #define S second
 #define all(x) x.begin(), x.end()
+#define loop(it, start, end) for(int it = start; it < end; it++)
 
 void solve() {
     
