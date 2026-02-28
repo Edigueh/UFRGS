@@ -1,5 +1,6 @@
 from marvin.tools import Maps
 
+# Do not forget to add this, as marvin plots uses matplotlib behind.
 import matplotlib.pyplot as plt
 
 maps = Maps(plateifu='8485-1901')
