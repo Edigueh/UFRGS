@@ -32,18 +32,18 @@
 
 ### Stage 2
 
-- [ ] Calculus & Analytical Geometry II
-- [ ] Computers Architecture
+- [ ] Calculus & Analytical Geometry II 🔄
+- [ ] Computers Architecture 🔄
 - [X] Data Structures 🟢 **A** (9.5)
 - [X] Discrete Mathematics 🟢 **A** (9.6)
-- [ ] Probability & Statistics
+- [ ] Probability & Statistics 🔄
 - [X] Software Testing & Verification (Bypassed)
 
 ### Stage 3
 
 - [ ] Databases Fundamentals
 - [ ] Digital Circuits
-- [ ] Project & Analysis of Algorithms I
+- [ ] Project & Analysis of Algorithms I 🔄
 - [ ] Quality in Software Development
 - [ ] Theory of Computation I - Formal Languages ​​and Automata
 
