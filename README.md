@@ -41,33 +41,32 @@
 
 ### Stage 3
 
-- [ ] Databases Fundamentals
-- [ ] Digital Circuits
+- [ ] Databases
+- [ ] Software Development
 - [ ] Project & Analysis of Algorithms I 🔄
-- [ ] Quality in Software Development
-- [ ] Theory of Computation I - Formal Languages ​​and Automata
+- [ ] Digital Circuits Project
+- [ ] Theory of Computation I
 
 ### Stage 4
 
-- [ ] Computers Organization
-- [ ] Human-Computer Interaction & User Experience
 - [ ] Linear Algebra
+- [ ] Human-Computer Interaction & User Experience
 - [ ] Project & Analysis of Algorithms II
 - [ ] Software Engineering
-- [ ] Theory of Computation II - Computability and Complexity
+- [ ] Theory of Computation II
+- [ ] Organization of Computers
 
 ### Stage 5
 
 - [ ] Artificial Intelligence
-- [ ] Computational Science
 - [ ] Computer Graphics & Visualization
 - [ ] Operating Systems
 - [ ] Project in Science & Innovation
-- [ ] Software Engineering
+- [ ] Numerical Calculus
 
 ### Stage 6
 
-- [ ] Computer Networks
+- [ ] Computer Networks & Internet
 - [ ] Images Processing & Computer Vision
 - [ ] Machine Learning
 - [ ] Parallel Programming
@@ -78,12 +77,15 @@
 - [ ] Distributed and Fault-tolerant Systems
 - [ ] Natural Language Processing
 - [ ] Programming Languages II
-- [ ] Project & Analysis of Algorithms III
-- [ ] Security of Systems and Information
+- [ ] Combinatorial Optimization
+- [ ] Cybersecurity
 
 ### Stage 8
 
-- [ ] Integrator Project
+- [ ] Integrator Project in Computing
+
+### Stage 9
+- [ ] Final Course Project
 
 ### Electives
 
