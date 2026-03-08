@@ -2,9 +2,19 @@
 using namespace std;
 
 int main(void) {
-    set<int> v = {1, 3, 5, 0, -1};
+    map<string, vector<string>> propPrefs = {
+        {"Atlanta", {"Wayne", "Val", "Yolanda", "Zeus", "Xavier"}},
+        {"Boston", {"Yolanda", "Wayne", "Val", "Xavier", "Zeus"}},
+        {"Chicago", {"Wayne", "Zeus", "Xavier", "Yolanda", "Val"}},
+        {"Detroit", {"Val", "Yolanda", "Xavier", "Wayne", "Zeus"}},
+        {"El Paso", {"Wayne", "Yolanda", "Val", "Zeus", "Xavier"}}
+    };
 
-    auto it = min_element(v.begin(), v.end());
-
-    cout << *it << "\n";
+    map<string, vector<string>> recPrefs = {
+        {"Val", {"El Paso", "Atlanta", "Boston", "Detroit", "Chicago"}},
+        {"Wayne", {"Chicago", "Boston", "Detroit", "Atlanta", "El Paso"}},
+        {"Xavier", {"Boston", "Chicago", "Detroit", "El Paso", "Atlanta"}},
+        {"Yolanda", {"Atlanta", "El Paso", "Detroit", "Chicago", "Boston"}},
+        {"Zeus", {"Detroit", "Boston", "El Paso", "Chicago", "Atlanta"}}
+    };
 }
