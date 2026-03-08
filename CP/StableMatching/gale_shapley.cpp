@@ -31,8 +31,10 @@ map<string, string> gs(map<string, vector<string>> propPrefs, map<string, vector
         nextProposerIndex.insert(mp(prop, 0));
     }
 
+    // Final output matches.
     map<string, string> matches;
 
+    // While there are proposers that are free.
     while(!freeProps.empty()) {
         // Remove the first proposer.
         string proposer = freeProps.front(); freeProps.pop_front();
