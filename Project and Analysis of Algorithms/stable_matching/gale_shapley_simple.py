@@ -35,7 +35,7 @@ if __name__ == "__main__":
         "Wayne": ["Chicago", "Boston", "Detroit", "Atlanta", "El Paso"],
         "Xavier": ["Boston", "Chicago", "Detroit", "El Paso", "Atlanta"],
         "Yolanda": ["Atlanta", "El Paso", "Detroit", "Chicago", "Boston"],
-        "El Zeus": ["Detroit", "Boston", "El Paso", "Chicago", "Atlanta"]
+        "Zeus": ["Detroit", "Boston", "El Paso", "Chicago", "Atlanta"]
     }
 
     result: set[tuple] = gale_shepley(p_prefs=p_prefs, r_prefs=r_prefs)
