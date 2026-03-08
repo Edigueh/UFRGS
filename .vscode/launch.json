@@ -1,20 +1,13 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug C Project (Dynamic)",
-            "type": "cppdbg",
-            "request": "launch",
-            // Aponta para o executável 'main' que nossa task gerou
-            "program": "${fileDirname}/main",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb",
-            // IMPORTANTE: Este nome deve ser IDÊNTICO ao label no tasks.json
-            "preLaunchTask": "C/C++: clang build all (dynamic)"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/i743290/UFRGS/Project_and_Analysis_of_Algorithms/stable_matching",
+      "program": "/Users/i743290/UFRGS/Project_and_Analysis_of_Algorithms/stable_matching/build/Debug/outDebug"
+    }
+  ]
 }
