@@ -3,7 +3,8 @@
   "code-runner.saveFileBeforeRun": true,
   "code-runner.clearPreviousOutput": true,
   "code-runner.executorMap": {
-    "c": "cd $dir && clang -std=c17 $(find . -name \"*.c\") -I./include -I../include -o main && ./main"
+    "c": "cd $dir && clang -std=c17 $(find . -name \"*.c\") -I./include -I../include -o main && ./main",
+    "cpp": "cd $dir && g++ -std=c++17 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cleanFolder": "",

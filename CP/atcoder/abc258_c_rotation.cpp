@@ -32,7 +32,7 @@ void solve() {
             default: break;
         }
     }
-} 
+}
 
 int main(void) {
     ios::sync_with_stdio(false);
