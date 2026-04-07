@@ -4,6 +4,7 @@ using namespace std;
 void adj_list_to_adj_matrix(unordered_map<int, vector<int>> adj, vector<vector<int>> *matrix) {
     for(auto const&[node, neighbours] : adj) {
         for (int neighbour : neighbours) {
+            // Pointer dereference fix.
             (*matrix)[node][neighbour] = 1;
         }
     }
