@@ -45,7 +45,8 @@
   "C_Cpp_Runner.warningsAsError": false,
   "C_Cpp_Runner.compilerArgs": [
     "-Wno-sign-compare",
-    "-Wno-sign-conversion"
+    "-Wno-sign-conversion",
+    "-Wno-c++17-extensions"
   ],
   "C_Cpp_Runner.linkerArgs": [],
   "C_Cpp_Runner.includePaths": [],
