@@ -2,16 +2,6 @@
 
 #define antecessorTree(type) map<type, type>
 
-
-// initVisited maps all nodes as unvisited.
-visitedMap(string) initVisited(adjacencyMap(string) graph) {
-    visitedMap(string) visited;
-    for (auto const&[node, neighbous] : graph) {
-        visited[node] = false;
-    }
-    return visited;
-}
-
 // Iterative depth first search from the starting node using an iterative tree.
 // This returns a dict mapping each node to its parent in the search.
 antecessorTree(string) dfsIterTree(adjacencyMap(string) graph, string startNode) {

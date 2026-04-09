@@ -94,4 +94,14 @@ unordered_map<string, vector<string>> G7 = {
     {"H", {"I", "F"}},
     {"I", {"G"}},
 };
+
+// initVisited maps all nodes as unvisited.
+visitedMap(string) initVisited(adjacencyMap(string) graph) {
+    visitedMap(string) visited;
+    for (auto const&[node, neighbous] : graph) {
+        visited[node] = false;
+    }
+    return visited;
+}
+
 #endif

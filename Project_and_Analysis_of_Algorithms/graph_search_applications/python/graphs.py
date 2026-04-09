@@ -89,3 +89,7 @@ G7 = {
     "H": ["I", "F"],
     "I": ["G"],
 }
+
+def init_visited(graph: list[str, list[str]]) -> dict[str, bool]:
+    """Maps all nodes as unvisited."""
+    return {node: False for node in graph.keys()}

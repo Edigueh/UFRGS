@@ -1,14 +1,5 @@
 #include "graphs.h"
 
-// initVisited maps all nodes as unvisited.
-visitedMap(string) initVisited(adjacencyMap(string) graph) {
-    visitedMap(string) visited;
-    for (auto const&[node, neighbous] : graph) {
-        visited[node] = false;
-    }
-    return visited;
-}
-
 // Iterative depth first search from the starting node using a queue.
 void dfs(adjacencyMap(string) graph, string startNode, visitedMap(string) visited) {
     stack<string> q;

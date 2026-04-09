@@ -1,14 +1,5 @@
 #include "graphs.h"
 
-// initVisited maps all nodes as unvisited.
-visitedMap(string) initVisited(adjacencyMap(string) graph) {
-    visitedMap(string) visited;
-    for (auto const&[node, neighbous] : graph) {
-        visited[node] = false;
-    }
-    return visited;
-}
-
 // Iterative breadth first search from the starting node using a queue.
 void bfs(adjacencyMap(string) graph, string startNode, visitedMap(string) visited) {
     queue<string> q;
