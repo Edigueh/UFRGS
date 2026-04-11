@@ -3,13 +3,13 @@
 
 #include <bits/stdc++.h>
 
-#define adjacencyMap(type) unordered_map<type, vector<type>>
-#define visitedMap(type) unordered_map<type, bool>
+#define adjacencyMap(type) map<type, vector<type>>
+#define visitedMap(type) map<type, bool>
 
 using namespace std;
 
 // Acyclic digraph
-unordered_map<string, vector<string>> G1 = {
+map<string, vector<string>> G1 = {
     {"A", {"B", "E"}},
     {"B", {"E", "F"}},
     {"C", {"D"}},
@@ -20,7 +20,7 @@ unordered_map<string, vector<string>> G1 = {
 };
 
 // Simple graph (cyclic, not bipartite, three connected components)
-unordered_map<string, vector<string>> G2 = {
+map<string, vector<string>> G2 = {
     {"A", {"B"}},
     {"B", {"A", "D", "E"}},
     {"C", {}},
@@ -32,7 +32,7 @@ unordered_map<string, vector<string>> G2 = {
 };
 
 // Digraph (cyclic)
-unordered_map<string, vector<string>> G3 = {
+map<string, vector<string>> G3 = {
     {"A", {"B", "E"}},
     {"B", {"E"}},
     {"C", {"D"}},
@@ -43,7 +43,7 @@ unordered_map<string, vector<string>> G3 = {
 };
 
 // Digraph (cyclic, four strongly connected components)
-unordered_map<int, vector<int>> G4 = {
+map<int, vector<int>> G4 = {
     {1, {3}},
     {2, {4, 10}},
     {3, {5, 11}},
@@ -58,7 +58,7 @@ unordered_map<int, vector<int>> G4 = {
 };
 
 // Digraph (acyclic)
-unordered_map<string, vector<string>> G5 = {
+map<string, vector<string>> G5 = {
     {"A", {"B"}},
     {"B", {"C", "F"}},
     {"C", {"D"}},
@@ -71,7 +71,7 @@ unordered_map<string, vector<string>> G5 = {
 };
 
 // Simple graph (cube, bipartite, connected)
-unordered_map<string, vector<string>> G6 = {
+map<string, vector<string>> G6 = {
     {"000", {"100", "010", "001"}},
     {"001", {"101", "011", "000"}},
     {"010", {"110", "000", "011"}},
@@ -83,7 +83,7 @@ unordered_map<string, vector<string>> G6 = {
 };
 
 // Digraph (cyclic)
-unordered_map<string, vector<string>> G7 = {
+map<string, vector<string>> G7 = {
     {"A", {"B"}},
     {"B", {"C", "F"}},
     {"C", {"D"}},
