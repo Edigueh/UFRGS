@@ -33,7 +33,34 @@ vector<string> topoSortKahn(adjacencyMap(string) g) {
     return order;
 }
 
+void dfsRec(adjacencyMap(string) g, string startNode, visitedMap(string) &visited, vector<string> &order) {
+    visited[startNode] = true;
+    for (string neighbour : g[startNode]) {
+        if (!visited[neighbour]) {
+            dfsRec(g, neighbour, visited, order);
+        }
+    }
+    order.push_back(startNode);
+}
+
+// Topological sorting using DFS.
+vector<string> dfsTopoSort(adjacencyMap(string) g){
+    visitedMap(string) visited = initVisited(g);
+    vector<string> order = {};
+
+    for (auto const&[node, _] : g) {
+        if (!visited[node]) {
+            dfsRec(g, node, visited, order);
+        }
+    }
+
+    reverse(order.begin(), order.end());
+    return order;
+}
+
 int main(void) {
     for (string node : topoSortKahn(G1)) cout << node << "\n";
+    cout << "--------------\n";
+    for (string node : dfsTopoSort(G1)) cout << node << "\n";
     return EXIT_SUCCESS;
 }

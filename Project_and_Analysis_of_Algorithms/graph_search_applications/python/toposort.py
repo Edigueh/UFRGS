@@ -1,4 +1,4 @@
-from graphs import G1
+from graphs import G1, init_visited
 from collections import deque
 
 def toposort_kahn(g: dict[str, list[str]]) -> list[str]:
@@ -26,11 +26,32 @@ def toposort_kahn(g: dict[str, list[str]]) -> list[str]:
 
     return order
 
-    
+
+def dfs_toposort(g: dict[str, list[str]]) -> list[str]:
+    """DFS topological sort."""
+    visited: dict[str, bool] = init_visited(g)
+    order: list[str] = []
+
+    def dfs_rec(g: dict[str, list[str]], start_node: str, visited: dict[str, bool], order: list[str]):
+        visited[start_node] = True
+        for neighbour in g[start_node]:
+            if not visited[neighbour]:
+                dfs_rec(g, neighbour, visited, order)
+        order.append(start_node)
+
+    for node in g.keys():
+        if not visited[node]:
+            dfs_rec(g, node, visited, order)
+
+    order.reverse()
+    return order
 
 
 def main():
     print(toposort_kahn(G1))
+    print("--------------")
+    print(dfs_toposort(G1))
+
 
 if __name__ == "__main__":
     main()
