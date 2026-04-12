@@ -1,4 +1,4 @@
-from graphs import G1, init_visited
+from graphs import G1, G4, init_visited
 from collections import deque
 
 def toposort_kahn(g: dict[str, list[str]]) -> list[str]:
@@ -50,7 +50,7 @@ def dfs_toposort(g: dict[str, list[str]]) -> list[str]:
 def main():
     print(toposort_kahn(G1))
     print("--------------")
-    print(dfs_toposort(G1))
+    print(dfs_toposort(G4))
 
 
 if __name__ == "__main__":
