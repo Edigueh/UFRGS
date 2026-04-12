@@ -2,7 +2,7 @@ from graphs import G1, G4, init_visited
 from collections import deque
 
 def toposort_kahn(g: dict[str, list[str]]) -> list[str]:
-    """Topological sort for DAGs using BGS (Kahn algorithm)."""
+    """Topological sort for DAGs using BFS (Kahn algorithm)."""
     in_deg: dict[str, int] = {node: 0 for node in g.keys()} # Input degrees.
 
     for node in g.keys():
