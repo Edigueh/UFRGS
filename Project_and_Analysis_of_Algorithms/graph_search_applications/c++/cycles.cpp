@@ -26,7 +26,7 @@ vector<string> topoSortKahn(adjacencyMap(string) g) {
     
     //Output nodes order.
     vector<string> order;
-    
+
     // Inits q with nodes with input degree equals 0.
     for(auto const&[node, _] : g) {
         if (inDeg[node] == 0) q.push(node);
