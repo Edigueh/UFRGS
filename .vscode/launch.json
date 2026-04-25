@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/i743290/UFRGS/Project_and_Analysis_of_Algorithms/stable_matching",
-      "program": "/Users/i743290/UFRGS/Project_and_Analysis_of_Algorithms/stable_matching/build/Debug/outDebug"
+      "cwd": "/Users/i743290/UFRGS/CP/lpc_training",
+      "program": "/Users/i743290/UFRGS/CP/lpc_training/build/Debug/outDebug"
     }
   ]
 }
