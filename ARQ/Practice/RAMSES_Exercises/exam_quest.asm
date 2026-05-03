@@ -16,6 +16,6 @@ ORG 0
     ADD A,ev
     STR A,LOAD+1
 LOAD:
-    LDR A,0 ; '0' será substituído porm m + ev
+    LDR A,0 ; '0' será substituído por m + ev
 FIM:
     HLT
