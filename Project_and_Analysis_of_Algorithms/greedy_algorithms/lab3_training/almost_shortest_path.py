@@ -1,7 +1,10 @@
 from typing import Dict, Hashable, List, Tuple, Optional
 import heapq
+import sys
 
-Weight = float
+input = sys.stdin.readline
+
+Weight = int
 Node = Hashable
 Graph = Dict[Node, List[Tuple[Node, Weight]]]
 
@@ -41,12 +44,12 @@ def dijkstra(graph: Graph, source: Node) -> Tuple[Dict[Node, Weight], Dict[Node,
     for _, neighbours in graph.items():
         for neighbour, _ in neighbours:
             nodes.add(neighbour)
-    dist: Dict[Node, Weight] = {node: float("inf") for node in nodes}
+    dist: Dict[Node, Weight] = {node: sys.maxsize for node in nodes}
     parent: Dict[Node, Optional[Node]] = {node: None for node in nodes}
-    dist[source] = 0.0
+    dist[source] = 0
 
     # Min-heap of (distance, node).
-    heap: List[Tuple[Weight, Node]] = [(0.0, source)]
+    heap: List[Tuple[Weight, Node]] = [(0, source)]
     heapq.heapify(heap)
 
     visited = set()
@@ -76,55 +79,63 @@ def dijkstra(graph: Graph, source: Node) -> Tuple[Dict[Node, Weight], Dict[Node,
     return dist, parent
 
 
-def reconstruct_path(parent: Dict[Node, Optional[Node]], dist: Dict[Node, Weight], target: Node) -> List[Node]:
+def remove_edges_in_shortest_paths(
+        graph: Graph,
+        dest: Node, 
+        dist_from_src: Tuple[Dict[Node, Weight]],
+        dist_from_dest: Tuple[Dict[Node, Weight]]
+) -> Graph:
+    new_graph: Graph = {}
+    for u, neighbours in graph.items():
+        new_graph[u] = [
+            (v, w) for v, w in neighbours
+            if dist_from_src[u] + w + dist_from_dest[v] != dist_from_src[dest]
+        ]
+
+    return new_graph
+
+
+def reverse_graph(graph: Graph) -> Graph:
+    reversed_graph: Graph = {node: [] for node in graph}
+    for u, neighbours in graph.items():
+        for v, w in neighbours:
+            reversed_graph[v].append((u,w))
+    return reversed_graph
+
+
+def solve(n: int, m: int):
     """
-    Reconstructs the path to 'target' using 'parent'.
-    Returns [] if 'target' is unreachable.
+    Solution Idea
+
+    1. Run Dijkstra from S — compute dist_from_S[v] for all vertices.
+    2. Run Dijkstra from D on the reversed graph — compute dist_from_D[v] (i.e., shortest distance from any node to D in the original graph).
+    3. Mark and remove edges on shortest paths — An edge (u, v, w) belongs to a shortest path from S to D if:
+    dist_from_S[u] + w + dist_from_D[v] == dist_from_S[D]
+    3. Remove (or ignore) all such edges.
+    4. Run Dijkstra from S again on the remaining graph — the answer is the new dist[D]. If D is unreachable, output -1.
     """
-    # Unreachable (and not the source) if distance is inf
-    if dist.get(target, float('inf')) == float('inf'):
-        return []
+    graph: Graph = {}
+    graph = {node: [] for node in range(n)}
+    src, dest = map(int, input().split())
+    for i in range(m):
+        u, v, p = map(int, input().split())
+        graph[u].append((v,p))
 
-    path: List[Node] = []
-    cur: Optional[Node] = target
-    while cur is not None:
-        path.append(cur)
-        cur = parent[cur]
-    path.reverse()
-    return path
+    dist_from_src, _ = dijkstra(graph=graph, source=src)
+    dist_from_dest, _ = dijkstra(graph=reverse_graph(graph), source=dest)
+
+    graph = remove_edges_in_shortest_paths(graph, dest, dist_from_src, dist_from_dest)
+
+    almost_shortest_dist_from_src, _ = dijkstra(graph=graph, source=src)
+
+    ans: int = almost_shortest_dist_from_src[dest]
+    
+    print(ans if ans != sys.maxsize else -1)
 
 
-if __name__ == "__main__":
-    # Directed example
-    if False:
-        G = {
-            's': [('a', 1), ('b', 4)],
-            'a': [('b', 2), ('c', 5)],
-            'b': [('c', 1)],
-            'c': []
-        }
-        dist, parent = dijkstra(G, 's')
-        print("dist:", dist)
-        print("parent:", parent)
-        print("caminho s->c:", reconstruct_path(parent, dist, 'c'))
-        print('\n\n\n')
-
-    if True:
-        GExemp = {
-            'S': [('A', 1), ('B', 3)],
-            'A': [('S', 1), ('D', 5), ('C', 4)],
-            'B': [('S', 3), ('D', 4), ('C', 1)],
-            'C': [('B', 1), ('A', 4), ('E', 6)],
-            'D': [('A', 5), ('B', 4), ('E', 2)],
-            'E': [('D', 2), ('C', 6)],
-            'F': [],
-        }
-
-        print("graph:", GExemp)
-        dist, parent = dijkstra(GExemp, 'S')
-        print("dist:", dist)
-        print("parent:", parent)
-        print("caminho S->E:", reconstruct_path(parent, dist, 'E'))
-        print("caminho S->S:", reconstruct_path(parent, dist, 'S'))
-        print("caminho S->F:", reconstruct_path(parent, dist, 'F'))
-        print('\n\n\n')
+if __name__== "__main__":
+    while True:
+        n, m = map(int, input().split())
+        if n == 0 and m == 0:
+            break
+        solve(n, m)
