@@ -1,15 +1,27 @@
+"""
+Brief: Soma de Subconjuntos
+Author: André Schaidhauer Luckmann
+Matricula: 00601117
+Date: 07/05/2026
+"""
 import sys
 
 def menor_soma_nao_formavel(v):
-    # [1], [2], [5], [1, 2], [1, 5], [2, 5], [1, 2, 5] = 1,1,1,1,2,2,2,2,5,5,5,5 -> 
-    # [1] = 1 -> 2: soma + 1
-    # [2] = 2 -> 1: x > soma + 1
-    soma = 0
+    """
+    Ordena o vetor e mantém 'soma' = maior valor formável contiguamente a partir de 1.
+
+      Todo valor em [1, soma] é formável por algum subconjunto dos
+      elementos já processados. Quando um elemento x quebra a condição (x > soma + 1), nenhum
+      subconjunto dos elementos restantes (todos >= x) pode preencher o gap, pois qualquer
+      subconjunto que os inclua soma pelo menos x > soma + 1. Logo, soma + 1 é globalmente
+      não formável e, por ser o menor inteiro fora do alcance, é a resposta.
+    """
     v.sort()
-    for i in v:
-        if i > soma + 1:
+    soma = 0
+    for x in v:
+        if x > soma + 1: # gap encontrado: soma + 1 não é formável
             break
-        soma += i
+        soma += x # expande o alcance de somas formáveis para [1, soma + x]
     return soma + 1
 
 
