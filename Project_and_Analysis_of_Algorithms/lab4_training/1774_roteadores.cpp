@@ -9,7 +9,10 @@ using namespace std;
 
 struct DSU {
     vector<int> parent, rnk;
+    // init parent with size n+1
+    // init rnk with size n+1 filled with 0
     DSU(int n) : parent(n + 1), rnk(n + 1, 0) {
+        // fill all parent with 0...n
         iota(parent.begin(), parent.end(), 0);
     }
     int find(int x) {
@@ -49,6 +52,7 @@ int main() {
         int used = 0;
         for (auto& e : edges) {
             int p, u, v;
+            // tie is used to unpack the edges tuple into three variables.
             tie(p, u, v) = e;
             if (dsu.unite(u, v)) {
                 total += p;
