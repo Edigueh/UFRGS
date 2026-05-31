@@ -1,4 +1,3 @@
-# Lê as entradas
 ax1, ay1, ax2, ay2, bx1, by1, bx2, by2 = map(int, input().split())
 
 area_a = (ax2 - ax1) * (ay2 - ay1)
