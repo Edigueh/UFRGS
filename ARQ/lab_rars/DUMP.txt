@@ -1,0 +1,8 @@
+Address     Code        Basic                        Line Source
+
+0x00400000  0x100101b7  lui x3,0x00010010            8    lui	gp, 0x10010	# Inicializa gp com o endereço da página.
+0x00400004  0x0001a283  lw x5,0(x3)                  9    lw	t0, 0(gp)	# t0 = Mem(first)
+0x00400008  0x0041a303  lw x6,4(x3)                  10   lw	t1, 4(gp)	# t1 = Mem(second)
+0x0040000c  0x006282b3  add x5,x5,x6                 11   add	t0, t0, t1	# t0 = t0 + t1
+0x00400010  0x0051a423  sw x5,8(x3)                  12   sw	t0, 8(gp)	# Mem(res) = t0
+0x00400014  0x00100073  ebreak                       14   ebreak

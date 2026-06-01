@@ -1,0 +1,34 @@
+Na aba “RISCV”, quantas e quais são as abas que estão abertas?
+    1. Basic Instructions;
+    2. Extended (pseudo) Instructions;
+    3. Directives;
+    4. Syscalls;
+    5. Exceptions;
+    6. Macros.
+
+Conforme a descrição que aparece nesta aba, e usando as suas palavras, qual é a função das seguintes
+diretivas: .data, .space, .text e .word?
+    - .data: Define uma área para que possamos escrever dados subsequentes na memória, no segmento de Dados, no próximo endereço disponível.
+    - .space: Reserva um número de bytes especificado no segmento de Dados.
+    - .text: Define uma área para que possamos escrever instruções subsequentes na memória, no segmento de Texto, no próximo endereço disponível.
+    - .word: Armazena os valores listados como palavras de 32 bits na região de palavras.
+
+Liste as janelas/recursos que estão descritos nesta aba “IDE” e escreva um resumo de uma linha da descrição que aparece nesta aba, para cada janela/recurso:
+    - Menus and Toolbar;
+        Resumo: É um menu com as ferramentas disponíveis e seus ícones em uma determinada situação.
+    - Editor;
+        Resumo: É um editor de texto para que possamos escrever e editar o código em Assembly que será executado no RARS. Possui syntax-color highlights e completes.
+    - Message Areas;
+        Resumo: É uma área para exibir mensagens relacionadas ao código que está sendo simulado, como: console output, console input, pop-up dialog,
+        assembly ou runtime errors, e mensagens de erro gerais.
+    - Registers;
+        Resumo: É um painel que é exibido o tempo todo e exibe o nome, número e valor de cada registrador que está disponível para uso pelo programa.
+    - Assembly;
+        Resumo: É um menu que é usado para configurar e executar a montagem do programa criado na Editor.
+    - Execution;
+        Resumo: É um menu que permite executar e simular o programa que foi montado pelo Assembly, atualizando os valores dos registradores em Register.
+    - Labels Window.
+        Resumo: É um painel que exibe e indica a relação entre os rótulos que foram usados na montagem para a sua representação real no simulador em sua montagem.
+
+
+

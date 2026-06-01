@@ -1,0 +1,27 @@
+Analise o programa e identifique o seguinte:
+    ○ Qual a função da linha “la sp, stack”?
+        - É inicializar o registrador sp com o endereço do rótulo `stack`. Que começa logo após o segmento de .data.
+    ○ Qual o número de bytes previsto para a área de pilha?
+        - 256 bytes.
+
+Sobre a “rotina”, identifique o seguinte:
+    ○ Qual a função geral da “rotina”?
+        - Calcula recursivamente o fatorial do valor recebido em a0 (a0!).
+    ○ Qual a forma de passagem de parâmetros para a “rotina”?
+        - O parâmetro de entrada é passado em a0.
+    ○ A “rotina” tem valor de retorno? Onde é feito este retorno?
+        - Sim. O valor de retorno é colocado no registrador a0.
+    ○ Afirma-se que a “rotina” utiliza a pilha. Então, pergunta-se:
+        ■ Quantos bytes são ocupados cada vez que a “rotina” é chamada?
+            - 8 bytes por chamada, conforme definido em `.eqv nparam, 8`. Cada frame guarda dois words (4 bytes cada).
+        ■ Quais informações são salvas e onde são salvas?
+            - ra é salvo em 0(sp): necessário porque a chamada recursiva `jal rotina` sobrescreve ra.
+            - a0 é salvo em 4(sp): necessário porque a chamada recursiva altera a0, mas seu valor original é usado depois em
+            `mul a0, a0, a1` para compor o resultado do fatorial.
+    ○ Quais as funções do “entry code” e do “exit code”
+        - Entry code: aloca o stack frame decrementando sp em nparam e salva na pilha os registradores que a rotina
+        irá modificar (ra e a0). Garante que o estado do chamador seja preservado durante a execução da rotina, em especial nas
+        chamadas recursivas.
+        - Exit code: restaura ra a partir da pilha (`lw ra,0(sp)`), libera o stack frame incrementando sp em nparam e
+        retorna ao chamador com `ret`. Deixa a pilha no mesmo estado de antes da chamada e devolve o controle ao endereço de retorno
+        original.
