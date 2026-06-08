@@ -1,0 +1,429 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+
+\usepackage{amsmath, amsthm, amssymb}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{enumitem}
+
+\geometry{margin=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle={Relatório Técnico - INF05027 Trabalho Final},
+    pdfauthor={André Schaidhauer Luckmann}
+}
+
+\newtheorem{lemma}{Lema}
+\newtheorem{theorem}{Teorema}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red!70!black},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    language=Python
+}
+
+\title{Relatório Trabalho Final \\ \large INF05027 - Projeto e Análise de Algoritmos I \\ Turma B \\ Trabalho Final}
+\author{André Schaidhauer Luckmann \\ Cartão UFRGS: \texttt{00601117}}
+\date{Junho de 2026}
+
+\begin{document}
+
+\maketitle
+
+\vspace{1em}
+
+\tableofcontents
+
+\vspace{2em}
+
+\section{Introdução}
+
+Este relatório descreve as soluções desenvolvidas para o trabalho final da
+disciplina de \textbf{Projeto e Análise de Algoritmos I}, cujo
+objetivo é consolidar os estudos de algoritmos sobre grafos por meio da
+implementação e análise de soluções para dois problemas na plataforma Beecrowd:
+
+\begin{itemize}
+    \item \textbf{Problema 1:} \emph{O Rato no Labirinto}
+    (\url{https://judge.beecrowd.com/pt/problems/view/1799}).
+    \item \textbf{Problema 2:} \emph{Ir e Vir}
+    (\url{https://judge.beecrowd.com/pt/problems/view/1128}).
+\end{itemize}
+
+A linguagem escolhida para ambas as implementações foi \textbf{Python}
+por já ser utilizada como linguagem principal da disciplina, possuindo vários templates de código que estudamos e por ser uma linguagem intuitiva que oferece bibliotecas com diversas estruturas de dados completas. Além disso, o autor (André) já possuía experiência e familiaridade com \textbf{Python}.
+
+\section{Problema 1: O Rato no Labirinto}
+
+\subsection{Descrição do Problema}
+
+O ratinho IBO deve atravessar um
+labirinto representado como um grafo não-direcionado. Ele parte de um vértice
+rotulado \texttt{Entrada}, deve obrigatoriamente passar pelo vértice que
+contém o \texttt{queijo}, identificado pelo caractere \texttt{*}, e
+terminar no vértice \texttt{Saida}. IBO deve seguir
+sempre o caminho mais curto em seus trajetos. Caso seja necessário passar por um mesmo
+ponto duas vezes (uma indo até o queijo, outra voltando até a saída), \emph{cada
+visita é contada separadamente}.
+
+Dada a descrição do labirinto na entrada (número de pontos, número de
+ligações e a lista de pares de vértices ligados), o objetivo é imprimir
+o número mínimo de pontos pelos quais IBO passa para cumprir a tarefa.
+
+\subsection{Estratégia da Solução}
+
+\paragraph{Modelagem.} O labirinto é representado como um grafo
+não-direcionado $G=(V,E)$, em que $V$ é o conjunto de pontos rotulados
+do labirinto (palavras compostas apenas por letras, como \texttt{A},
+\texttt{F}, \texttt{Entrada}, \texttt{Saida}, e o queijo \texttt{*})
+e $E$ é o conjunto de ligações. As arestas do grafo não são valoradas, pois não é fornecida essa informação e estamos interessados na quantidade de pontos visitados (tamanho do caminho).
+
+\paragraph{Decomposição.} A observação central é que o caminho ótimo
+\texttt{Entrada} $\to \cdots \to *\to \cdots \to$ \texttt{Saida} pode
+ser decomposto em dois caminhos mínimos \emph{independentes}:
+
+\begin{enumerate}[label=(\alph*)]
+    \item caminho mínimo de \texttt{Entrada} até \texttt{*};
+    \item caminho mínimo de \texttt{*} até \texttt{Saida}.
+\end{enumerate}
+
+Como o problema explicita que cada visita conta separadamente, não há
+ganho em tentar reaproveitar trechos comuns: a soma dos comprimentos
+dos dois caminhos mínimos é justamente o número total mínimo de
+visitas, conforme demonstrado na Seção~\ref{sec:correcao1}.
+
+\paragraph{Algoritmo.} Aplica-se Busca em Largura (BFS) duas vezes:
+
+\begin{enumerate}
+    \item \texttt{bfs\_distance(graph, start\_node="Entrada", target\_node="*")}
+    \item \texttt{bfs\_distance(graph, start\_node="*", target\_node="Saida")}
+\end{enumerate}
+
+\noindent
+e a resposta é a soma dos dois valores retornados.
+
+\paragraph{Estruturas de dados.}
+\begin{itemize}
+    \item \texttt{graph: Dict[Node, List[Node]]} - grafo representado como lista de adjacências
+    usando um dicionário.
+    \item \texttt{collections.deque} - Double-ended queue, utilizado somente como fila de vértices a serem visitados.
+    \item \texttt{visited: Dict[Node, bool]} - controle de vértices
+    já visitados.
+    \item \texttt{distances: Dict[Node, int]} - distância (em número de arestas)
+    de cada vértice ao vértice de partida da busca em largura.
+\end{itemize}
+
+\paragraph{Justificativa de design.} A BFS é \emph{ótima} para encontrar
+caminhos mínimos em grafos não valorados, com custo linear no tamanho
+do grafo. O algoritmo de Dijkstra foi considerado inicialmente, mas teria um custo
+adicional desnecessário (heap). Como a busca em largura vai passando por "níveis" do grafo, ela é uma forma mais otimizada que a DFS caso o algoritmo de DFS entre em uma ramificação muito grande do grafo que não leve ao nodo desejado (pior caso).
+
+\subsection{Argumento de Correção}
+\label{sec:correcao1}
+
+\begin{lemma}[Corretude da BFS em grafos não valorados]
+\label{lem:bfs}
+A BFS, partindo de um vértice $s$, atribui a cada vértice $u$ alcançável
+exatamente a distância em arestas $d(s,u)$.
+\end{lemma}
+
+\begin{proof}[Esboço]
+Por indução sobre as camadas de descoberta. A camada $0$ é $\{s\}$,
+com $d=0$. Suponha que ao final do processamento da camada $k$ todos
+os vértices alcançáveis a distância exatamente $k$ tenham sido marcados
+e enfileirados com distância correta. Quando um vértice $v$ da camada
+$k$ é desenfileirado, examina-se cada vizinho $w \in N(v)$: se $w$
+ainda não está marcado, ele é colocado na fila com
+$\texttt{distances}[w] = \texttt{distances}[v] + 1 = k+1$. Como a fila
+obedece a lógica FIFO (First-In-First-Out) e somente vértices das camadas anteriores foram enfileirados
+antes, nenhum vértice cuja distância seja menor que $k+1$ poderia
+ainda estar não marcado. Logo, todos os vértices à distância $k+1$ são
+descobertos com a distância correta. Pela indução, a BFS é correta.
+\end{proof}
+
+\begin{lemma}[Decomposição]
+\label{lem:decomp}
+Seja $\mathrm{Opt}$ o número mínimo de pontos visitados em qualquer
+caminho \texttt{Entrada} $\to \cdots \to *\to \cdots \to$ \texttt{Saida}
+em $G$. Então
+\[
+    \mathrm{Opt} \;=\; d(\texttt{Entrada}, *) \;+\; d(*, \texttt{Saida}),
+\]
+onde $d(\cdot,\cdot)$ é a distância em arestas em $G$.
+\end{lemma}
+
+\begin{proof}[Esboço]
+\textbf{($\le$)} Sejam $P_1$ um caminho mínimo de \texttt{Entrada} a
+\texttt{*} (com $d(\texttt{Entrada},*)$ arestas, ou seja,
+$d(\texttt{Entrada},*) + 1$ vértices contados sem repetição), e $P_2$
+um caminho mínimo análogo de $*$ a \texttt{Saida}. A concatenação
+$P_1 \cdot P_2$ é um caminho válido para o problema, e como o
+enunciado conta a passagem por \texttt{*} duas vezes (uma vez ao final
+de $P_1$ e outra ao início de $P_2$), o número total de visitas é
+exatamente $|P_1| + |P_2| = d(\texttt{Entrada},*) + d(*,\texttt{Saida})$.
+Logo, $\mathrm{Opt} \le d(\texttt{Entrada},*) + d(*,\texttt{Saida})$.
+
+\textbf{($\ge$)} Reciprocamente, qualquer caminho válido $P$ pode ser
+particionado pela primeira ocorrência de \texttt{*} em sub-caminhos
+$P_1'$ (de \texttt{Entrada} a \texttt{*}) e $P_2'$ (de \texttt{*} a
+\texttt{Saida}). Cada um deles é um caminho em $G$, portanto
+$|P_1'| \ge d(\texttt{Entrada},*)$ e $|P_2'| \ge d(*,\texttt{Saida})$.
+Somando, o número total de visitas em $P$ é
+$\ge d(\texttt{Entrada},*) + d(*,\texttt{Saida})$. Em particular,
+$\mathrm{Opt} \ge d(\texttt{Entrada},*) + d(*,\texttt{Saida})$.
+
+Combinando as duas desigualdades, vale a igualdade.
+\end{proof}
+
+\paragraph{Validade da implementação.} As duas chamadas de
+\texttt{bfs\_distance} terminam, pois o grafo é finito e cada vértice
+é enfileirado no máximo uma vez (após a marcação). O resultado é
+sempre não-negativo. Caso o vértice-alvo seja inalcançável, a função
+retorna $-1$; o enunciado garante a existência dos caminhos, de modo
+que esse caso não ocorre nas instâncias do problema.
+
+\subsection{Análise de Complexidade}
+
+Dados os limites de Pontos ($4 \le Pontos \le 4000$) e Ligacoes ($4 \le Ligacoes \le 5000$), sejam $n = |V| \le 4000$ e $m = |E| \le 5000$. Analisa-se função a
+função:
+
+\begin{itemize}
+    \item \texttt{build\_graph\_from\_input}: lê $m$ linhas. Cada
+    inserção em \texttt{dict} e em \texttt{list} é $O(1)$ amortizado.
+    \textbf{Tempo:} $O(m)$. \textbf{Memória:} $O(n+m)$ (lista de
+    adjacências).
+    \item \texttt{bfs\_distance}: a inicialização de \texttt{visited}
+    e \texttt{distances} percorre todos os vértices, custando $O(n)$.
+    O laço principal enfileira cada vértice no máximo uma vez ($O(n)$)
+    e percorre cada aresta no máximo duas vezes (uma por extremidade), custando $O(m)$. \textbf{Tempo
+    total:} $O(n+m)$. \textbf{Memória adicional:} $O(n)$.
+    \item \texttt{main}: realiza duas chamadas independentes de BFS.
+    Custo total: $2 \cdot O(n+m) = O(n+m)$.
+\end{itemize}
+
+\paragraph{Resumo.} \textbf{Complexidade de tempo:} $O(n+m)$.
+\textbf{Complexidade de memória:} $O(n+m)$, dominada pela lista de
+adjacências.
+
+\subsection{Discussão}
+
+\begin{itemize}
+    \item \textbf{Dificuldades encontradas.} O ponto não-trivial foi
+    interpretar corretamente a regra de contagem de visitas: como cada
+    passagem por um ponto conta como uma visita independente, a
+    decomposição em duas BFS independentes torna-se ótima e simples.
+    Sem essa observação, é tentador buscar uma solução mais elaborada
+    que tente compartilhar trechos.
+
+    \item \textbf{Alternativas consideradas.}
+    \begin{itemize}
+        \item \emph{Dijkstra:} aplicável, mas com sobrecarga de fila
+        de prioridade desnecessária para arestas unitárias.
+        \item \emph{DFS:} não garante caminho mínimo, portanto
+        inadequada.
+    \end{itemize}
+
+    \item \textbf{Possíveis otimizações.}
+    \begin{itemize}
+        \item Encerrar a BFS no instante em que o vértice-alvo é
+        \emph{desenfileirado}, em vez de detectá-lo na inserção, é
+        uma refatoração equivalente em corretude e talvez mais
+        idiomática.
+    \end{itemize}
+
+    \item \textbf{Aprendizados.} A BFS pode ser vista como caso
+    particular de Dijkstra quando todas as arestas têm o mesmo peso.
+\end{itemize}
+
+\section{Problema 2: Ir e Vir}
+
+\subsection{Descrição do Problema}
+
+Em uma certa cidade, há $N$ interseções ligadas por ruas que podem ser
+de mão única ou mão dupla. Deseja-se verificar a propriedade de
+\emph{conexidade}: dadas quaisquer duas interseções $V$ e $W$, é
+possível viajar de $V$ para $W$ \emph{e} de $W$ para $V$.
+
+A entrada contém vários casos de teste que fornecem $N$, $M$, seguidos de
+$M$ linhas descrevendo $M$ ruas no formato $(V, W, P)$ onde $P=1$ indica via de mão única
+$V \to W$ e $P=2$ indica via de mão dupla $V \leftrightarrow W$. A
+sequência termina com uma linha contendo \texttt{N=0 e M=0}. Para cada
+caso, deve-se imprimir $1$ se a propriedade é satisfeita ou $0$ caso
+contrário.
+
+\subsection{Estratégia da Solução}
+
+\paragraph{Modelagem.} Cada caso de entrada é modelado como um dígrafo
+$G=(V,A)$. Uma rua de mão única $V \to W$ contribui com a aresta
+$(v,w)$ e uma rua de mão dupla $V \leftrightarrow W$ contribui com as duas arestas $(v,w)$ e $(w,v)$.
+A propriedade do enunciado ``ir de $V$ a $W$ e voltar de $W$ a
+$V$ para todo par'' é uma característica de 
+um componente fortemente conexo em um grafo. Desta forma, para resolver o problema, a interpretação foi de que deve-se verificar se $G$ é composto por um
+único componente fortemente conexo (SCC, Strongly-Connected-Component) que contém todos os
+vértices.
+
+\paragraph{Algoritmo.} Aplica-se o algoritmo
+\textbf{Kosaraju-Sharir} para encontrar os SCCs, com uma otimização:
+basta saber se há \emph{exatamente um} SCC. Portanto, ao detectar a
+necessidade de iniciar uma segunda busca DFS, o
+algoritmo retorna $0$ imediatamente.
+
+\paragraph{Etapas.}
+\begin{enumerate}
+    \item Construir o grafo invertido $G^T$
+    (\texttt{reverse\_graph}).
+    \item Executar uma DFS em $G^T$ produzindo a ordem reversa de
+    finalização (ordenação topológica via DFS recursivo, função
+    \texttt{dfs\_toposort}).
+    \item Executar uma DFS em $G$ visitando os vértices na ordem
+    obtida na etapa anterior pela função \texttt{dfs\_toposort}. Cada chamada de DFS a partir de um vértice ainda não visitado descobre exatamente um SCC.
+    \item Contar quantas chamadas de DFS são necessárias para cobrir
+    todos os vértices: se for mais que uma, retornar $0$; caso
+    contrário, retornar $1$.
+\end{enumerate}
+
+\paragraph{Estruturas de dados.}
+\begin{itemize}
+    \item \texttt{graph: Dict[Node, List[Node]]} - grafo representado como lista de adjacências
+    usando um dicionário.
+    \item \texttt{rev\_g: Dict[Node, List[Node]]} - grafo inverso representado como lista de adjacências
+    usando um dicionário.
+    \item \texttt{visited: Dict[Node, bool]} - controle de vértices
+    já visitados.
+    \item \texttt{order: list[Node]} - lista com a ordem inversa de vértices visitados por DFS
+    em $G^T$.
+\end{itemize}
+
+\subsection{Argumento de Correção}
+
+\begin{theorem}[Kosaraju-Sharir]
+\label{teo:kosaraju}
+Os componentes fortemente conexos de um dígrafo $G$ são as árvores da floresta DFS executada em $G$ visitando-se os vértices
+na ordem inversa de visita da DFS feita em $G^T$.
+\end{theorem}
+
+\begin{proof}[Esboço]
+Seja $\mathrm{SCC}(G)$ o conjunto de SCCs de $G$ e considere o
+\emph{grafo de componentes} $\mathcal{C}(G)$, que é acíclico (DAG). A primeira DFS em
+$G^T$ visita os nodos em uma ordem determinada. A propriedade chave é: o último vértice
+a ser visitado na DFS em $G^T$ pertence a um
+SCC que é \emph{fonte} em $\mathcal{C}(G^T)$, e ao mesmo tempo é
+\emph{sumidouro} em $\mathcal{C}(G)$. Iniciando uma DFS em $G$ a
+partir desse vértice, descobrem-se exatamente os vértices do seu
+SCC, pois \emph{nenhuma aresta sai} desse SCC em $G$ para outros
+SCCs (por ele ser sumidouro em $\mathcal{C}(G)$). Por indução,
+removendo o SCC já descoberto, o argumento se repete para o próximo
+vértice de maior tempo de finalização ainda não visitado. Logo, cada
+chamada de DFS na fase final descobre exatamente um SCC.
+\end{proof}
+
+\paragraph{Adaptação à implementação.} O código aplica a
+ordenação topológica por DFS no grafo \emph{invertido}
+(\texttt{rev\_g}) e a DFS final no grafo \emph{original}
+(\texttt{graph}). Como $(G^T)^T = G$, a ordem produzida é
+equivalente à ordem inversa de visitação exigida
+pelo Teorema~\ref{teo:kosaraju}. Em particular, cada execução de
+\texttt{dfs(graph, root)} dentro do laço final descobre um único
+SCC de $G$.
+
+\paragraph{Critério de aceitação.} O dígrafo é fortemente conexo
+se, e somente se, $|\mathrm{SCC}(G)| = 1$, isto é, uma única
+chamada de DFS na fase final cobre todos os vértices. Na função
+\texttt{is\_connected}, o contador \texttt{connected\_components}
+é incrementado a cada nova raiz de DFS; quando uma segunda raiz
+seria iniciada, a função retorna $0$.
+
+\paragraph{Validade.} O grafo é finito e ambas as DFS terminam.
+A saída é sempre binária. O \emph{early-exit} não compromete a
+corretude, pois bastam dois SCCs distintos para que a resposta seja
+$0$.
+
+\subsection{Análise de Complexidade}
+
+Sejam $n = |V| \le 2000$ e $m = |A| \le n(n-1)/2$. Por caso de
+teste:
+
+\begin{itemize}
+    \item \texttt{build\_graph\_from\_input}: São lidas $m$ linhas, logo a complexidade de tempo é $O(m)$. Como o grafo é armazenado em memória como uma lista de adjacência usando um dicionário, o custo de memória é $O(n+m)$.
+    \item \texttt{reverse\_graph}: percorre cada par de (nodo, vizinho) uma vez ao construir as adjacências invertidas. $O(n+m)$ tempo
+    e $O(n+m)$ memória.
+    \item \texttt{dfs\_toposort}: a DFS clássica visita cada vértice
+    uma vez (custo $O(n)$) e cada aresta uma vez (custo $O(m)$);
+    a inversão de \texttt{order} ao final é $O(n)$. Complexidade de tempo total é $O(n+m)$. 
+    O dicionário \texttt{visited} requer memória adicional com custo $O(n)$.
+    \item \texttt{is\_connected}: além das chamadas acima, executa
+    no máximo uma DFS completa adicional. Pior caso $O(n+m)$.
+\end{itemize}
+
+\paragraph{Resumo por caso de teste:} \textbf{Tempo:} $O(n+m)$,
+\textbf{Memória:} $O(n+m)$.
+
+\paragraph{Custo total.} Para $t$ casos de teste, o custo total é
+$O\bigl(t \cdot (n+m)\bigr)$.
+
+\subsection{Discussão}
+
+\begin{itemize}
+    \item \textbf{Decisões.} A percepção mais
+    importante foi reconhecer que a propriedade ``viajar de $V$ a
+    $W$ e de $W$ a $V$ para todo par'' é uma característica de um componente fortemente conexo em um dígrafo. A partir disso, consultando os materiais de aula e \href{https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/graph_search.ipynb}{repositório no Github}, foi encontrado o algoritmo de Kosaraju-Sharir que encontra os SCCs de um dígrafo. Dessa forma, analisando o problema foi constatado que o programa deveria verificar se o dígrafo é um SCC que contém todos os nodos do dígrafo.
+
+    \item \textbf{Alternativas consideradas.} Inicialmente, havia pensado em realizar buscas DFS/BFS entre um nodo fonte e um nodo alvo, para todos os nodos do grafo, e caso não fosse possível satisfazer algum caminho, o programa deveria retornar $0$. Porém, essa alternativa provavelmente seria força bruta e ineficiente, resultando em uma complexidade de ordem cúbica $O(n^3)$.
+
+    \item \textbf{Possíveis otimizações.}
+    \begin{itemize}
+        \item Como o algoritmo apenas precisa saber se há um único
+        componente fortemente conexo, o contador 
+        \texttt{connected\_components} poderia ser
+        substituído por uma simples \texttt{flag} booleana.
+    \end{itemize}
+
+    \item \textbf{Aprendizados.} O algoritmo de Kosaraju-Sharir mostra como
+    a ordem de visitas da DFS no grafo transposto induz uma
+    ordem topológica do DAG de componentes. Também demonstra a
+    propriedade dos sumidouros do grafo de componentes: o SCC do
+    último vértice visitado em $G^T$ é um sumidouro
+    em $\mathcal{C}(G)$, do qual nenhuma aresta sai para outros
+    SCCs.
+\end{itemize}
+
+\section{Conclusão}
+
+Este trabalho consolidou conceitos centrais de algoritmos sobre
+grafos por meio da implementação de duas soluções para problemas
+de Grafos:
+
+\begin{itemize}
+    \item Para o problema \textbf{O Rato no Labirinto}, foi mostrado que o problema
+    de caminho mínimo passando obrigatoriamente por um vértice
+    intermediário pode ser decomposto em
+    duas BFSs independentes em um grafo não valorado, resultando em uma solução
+    linear no tamanho do grafo, com custo $O(n+m)$.
+
+    \item Para o problema \textbf{Ir e Vir}, foi aplicado o algoritmo
+    de Kosaraju-Sharir para verificar a quantidade de componentes fortemente conexos do
+    dígrafo, retornando $0$ em caso de detecção de mais de um componente fortemente conexo no dígrafo. A solução possui complexidade $O(n+m)$ por caso de teste.
+\end{itemize}
+
+Ambas as soluções respeitam os limites de entrada do
+juiz e foram aceitas pelo Beecrowd. Além do desenvolvimento de código correto, o exercício reforçou a importância de modelar adequadamente o problema (identificar se o grafo é direcionado ou não, peso das arestas, decomposição em sub-problemas) e de fornecer
+argumentos de correção formais e análise de complexidade.
+
+\end{document}

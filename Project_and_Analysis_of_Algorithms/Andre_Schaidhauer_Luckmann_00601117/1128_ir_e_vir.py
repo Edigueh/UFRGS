@@ -1,6 +1,6 @@
 """
     Autor: André Schaidhauer Luckmann
-    Data: 28/05/2026
+    Data: 08/06/2026
     Resumo: Beecrowd 1128 - Ir e Vir
     Descrição:
         Numa certa cidade há N intersecções ligadas por ruas de mão única e ruas com mão dupla de direcão. É uma cidade moderna,

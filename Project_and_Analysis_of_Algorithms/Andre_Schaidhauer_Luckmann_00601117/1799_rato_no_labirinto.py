@@ -1,6 +1,6 @@
 """
     Autor: André Schaidhauer Luckmann
-    Data: 28/05/2026
+    Data: 08/06/2026
     Resumo: Beecrowd 1799 - O Rato no Labirinto
     Descrição:
         Em 1942, um estudo feito por Robert Tryon concluiu que os traços genéticos frequentemente podem contribuir para o comportamento,
