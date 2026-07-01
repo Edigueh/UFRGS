@@ -1,0 +1,43 @@
+  Na sala, antes de receber enunciado:
+  1. Abrir RARS. Verificar simulador Keyboard And Display MMIO no menu Tools → mantenha aberto durante execução.
+  2. Abrir TEMPLATE.asm. F3 → zero erros. F5 → "TEMPLATE OK". Se falhar, chamar professor.
+  3. Salvar cópia: File → Save As → SOLUCAO.asm (nome que o Moodle pede).
+
+  Ao receber enunciado:
+  1. Ler enunciado 2×. Identificar quais primitivas usa:
+    - "ler número" → read_uint
+    - "imprimir número" → print_uint ou format2
+    - "imprimir mensagem" → print_str
+    - "temporização" → delay_ms ou timer ISR (install_timer_isr)
+    - "recursão" → modelo fatorial
+    - "limpar tela" / "cursor em (x,y)" → cls / poscur
+  2. Escrever pseudocódigo em papel (2-3 min). Marcar onde cada subrotina entra.
+
+  Escrever solução:
+  1. Editar somente main: — deixar biblioteca intacta abaixo.
+  2. Substituir corpo da demo (jal cls + hello) pela lógica do problema.
+  3. Reusar constantes do topo (não redefinir .eqv).
+  4. Se precisar variável nova → adicionar em .data antes de stack:.
+  5. Se precisar interrupção → chamar install_timer_isr ou install_kbd_isr no início do main, adicionar caso novo dentro de Trap_Timer ou Trap_Tec.
+
+  Loop de teste (F3/F5 muitas vezes):
+  1. F3 depois de cada bloco escrito. Erro de sintaxe caro se acumular.
+  2. Comum: csrw t0, csr (ordem rs,csr — não csr,rs); label não pode ter mesmo nome de .eqv; andi sign-estende imediato > 0x7FF; sw label, rd precisa temp: sw rd, label, tmp.
+  3. Antes de rodar com interrupção, F9 (single-step) primeiro para ver se cai no Trap corretamente.
+
+  Debug rápido:
+  - Aba Registers → confirmar a0/sp/ra em pontos suspeitos.
+  - Botão pause + F10 (step over) em jal para não entrar em subrotina se já testada.
+  - Se travar no polling MMIO: janela Keyboard/Display não está aberta.
+
+  Entrega:
+  1. F3 final → zero erros.
+  2. F5 → programa completa sem crash (ebreak sai limpo).
+  3. Comentar cada bloco não-óbvio: # calcula X, # chama Y com Z em a0. Prof cobra comentários.
+  4. Upload SOLUCAO.asm no Moodle antes do horário limite.
+
+  Regras "não fazer":
+  - Não apagar biblioteca abaixo do main mesmo se não usar tudo (só ocupa espaço).
+  - Não mudar csrw t0, utvec — ordem rs,csr é a que o RARS aceita neste código.
+  - Não usar 'X'+1 ou -'X' em imediato — literal numérico (58, -48).
+  - Não reusar nome de .eqv como label em .data.
