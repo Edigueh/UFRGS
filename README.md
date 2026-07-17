@@ -1,55 +1,37 @@
 # UFRGS Computer Science Curriculum
 
-## Academic Performance
-
-| Grade | Count | Courses |
-|-------|-------|---------|
-| A | 6 | 85.7% |
-| B | 1 | 14.3% |
-| C | 0 | 0% |
-| D | 0 | 0% |
-
-**Completed:** 8/45 courses | **Average:** 85.7% A Grades
-
-**Grading Scale:**
-
-- 🟢 **A** (Excellent): Grade ≥ 9.0
-- 🔵 **B** (Good): 7.5 ≤ Grade < 9.0
-- 🟡 **C** (Satisfactory): 6.0 ≤ Grade < 7.5
-- 🔴 **D** (Failed): Grade < 6.0
-
 ---
 
 ## Curriculum Progress
 
 ### Stage 1
 
-- [X] Algorithms and Programming 🟢 **A** (9.07)
-- [X] Calculus & Analytical Geometry I 🟢 **A** (9.65)
-- [X] Computational Thinking 🔵 **B** (8.52)
-- [X] Introduction to Computer Science 🟢 **A** (9.7)
-- [X] Program Logic and Correction 🟢 **A** (9.5)
+- [X] Algorithms and Programming
+- [X] Calculus & Analytical Geometry I
+- [X] Computational Thinking
+- [X] Introduction to Computer Science
+- [X] Program Logic and Correction
 
 ### Stage 2
 
-- [ ] Calculus & Analytical Geometry II 🔄
-- [ ] Computers Architecture 🔄
-- [X] Data Structures 🟢 **A** (9.5)
-- [X] Discrete Mathematics 🟢 **A** (9.6)
-- [ ] Probability & Statistics 🔄
+- [X] Calculus & Analytical Geometry II
+- [X] Computers Architecture
+- [X] Data Structures
+- [X] Discrete Mathematics
+- [X] Probability & Statistics
 - [X] Software Testing & Verification (Bypassed)
 
 ### Stage 3
 
-- [ ] Databases
-- [ ] Software Development
-- [ ] Project & Analysis of Algorithms I 🔄
+- [ ] Databases 🔄
+- [ ] Software Development 🔄
+- [X] Project & Analysis of Algorithms I
 - [ ] Digital Circuits Project
-- [ ] Theory of Computation I
+- [ ] Theory of Computation I 🔄
 
 ### Stage 4
 
-- [ ] Linear Algebra
+- [ ] Linear Algebra 🔄
 - [ ] Human-Computer Interaction & User Experience
 - [ ] Project & Analysis of Algorithms II
 - [ ] Software Engineering
