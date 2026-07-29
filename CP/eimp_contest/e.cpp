@@ -18,10 +18,7 @@ bool is_possible(int n, int m) {
     if (n < m || n % 3 != 0)
         return false;
 
-    if(is_possible((n/3) * 2, m) || is_possible(n/3, m))
-        return true;
-
-    return false;
+    return is_possible((n/3) * 2, m) || is_possible(n/3, m);
 }
 
 void solve() {
