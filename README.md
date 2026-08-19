@@ -26,12 +26,12 @@
 - [ ] Databases 🔄
 - [ ] Software Development 🔄
 - [X] Project & Analysis of Algorithms I
-- [ ] Digital Circuits Project
+- [ ] Digital Circuits Project 🔄
 - [ ] Theory of Computation I 🔄
 
 ### Stage 4
 
-- [ ] Linear Algebra 🔄
+- [ ] Linear Algebra
 - [ ] Human-Computer Interaction & User Experience
 - [ ] Project & Analysis of Algorithms II
 - [ ] Software Engineering
