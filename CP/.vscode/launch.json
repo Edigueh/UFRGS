@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/i743290/UFRGS/CP/seletiva_2026",
-      "program": "/Users/i743290/UFRGS/CP/seletiva_2026/build/Debug/outDebug"
+      "cwd": "/Users/i743290/UFRGS/CP/EasyProblems",
+      "program": "/Users/i743290/UFRGS/CP/EasyProblems/build/Debug/outDebug"
     }
   ]
 }
