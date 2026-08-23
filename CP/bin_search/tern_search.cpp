@@ -1,50 +1,64 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+#include <cmath>
+
 using namespace std;
 
-#define ll long long
-#define ar array
-#define pb push_back
-#define mp make_pair
-#define pii pair<int, int>
-#define F first
-#define S second
-#define all(x) x.begin(), x.end()
-#define loop(it, start, end) for(int it = start; it < end; it++)
+// Precision tolerance.
+const double EPSILON = 1e-7; 
 
-int a, b;
-const double eps = 1e-7;
-
-double v(double x) {
-    return (a - 2 * x) * (b - 3 * x)/2.0 * x;
+// Calculates the volume of the box given the initial dimensions and the cutout size.
+double calculateVolume(double sideA, double sideB, double cutoutSize) {
+    return (sideA - 2.0 * cutoutSize) * (sideB - 3.0 * cutoutSize) / 2.0 * cutoutSize;
 }
 
 void solve() {
-    cin >> a >> b;
-    double l = 0.0, r = min(a / 2.0, b / 3.0), ans = 0;
-    while(abs(r - l) > eps) {
-        double m1 = l + (r - l) / 3.0, // (2 * l + r) / 3;
-               m2 = r - (r - l) / 3.0; // (2 * r + l) / 3;
+    double sideA, sideB;
+    cin >> sideA >> sideB;
 
-        double f1 = v(m1), f2 = v(m2);
+    // The cutout size cannot be negative, and neither can the resulting sides of the box.
+    // Therefore, 2*x <= a (x <= a/2) and 3*x <= b (x <= b/3).
+    double leftBound = 0.0;
+    double rightBound = min(sideA / 2.0, sideB / 3.0); 
+    
+    double maxVolume = 0.0;
 
-        if(f1 >= f2) {
-            r = m2;
+    // Ternary search loop to find the peak of the unimodal volume function.
+    while (abs(rightBound - leftBound) > EPSILON) {
+        
+        // Divide the current search space into three equal parts.
+        double leftThird = leftBound + (rightBound - leftBound) / 3.0;
+        double rightThird = rightBound - (rightBound - leftBound) / 3.0;
+
+        // Calculate the volume at both one-third marks.
+        double volumeAtLeftThird = calculateVolume(sideA, sideB, leftThird);
+        double volumeAtRightThird = calculateVolume(sideA, sideB, rightThird);
+
+        // Narrow down the search space based on which volume is larger.
+        if (volumeAtLeftThird >= volumeAtRightThird) {
+            // The peak cannot be to the right of rightThird, discard the rightmost third.
+            rightBound = rightThird;
         } else {
-            l = m1;
+            // The peak cannot be to the left of leftThird, discard the leftmost third.
+            leftBound = leftThird;
         }
 
-        if(f1 >= f2) r = m2;
-        else l = m1;
-
-        ans = max({ans, f1, f2});
+        maxVolume = max({maxVolume, volumeAtLeftThird, volumeAtRightThird});
     }
+
     cout << fixed << setprecision(12);
-    cout << l << ' ' << ans << '\n';
+    
+    // At the end of the loop, leftBound and rightBound converge on the optimal cutout size.
+    cout << leftBound << ' ' << maxVolume << '\n';
 }
 
-int main(void) {
+int main() {
+    // Optimize standard I/O operations for performance in competitive programming
     ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(nullptr);
 
     solve();
+
+    return 0;
 }
