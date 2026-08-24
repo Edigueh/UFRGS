@@ -18,7 +18,8 @@
     "-Wcast-align",
     "-Wconversion",
     "-Wsign-conversion",
-    "-Wnull-dereference"
+    "-Wnull-dereference",
+    "-Wno-conversion"
   ],
   "C_Cpp_Runner.msvcWarnings": [
     "/W4",
