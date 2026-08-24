@@ -11,35 +11,39 @@ using namespace std;
 #define all(x) x.begin(), x.end()
 #define loop(it, start, end) for(int it = start; it < end; it++)
 
-int get_sum(vector<vector<int>> &graph, int src, int n) {
-    vector<bool> vis(n+1, false);
-    queue<int> q;
-    q.push(src);
+int n;
+vector<vector<int>> graph;
+vector<int> subtree_size;
+vector<ll> ans;
 
-    vector<int> dist(n+1);
-    dist[src] = 0;
+void calc_subtrees_sizes_from(int src, int parent, int depth) {
+    subtree_size[src] = 1;
+    ans[1] += depth;
 
-    while(!q.empty()) {
-        int cur = q.front(); q.pop();
-        vis[cur] = true;
-
-        for(int ngb : graph[cur]) {
-            if(!vis[ngb]) {
-                dist[ngb] = dist[cur] + 1;
-                q.push(ngb);
-            }
+    for(int ngb : graph[src]) {
+        if (ngb != parent) {
+           calc_subtrees_sizes_from(ngb, src, depth + 1);
+           subtree_size[src] += subtree_size[ngb];
         }
     }
+}
 
-    return accumulate(all(dist), 0);
+void reroot(int src, int parent) {
+    for(int ngb : graph[src]) {
+        if (ngb != parent) {
+            // Nós da sub-árvore de 'v' ficam mais perto: -subtree_size[v].
+            // O resto da árvore fica mais longe: + (n - subtree_size[v]).
+            ans[ngb] = ans[src] + n - 2LL * subtree_size[ngb];
+            reroot(ngb, src);
+        }
+    }
 }
 
 void solve() {
-    int n;
     cin >> n;
-    
-    vector<vector<int>> graph(n+1);
-
+    graph.assign(n + 1, vector<int>());
+    ans.assign(n + 1, 0);
+    subtree_size.assign(n + 1, 0);
     for (int i = 0; i < n-1; i++) {
         int node, ngb;
         cin >> node >> ngb;
@@ -47,7 +51,11 @@ void solve() {
         graph[ngb].push_back(node);
     }
 
-    for(int i = 1; i <= n; i++) cout << get_sum(graph, i, n) << ' ';
+    calc_subtrees_sizes_from(1, -1, 0);
+
+    reroot(1, -1);
+
+    for(int i = 1; i <= n; i++) cout << ans[i] << ' ';
     cout << endl;
 }
 
