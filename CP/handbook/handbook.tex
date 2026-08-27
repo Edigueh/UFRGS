@@ -1,0 +1,119 @@
+\documentclass[8pt,a4paper]{extarticle}
+\usepackage[margin=8mm]{geometry}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{needspace}
+
+\setlength{\columnsep}{5mm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\titleformat{\section}{\normalsize\bfseries}{\thesection}{0.4em}{}
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+\titleformat{\subsection}{\small\bfseries}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{4pt}{1pt}
+
+\definecolor{cmt}{RGB}{110,110,110}
+\definecolor{kw}{RGB}{0,60,140}
+\definecolor{str}{RGB}{140,40,40}
+
+\lstdefinestyle{cp}{
+  basicstyle=\ttfamily\fontsize{7pt}{7.6pt}\selectfont,
+  commentstyle=\color{cmt}\itshape,
+  keywordstyle=\color{kw}\bfseries,
+  stringstyle=\color{str},
+  breaklines=true,
+  breakatwhitespace=false,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space},
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  tabsize=2,
+  frame=none,
+  aboveskip=1pt,
+  belowskip=1pt,
+  xleftmargin=0pt,
+  xrightmargin=0pt,
+}
+\lstset{style=cp}
+
+% #1 title, #2 relative path, #3 strategy, #4 reuse, #5 language, #6 absolute file
+\newcommand{\entry}[6]{%
+  \needspace{4\baselineskip}%
+  \subsection*{#1}%
+  \addcontentsline{toc}{subsection}{#1}%
+  {\scriptsize\ttfamily\color{gray} #2}\par
+  {\footnotesize\textbf{Strategy:} #3\par\textbf{Reuse:} #4}\par\vspace{1pt}
+  \lstinputlisting[language=#5]{#6}%
+  \vspace{2pt}%
+}
+
+\title{\vspace{-8mm}\bfseries Competitive Programming Handbook}
+\author{}
+\date{}
+\begin{document}
+\maketitle\vspace{-6mm}
+{\small\itshape Personal templates and algorithms}\par\vspace{2pt}
+\begin{multicols*}{2}
+\tableofcontents
+\vspace{4pt}
+\section*{Frameworks}
+\addcontentsline{toc}{section}{Frameworks}
+\entry{C++ single-case scaffold}{SingleCaseFramework.cpp}{Fast I/O, common macros (ll, pii, all, loop), one solve() call.}{Problem with exactly one test case.}{C++}{/Users/i743290/UFRGS/CP/SingleCaseFramework.cpp}
+\entry{C++ multi-case scaffold}{MultipleCasesFramework.cpp}{Same as single-case; reads t and loops solve().}{T test cases follow style problems.}{C++}{/Users/i743290/UFRGS/CP/MultipleCasesFramework.cpp}
+\entry{Python scaffold}{template.py}{Buffered I/O, raised recursion limit, input helpers, optional input.txt.}{Any Python problem, single or multi-test.}{Python}{/Users/i743290/UFRGS/CP/template.py}
+\section*{Search}
+\addcontentsline{toc}{section}{Search}
+\entry{Binary search on answer}{bin\_search/bin\_search.cpp}{BS over answer with monotone feasibility predicate try(t).}{Min/max value with monotone check (time, capacity, threshold).}{C++}{/Users/i743290/UFRGS/CP/bin_search/bin_search.cpp}
+\entry{Ternary search (floating)}{EasyProblems/tern\_search.cpp}{Split [l,r] in thirds, discard worse third, epsilon-terminated.}{Extremum of strictly unimodal continuous function.}{C++}{/Users/i743290/UFRGS/CP/EasyProblems/tern_search.cpp}
+\section*{Sorting}
+\addcontentsline{toc}{section}{Sorting}
+\entry{Merge sort}{Sorting/Merge.cpp}{Divide-and-conquer, O(n log n), stable.}{Reference; base for counting inversions.}{C++}{/Users/i743290/UFRGS/CP/Sorting/Merge.cpp}
+\entry{Counting sort}{Sorting/Counting.cpp}{Bucket histogram, O(n + max).}{Small non-negative integer range.}{C++}{/Users/i743290/UFRGS/CP/Sorting/Counting.cpp}
+\entry{Bubble sort}{Sorting/Bubble.cpp}{Repeated adjacent swaps, O(n\textasciicircum{}2).}{Tiny n or pedagogical only.}{C++}{/Users/i743290/UFRGS/CP/Sorting/Bubble.cpp}
+\entry{Distinct numbers}{Sorting/DistinctNumbers.cpp}{Sort then single pass counting first occurrence.}{Count distinct without hash structures.}{C++}{/Users/i743290/UFRGS/CP/Sorting/DistinctNumbers.cpp}
+\section*{Two Pointers}
+\addcontentsline{toc}{section}{Two Pointers}
+\entry{Sum of two values}{two\_pointers/sum\_of\_two\_values.cpp}{Sort with indices, two-pointer sweep from both ends toward target.}{Pair with sum = k; problems needing original indices.}{C++}{/Users/i743290/UFRGS/CP/two_pointers/sum_of_two_values.cpp}
+\entry{Black and white stripes (fixed window)}{two\_pointers/black\_and\_white\_stripes.cpp}{Fixed-size sliding window k, update count on entry/exit.}{Fixed-length substring/subarray min/max count.}{C++}{/Users/i743290/UFRGS/CP/two_pointers/black_and_white_stripes.cpp}
+\section*{Bitmasks}
+\addcontentsline{toc}{section}{Bitmasks}
+\entry{Apple division (subset partition)}{bitmasks/apple\_division.cpp}{Enumerate all 2\textasciicircum{}n subsets, minimize partition diff.}{Subset/partition with n \textless{}= \textasciitilde{}20.}{C++}{/Users/i743290/UFRGS/CP/bitmasks/apple_division.cpp}
+\entry{Hamiltonian flights (bitmask DP)}{bitmasks/hamiltonian\_flights\_rec.cpp}{DP over (current node, visited mask), memoized, mod 1e9+7.}{TSP-style path counts/costs, n \textless{}= \textasciitilde{}20.}{C++}{/Users/i743290/UFRGS/CP/bitmasks/hamiltonian_flights_rec.cpp}
+\section*{Trees}
+\addcontentsline{toc}{section}{Trees}
+\entry{Tree diameter}{trees/tree\_biggest\_diameter.cpp}{DFS tracking longest depth per node; diameter = sum of two best child depths.}{Diameter / longest path in unweighted tree, single traversal.}{C++}{/Users/i743290/UFRGS/CP/trees/tree_biggest_diameter.cpp}
+\entry{Huffman code cost}{trees/huffman\_code.cpp}{Greedy multiset merge of two smallest frequencies; accumulate cost.}{Optimal prefix code, connect ropes, merge stones.}{C++}{/Users/i743290/UFRGS/CP/trees/huffman_code.cpp}
+\entry{Euler tour (tin/tout)}{trees/euler\_tree.cpp}{DFS timestamps; subtree becomes contiguous interval.}{Combine with segtree/BIT for subtree updates and queries.}{C++}{/Users/i743290/UFRGS/CP/trees/euler_tree.cpp}
+\entry{Subtree sizes}{trees/subordinates.cpp}{Post-order DFS; each node's size = sum of (child + 1).}{Subtree size or subtree-aggregate DP.}{C++}{/Users/i743290/UFRGS/CP/trees/subordinates.cpp}
+\entry{Sum of distances (rerooting)}{trees/tree\_distances.cpp}{First DFS computes answer from root; second reroots in O(n).}{Answer for every possible root.}{C++}{/Users/i743290/UFRGS/CP/trees/tree_distances.cpp}
+\entry{BST traversals}{lpc\_training/trees\_for\_cp/1195\_bst.cpp}{Recursive insert; pre/in/post-order print.}{BST basics and traversal I/O.}{C++}{/Users/i743290/UFRGS/CP/lpc_training/trees_for_cp/1195_bst.cpp}
+\section*{Graphs}
+\addcontentsline{toc}{section}{Graphs}
+\entry{Dijkstra}{graphs/dijkstra.cpp}{Min-heap SSSP with lazy visited flag.}{SSSP with non-negative weights, O((V+E) log V).}{C++}{/Users/i743290/UFRGS/CP/graphs/dijkstra.cpp}
+\entry{Floyd-Warshall}{graphs/floyd\_warshall.cpp}{Triple loop over intermediate k; O(V\textasciicircum{}3).}{All-pairs shortest paths, V \textless{}= \textasciitilde{}400, handles negative edges.}{C++}{/Users/i743290/UFRGS/CP/graphs/floyd_warshall.cpp}
+\entry{BFS distance}{graphs/bfs\_dist.cpp}{Queue-based shortest hop distance in unweighted graph.}{Unweighted SSSP, level-order, grid distance.}{C++}{/Users/i743290/UFRGS/CP/graphs/bfs_dist.cpp}
+\entry{Bipartite check (2-coloring)}{graphs/beecrowd/separate\_rooms\_1979.cpp}{BFS 2-color per component; same-colored neighbor = odd cycle.}{Bipartiteness / can-we-split-in-two.}{C++}{/Users/i743290/UFRGS/CP/graphs/beecrowd/separate_rooms_1979.cpp}
+\entry{Connected components}{graphs/beecrowd/connected\_components\_1082.cpp}{BFS from every unvisited node, collect components.}{Count/list components in undirected graph.}{C++}{/Users/i743290/UFRGS/CP/graphs/beecrowd/connected_components_1082.cpp}
+\section*{Dynamic Programming}
+\addcontentsline{toc}{section}{Dynamic Programming}
+\entry{Kadane (max subarray sum)}{Dynamic\_Programming/MaxSubarraySum.cpp}{Running sum reset when extending is worse than restarting.}{Max contiguous subarray sum, O(n).}{C++}{/Users/i743290/UFRGS/CP/Dynamic_Programming/MaxSubarraySum.cpp}
+\entry{Diagonal path count (memoized)}{Dynamic\_Programming/DiagonalPathCount.cpp}{Top-down recursion with map memo; grid paths = binomial coeff.}{Template for 2-parameter memoized DP with map cache.}{C++}{/Users/i743290/UFRGS/CP/Dynamic_Programming/DiagonalPathCount.cpp}
+\section*{Segment Tree}
+\addcontentsline{toc}{section}{Segment Tree}
+\entry{Dynamic range sum queries}{seg\_tree/dynamic\_range\_sum\_queries.cpp}{Recursive segtree: point-assign update, range-sum query, O(log n). VERIFY update sibling-index before reuse.}{Point update + range sum; use Fenwick if merge is just sum.}{C++}{/Users/i743290/UFRGS/CP/seg_tree/dynamic_range_sum_queries.cpp}
+\section*{Stable Matching}
+\addcontentsline{toc}{section}{Stable Matching}
+\entry{Gale-Shapley (C++)}{StableMatching/gale\_shapley.cpp}{Proposers propose in preference order; receivers keep best via rank map.}{Any stable matching / preference pairing.}{C++}{/Users/i743290/UFRGS/CP/StableMatching/gale_shapley.cpp}
+\entry{Gale-Shapley (Python)}{StableMatching/gale\_shapley\_simple.py}{Compact port of Gale-Shapley using deque of free proposers.}{Python readability version of the C++ above.}{Python}{/Users/i743290/UFRGS/CP/StableMatching/gale_shapley_simple.py}
+\section*{Excluded}
+\addcontentsline{toc}{section}{Excluded}
+\begin{footnotesize}\begin{itemize}\setlength\itemsep{0pt}
+\item bin\_search/tern\_search.cpp: empty file (see EasyProblems/tern\_search.cpp instead).
+\item lpc\_training/dynamic\_prgramming/1838\_philosophal\_stone.cpp: unfinished stub.
+\end{itemize}\end{footnotesize}
+\end{multicols*}
+\end{document}

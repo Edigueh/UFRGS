@@ -48,7 +48,7 @@ OUT ?=
 # TARGETS
 # ============================================================================
 
-.PHONY: all run debug clean help list
+.PHONY: all run debug clean help list handbook
 
 # Default target: compile the specified file
 all: $(OUTPUT)
@@ -116,6 +116,10 @@ list:
 	@echo "===================="
 	@find . -name "*.cpp" -not -path "./$(BUILD_DIR)/*" | sort
 
+# Build printable PDF handbook from handbook/manifest.json
+handbook:
+	@handbook/build.sh
+
 # Help target
 help:
 	@echo "Competitive Programming Makefile"
@@ -130,6 +134,7 @@ help:
 	@echo "  debug        - Compile with debug flags and sanitizers"
 	@echo "  clean        - Remove all compiled files"
 	@echo "  list         - List all available C++ files"
+	@echo "  handbook     - Build printable PDF handbook (handbook/handbook.pdf)"
 	@echo "  help         - Show this help message"
 	@echo ""
 	@echo "Examples:"

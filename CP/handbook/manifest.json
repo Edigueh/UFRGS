@@ -1,0 +1,263 @@
+{
+  "title": "Competitive Programming Handbook",
+  "subtitle": "Personal templates and algorithms",
+  "categories": [
+    {
+      "name": "Frameworks",
+      "entries": [
+        {
+          "title": "C++ single-case scaffold",
+          "path": "SingleCaseFramework.cpp",
+          "lang": "C++",
+          "strategy": "Fast I/O, common macros (ll, pii, all, loop), one solve() call.",
+          "reuse": "Problem with exactly one test case."
+        },
+        {
+          "title": "C++ multi-case scaffold",
+          "path": "MultipleCasesFramework.cpp",
+          "lang": "C++",
+          "strategy": "Same as single-case; reads t and loops solve().",
+          "reuse": "T test cases follow style problems."
+        },
+        {
+          "title": "Python scaffold",
+          "path": "template.py",
+          "lang": "Python",
+          "strategy": "Buffered I/O, raised recursion limit, input helpers, optional input.txt.",
+          "reuse": "Any Python problem, single or multi-test."
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "entries": [
+        {
+          "title": "Binary search on answer",
+          "path": "bin_search/bin_search.cpp",
+          "lang": "C++",
+          "strategy": "BS over answer with monotone feasibility predicate try(t).",
+          "reuse": "Min/max value with monotone check (time, capacity, threshold)."
+        },
+        {
+          "title": "Ternary search (floating)",
+          "path": "EasyProblems/tern_search.cpp",
+          "lang": "C++",
+          "strategy": "Split [l,r] in thirds, discard worse third, epsilon-terminated.",
+          "reuse": "Extremum of strictly unimodal continuous function."
+        }
+      ]
+    },
+    {
+      "name": "Sorting",
+      "entries": [
+        {
+          "title": "Merge sort",
+          "path": "Sorting/Merge.cpp",
+          "lang": "C++",
+          "strategy": "Divide-and-conquer, O(n log n), stable.",
+          "reuse": "Reference; base for counting inversions."
+        },
+        {
+          "title": "Counting sort",
+          "path": "Sorting/Counting.cpp",
+          "lang": "C++",
+          "strategy": "Bucket histogram, O(n + max).",
+          "reuse": "Small non-negative integer range."
+        },
+        {
+          "title": "Bubble sort",
+          "path": "Sorting/Bubble.cpp",
+          "lang": "C++",
+          "strategy": "Repeated adjacent swaps, O(n^2).",
+          "reuse": "Tiny n or pedagogical only."
+        },
+        {
+          "title": "Distinct numbers",
+          "path": "Sorting/DistinctNumbers.cpp",
+          "lang": "C++",
+          "strategy": "Sort then single pass counting first occurrence.",
+          "reuse": "Count distinct without hash structures."
+        }
+      ]
+    },
+    {
+      "name": "Two Pointers",
+      "entries": [
+        {
+          "title": "Sum of two values",
+          "path": "two_pointers/sum_of_two_values.cpp",
+          "lang": "C++",
+          "strategy": "Sort with indices, two-pointer sweep from both ends toward target.",
+          "reuse": "Pair with sum = k; problems needing original indices."
+        },
+        {
+          "title": "Black and white stripes (fixed window)",
+          "path": "two_pointers/black_and_white_stripes.cpp",
+          "lang": "C++",
+          "strategy": "Fixed-size sliding window k, update count on entry/exit.",
+          "reuse": "Fixed-length substring/subarray min/max count."
+        }
+      ]
+    },
+    {
+      "name": "Bitmasks",
+      "entries": [
+        {
+          "title": "Apple division (subset partition)",
+          "path": "bitmasks/apple_division.cpp",
+          "lang": "C++",
+          "strategy": "Enumerate all 2^n subsets, minimize partition diff.",
+          "reuse": "Subset/partition with n <= ~20."
+        },
+        {
+          "title": "Hamiltonian flights (bitmask DP)",
+          "path": "bitmasks/hamiltonian_flights_rec.cpp",
+          "lang": "C++",
+          "strategy": "DP over (current node, visited mask), memoized, mod 1e9+7.",
+          "reuse": "TSP-style path counts/costs, n <= ~20."
+        }
+      ]
+    },
+    {
+      "name": "Trees",
+      "entries": [
+        {
+          "title": "Tree diameter",
+          "path": "trees/tree_biggest_diameter.cpp",
+          "lang": "C++",
+          "strategy": "DFS tracking longest depth per node; diameter = sum of two best child depths.",
+          "reuse": "Diameter / longest path in unweighted tree, single traversal."
+        },
+        {
+          "title": "Huffman code cost",
+          "path": "trees/huffman_code.cpp",
+          "lang": "C++",
+          "strategy": "Greedy multiset merge of two smallest frequencies; accumulate cost.",
+          "reuse": "Optimal prefix code, connect ropes, merge stones."
+        },
+        {
+          "title": "Euler tour (tin/tout)",
+          "path": "trees/euler_tree.cpp",
+          "lang": "C++",
+          "strategy": "DFS timestamps; subtree becomes contiguous interval.",
+          "reuse": "Combine with segtree/BIT for subtree updates and queries."
+        },
+        {
+          "title": "Subtree sizes",
+          "path": "trees/subordinates.cpp",
+          "lang": "C++",
+          "strategy": "Post-order DFS; each node's size = sum of (child + 1).",
+          "reuse": "Subtree size or subtree-aggregate DP."
+        },
+        {
+          "title": "Sum of distances (rerooting)",
+          "path": "trees/tree_distances.cpp",
+          "lang": "C++",
+          "strategy": "First DFS computes answer from root; second reroots in O(n).",
+          "reuse": "Answer for every possible root."
+        },
+        {
+          "title": "BST traversals",
+          "path": "lpc_training/trees_for_cp/1195_bst.cpp",
+          "lang": "C++",
+          "strategy": "Recursive insert; pre/in/post-order print.",
+          "reuse": "BST basics and traversal I/O."
+        }
+      ]
+    },
+    {
+      "name": "Graphs",
+      "entries": [
+        {
+          "title": "Dijkstra",
+          "path": "graphs/dijkstra.cpp",
+          "lang": "C++",
+          "strategy": "Min-heap SSSP with lazy visited flag.",
+          "reuse": "SSSP with non-negative weights, O((V+E) log V)."
+        },
+        {
+          "title": "Floyd-Warshall",
+          "path": "graphs/floyd_warshall.cpp",
+          "lang": "C++",
+          "strategy": "Triple loop over intermediate k; O(V^3).",
+          "reuse": "All-pairs shortest paths, V <= ~400, handles negative edges."
+        },
+        {
+          "title": "BFS distance",
+          "path": "graphs/bfs_dist.cpp",
+          "lang": "C++",
+          "strategy": "Queue-based shortest hop distance in unweighted graph.",
+          "reuse": "Unweighted SSSP, level-order, grid distance."
+        },
+        {
+          "title": "Bipartite check (2-coloring)",
+          "path": "graphs/beecrowd/separate_rooms_1979.cpp",
+          "lang": "C++",
+          "strategy": "BFS 2-color per component; same-colored neighbor = odd cycle.",
+          "reuse": "Bipartiteness / can-we-split-in-two."
+        },
+        {
+          "title": "Connected components",
+          "path": "graphs/beecrowd/connected_components_1082.cpp",
+          "lang": "C++",
+          "strategy": "BFS from every unvisited node, collect components.",
+          "reuse": "Count/list components in undirected graph."
+        }
+      ]
+    },
+    {
+      "name": "Dynamic Programming",
+      "entries": [
+        {
+          "title": "Kadane (max subarray sum)",
+          "path": "Dynamic_Programming/MaxSubarraySum.cpp",
+          "lang": "C++",
+          "strategy": "Running sum reset when extending is worse than restarting.",
+          "reuse": "Max contiguous subarray sum, O(n)."
+        },
+        {
+          "title": "Diagonal path count (memoized)",
+          "path": "Dynamic_Programming/DiagonalPathCount.cpp",
+          "lang": "C++",
+          "strategy": "Top-down recursion with map memo; grid paths = binomial coeff.",
+          "reuse": "Template for 2-parameter memoized DP with map cache."
+        }
+      ]
+    },
+    {
+      "name": "Segment Tree",
+      "entries": [
+        {
+          "title": "Dynamic range sum queries",
+          "path": "seg_tree/dynamic_range_sum_queries.cpp",
+          "lang": "C++",
+          "strategy": "Recursive segtree: point-assign update, range-sum query, O(log n). VERIFY update sibling-index before reuse.",
+          "reuse": "Point update + range sum; use Fenwick if merge is just sum."
+        }
+      ]
+    },
+    {
+      "name": "Stable Matching",
+      "entries": [
+        {
+          "title": "Gale-Shapley (C++)",
+          "path": "StableMatching/gale_shapley.cpp",
+          "lang": "C++",
+          "strategy": "Proposers propose in preference order; receivers keep best via rank map.",
+          "reuse": "Any stable matching / preference pairing."
+        },
+        {
+          "title": "Gale-Shapley (Python)",
+          "path": "StableMatching/gale_shapley_simple.py",
+          "lang": "Python",
+          "strategy": "Compact port of Gale-Shapley using deque of free proposers.",
+          "reuse": "Python readability version of the C++ above."
+        }
+      ]
+    }
+  ],
+  "excluded_notes": [
+    "bin_search/tern_search.cpp: empty file (see EasyProblems/tern_search.cpp instead).",
+    "lpc_training/dynamic_prgramming/1838_philosophal_stone.cpp: unfinished stub."
+  ]
+}
