@@ -9,8 +9,9 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 REPO = HERE.parent
-MANIFEST = HERE / "manifest.json"
-OUT = HERE / "handbook.tex"
+# ponytail: optional args — build.py [manifest.json] [out.tex]
+MANIFEST = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "manifest.json"
+OUT = Path(sys.argv[2]) if len(sys.argv) > 2 else HERE / "handbook.tex"
 
 # Map manifest lang → listings language name.
 LST_LANG = {"C++": "C++", "Python": "Python"}

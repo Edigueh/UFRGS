@@ -1,0 +1,72 @@
+\documentclass[8pt,a4paper]{extarticle}
+\usepackage[margin=8mm]{geometry}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{needspace}
+
+\setlength{\columnsep}{5mm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\titleformat{\section}{\normalsize\bfseries}{\thesection}{0.4em}{}
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+\titleformat{\subsection}{\small\bfseries}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{4pt}{1pt}
+
+\definecolor{cmt}{RGB}{110,110,110}
+\definecolor{kw}{RGB}{0,60,140}
+\definecolor{str}{RGB}{140,40,40}
+
+\lstdefinestyle{cp}{
+  basicstyle=\ttfamily\fontsize{7pt}{7.6pt}\selectfont,
+  commentstyle=\color{cmt}\itshape,
+  keywordstyle=\color{kw}\bfseries,
+  stringstyle=\color{str},
+  breaklines=true,
+  breakatwhitespace=false,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space},
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  tabsize=2,
+  frame=none,
+  aboveskip=1pt,
+  belowskip=1pt,
+  xleftmargin=0pt,
+  xrightmargin=0pt,
+}
+\lstset{style=cp}
+
+% #1 title, #2 relative path, #3 strategy, #4 reuse, #5 language, #6 absolute file
+\newcommand{\entry}[6]{%
+  \needspace{4\baselineskip}%
+  \subsection*{#1}%
+  \addcontentsline{toc}{subsection}{#1}%
+  {\scriptsize\ttfamily\color{gray} #2}\par
+  {\footnotesize\textbf{Strategy:} #3\par\textbf{Reuse:} #4}\par\vspace{1pt}
+  \lstinputlisting[language=#5]{#6}%
+  \vspace{2pt}%
+}
+
+\title{\vspace{-8mm}\bfseries CP Handbook (Mini)}
+\author{}
+\date{}
+\begin{document}
+\maketitle\vspace{-6mm}
+{\small\itshape DSU, MST, Knapsack}\par\vspace{2pt}
+\begin{multicols*}{2}
+\tableofcontents
+\vspace{4pt}
+\section*{Disjoint Set Union / MST}
+\addcontentsline{toc}{section}{Disjoint Set Union / MST}
+\entry{DSU + Kruskal MST}{DSU\_MST/dsu\_mst.cpp}{DSU: path compression + union by rank. MST: sort edges by weight, union endpoints if different components.}{Connectivity, cycle detection, MST (Kruskal), offline connectivity queries.}{C++}{/Users/i743290/UFRGS/CP/DSU_MST/dsu_mst.cpp}
+\section*{Knapsack}
+\addcontentsline{toc}{section}{Knapsack}
+\entry{Knapsack (recursive / memoized)}{Dynamic\_Programming/knapsack\_rec.cpp}{Top-down dp[nitems][capacity] = max(taken, not\_taken). O(N*W).}{0/1 knapsack; small N and W.}{C++}{/Users/i743290/UFRGS/CP/Dynamic_Programming/knapsack_rec.cpp}
+\entry{Knapsack (iterative table)}{Dynamic\_Programming/knapsack\_iter.cpp}{Bottom-up dp[i][w]; row i built from row i-1. O(N*W).}{0/1 knapsack when W small; can be compressed to 1D.}{C++}{/Users/i743290/UFRGS/CP/Dynamic_Programming/knapsack_iter.cpp}
+\entry{Knapsack (value-indexed)}{Dynamic\_Programming/knapsack\_opt.cpp}{dp[value] = min weight to reach that value; scan sums descending until weight fits.}{0/1 knapsack when values small but W huge.}{C++}{/Users/i743290/UFRGS/CP/Dynamic_Programming/knapsack_opt.cpp}
+\end{multicols*}
+\end{document}

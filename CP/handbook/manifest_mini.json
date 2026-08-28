@@ -1,0 +1,44 @@
+{
+  "title": "CP Handbook (Mini)",
+  "subtitle": "DSU, MST, Knapsack",
+  "categories": [
+    {
+      "name": "Disjoint Set Union / MST",
+      "entries": [
+        {
+          "title": "DSU + Kruskal MST",
+          "path": "DSU_MST/dsu_mst.cpp",
+          "lang": "C++",
+          "strategy": "DSU: path compression + union by rank. MST: sort edges by weight, union endpoints if different components.",
+          "reuse": "Connectivity, cycle detection, MST (Kruskal), offline connectivity queries."
+        }
+      ]
+    },
+    {
+      "name": "Knapsack",
+      "entries": [
+        {
+          "title": "Knapsack (recursive / memoized)",
+          "path": "Dynamic_Programming/knapsack_rec.cpp",
+          "lang": "C++",
+          "strategy": "Top-down dp[nitems][capacity] = max(taken, not_taken). O(N*W).",
+          "reuse": "0/1 knapsack; small N and W."
+        },
+        {
+          "title": "Knapsack (iterative table)",
+          "path": "Dynamic_Programming/knapsack_iter.cpp",
+          "lang": "C++",
+          "strategy": "Bottom-up dp[i][w]; row i built from row i-1. O(N*W).",
+          "reuse": "0/1 knapsack when W small; can be compressed to 1D."
+        },
+        {
+          "title": "Knapsack (value-indexed)",
+          "path": "Dynamic_Programming/knapsack_opt.cpp",
+          "lang": "C++",
+          "strategy": "dp[value] = min weight to reach that value; scan sums descending until weight fits.",
+          "reuse": "0/1 knapsack when values small but W huge."
+        }
+      ]
+    }
+  ]
+}
