@@ -14,7 +14,20 @@ def IN_ARR_STR(): return input().split()
 def IN_MAP_INT(): return map(int, input().split())
 
 def solve(tc: int):
-    pass
+    n: int = IN_INT()
+
+    c, v = [0] * 100100, [0] * 100100
+    for i in range(1, n + 1):
+        c[i], v[i] = IN_MAP_INT()
+        c[i] += c[i-1]
+        v[i] += v[i-1]
+
+    q: int = IN_INT()
+
+    for i in range(q):
+        j: int = IN_INT()
+        print("NEUTRO" if c[j] == v[j] else "VENDA" if c[j] < v[j] else "COMPRA")
+
 
 def main():
     t: int = 1

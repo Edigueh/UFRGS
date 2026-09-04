@@ -14,7 +14,19 @@ def IN_ARR_STR(): return input().split()
 def IN_MAP_INT(): return map(int, input().split())
 
 def solve(tc: int):
-    pass
+    n: int = IN_INT()
+
+    pot: int = 1
+
+    while pot * 3 <= n:
+        pot *= 3
+
+    if n <= 2 * pot:
+        ans = 2 * pot + (n - pot)
+    else:
+        ans = pot * 3 + 3 * (n - 2 * pot)
+
+    print(ans)
 
 def main():
     t: int = 1
