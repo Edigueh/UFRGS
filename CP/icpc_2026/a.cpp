@@ -17,7 +17,7 @@ int c[MAXN], v[MAXN];
 void solve() {
     int n;
     cin >> n;
-    
+
     for (int i = 1; i <= n; i++) {
         cin >> c[i] >> v[i];
         c[i] += c[i-1];
