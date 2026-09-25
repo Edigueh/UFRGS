@@ -1,0 +1,398 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows.meta}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue}
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+
+% ============ FOLHA DE ROSTO ============
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        \Large\textbf{Universidade Federal do Rio Grande do Sul}\\[0.2cm]
+        \large Instituto de Informática\\
+        \large Departamento de Informática Teórica\\[0.4cm]
+        \large INF05005 -- Teoria da Computação I\\
+        \large Prof. Álvaro Guglielmin Becker\\
+        \large 2026/2\\[3cm]
+
+        \Huge\textbf{Trabalho Prático -- Parte 1}\\[0.5cm]
+        \LARGE Modelagem de um Sistema como Linguagem Regular:\\
+        \Large \textit{Operação de um Veículo com Câmbio Manual}\\[4cm]
+
+        \Large\textbf{Integrantes do Grupo:}\\[0.5cm]
+        \large
+        \begin{tabular}{ll}
+            Nome Completo do Aluno 1 & -- Cartão UFRGS: 000000000 \\
+            Nome Completo do Aluno 2 & -- Cartão UFRGS: 000000000 \\
+            Nome Completo do Aluno 3 & -- Cartão UFRGS: 000000000 \\
+        \end{tabular}
+
+        \vfill
+        \large Porto Alegre\\
+        \large \today
+    \end{center}
+\end{titlepage}
+
+% ============ SUMÁRIO ============
+\tableofcontents
+\newpage
+
+% ============ 1. DESCRIÇÃO DO CENÁRIO ============
+\section{Descrição do Cenário}
+
+O cenário escolhido para modelagem é a \textbf{operação de um automóvel com câmbio manual}, desde o estado inicial (veículo desligado e estacionado) até seu retorno ao mesmo estado após um ciclo de condução. Trata-se de um domínio familiar aos integrantes do grupo e rico o suficiente para exigir uma sequência estrita de ações, o que se ajusta naturalmente à noção de linguagem regular reconhecida por um Autômato Finito Determinístico (AFD).
+
+A modelagem captura a \textbf{ordem de operações} que o motorista deve executar. Um veículo com câmbio manual não permite, por exemplo, ligar o motor sem antes pressionar a embreagem, tampouco acelerar sem antes soltar o freio de mão e engatar uma marcha. Cada ação depende de um estado prévio consistente do veículo, o que torna a operação uma sequência ordenada de eventos discretos. Essa característica é exatamente o que um AFD reconhece: sequências de símbolos que respeitam uma ordem determinada pelas transições.
+
+Uma diferença importante da nossa modelagem em relação a modelos mais simplificados é que os símbolos representam \textbf{acionamentos de comandos} (pressionar/soltar um pedal, girar a chave, engatar uma marcha), e não apenas ações unidirecionais. Isso significa que, em muitos estados, o motorista pode \textbf{desfazer} uma ação (por exemplo, soltar a embreagem que acabou de pressionar), o que se traduz em transições bidirecionais no autômato.
+
+\subsection{O que é capturado}
+\begin{itemize}
+    \item A \textbf{ordem obrigatória} das ações principais (pressionar embreagem antes de ligar, engatar marcha antes de acelerar em movimento, etc.);
+    \item Os \textbf{estados intermediários} do veículo (motor ligado, marcha engatada, acelerando, freando, câmbio no neutro etc.);
+    \item A possibilidade de \textbf{trocar de marcha} tanto com o veículo parado quanto em movimento, gerando ciclos na linguagem;
+    \item A possibilidade de o motorista \textbf{desfazer} ações reversíveis (soltar a embreagem, tirar o pé do acelerador, retirar o carro do neutro);
+    \item O \textbf{ciclo completo} de operação: partida $\rightarrow$ condução $\rightarrow$ parada $\rightarrow$ desligamento.
+\end{itemize}
+
+\subsection{O que é abstraído}
+\begin{itemize}
+    \item Aspectos \textbf{contínuos} como velocidade, rotação do motor (RPM) e consumo de combustível;
+    \item \textbf{Falhas mecânicas} e situações de emergência;
+    \item Ações \textbf{simultâneas} (pisar embreagem e freio ao mesmo tempo é tratado como sequência);
+    \item O \textbf{tempo} entre as ações -- só interessa a ordem, não a duração;
+    \item Ações de \textbf{conforto} (rádio, ar-condicionado, setas, etc.);
+    \item A \textbf{marcha específica} que o motorista escolhe (o modelo distingue apenas ré, subir e descer, sem numerar de 1 a 6).
+\end{itemize}
+
+% ============ 2. ALFABETO ============
+\section{Alfabeto}
+
+O alfabeto $\Sigma$ da linguagem é composto por \textbf{9 símbolos}, cada um representando um acionamento de comando do veículo:
+
+\begin{center}
+\begin{tabular}{|c|l|l|}
+    \hline
+    \textbf{Símbolo} & \textbf{Comando} & \textbf{Descrição no cenário} \\
+    \hline
+    \texttt{i} & Ignição       & Girar a chave (liga ou desliga o motor) \\
+    \texttt{e} & Embreagem     & Pressiona ou solta o pedal da embreagem \\
+    \texttt{a} & Acelerador    & Pressiona ou solta o pedal do acelerador \\
+    \texttt{f} & Freio de pé   & Pressiona ou solta o pedal de freio \\
+    \texttt{m} & Freio de mão  & Puxa ou solta o freio de estacionamento \\
+    \texttt{r} & Marcha à ré   & Engata marcha à ré \\
+    \texttt{s} & Subir marcha  & Sobe uma marcha (rumo a marchas mais altas) \\
+    \texttt{d} & Descer marcha & Desce uma marcha (rumo a marchas mais baixas) \\
+    \texttt{n} & Neutro        & Coloca ou tira o câmbio do ponto morto \\
+    \hline
+\end{tabular}
+\end{center}
+
+Formalmente:
+\[
+\Sigma = \{\, i,\; e,\; a,\; f,\; m,\; r,\; s,\; d,\; n \,\}
+\]
+
+O alfabeto contém $|\Sigma| = 9$ símbolos, satisfazendo a exigência de \textbf{no mínimo 5 símbolos}. Um mesmo símbolo pode representar ações duais (pressionar e soltar, ligar e desligar): o significado é desambiguado pelo estado atual do autômato, que é justamente o papel dos estados no AFD.
+
+% ============ 3. AUTÔMATO FINITO DETERMINÍSTICO ============
+\section{Autômato Finito Determinístico}
+
+\subsection{Definição Formal}
+O AFD que reconhece a linguagem é a quíntupla $M = (Q, \Sigma, \delta, q_0, F)$ onde:
+\begin{itemize}
+    \item $Q = \{q_0, q_1, q_2, q_3, q_4, q_5, q_6, q_7, q_8, q_9, q_{10}, q_{11}, q_{12}, q_{13}, q_{14}\}$\\
+    -- conjunto de 15 estados;
+    \item $\Sigma = \{i, e, a, f, m, r, s, d, n\}$ -- alfabeto definido acima;
+    \item $\delta: Q \times \Sigma \rightarrow Q$ -- função de transição parcial (tabela abaixo);
+    \item $q_0$ -- estado inicial (\textit{Carro desligado});
+    \item $F = \{q_0\}$ -- estado final (o ciclo se encerra quando o carro retorna ao estado inicial).
+\end{itemize}
+
+\subsection{Descrição dos Estados}
+\begin{center}
+\begin{tabular}{|c|l|}
+    \hline
+    \textbf{Estado} & \textbf{Significado} \\
+    \hline
+    $q_0$    & Carro desligado (inicial e final)                                    \\
+    $q_1$    & Embreagem pressionada, carro desligado                               \\
+    $q_2$    & Motor ligado, embreagem ainda pressionada                            \\
+    $q_3$    & Marcha engatada (parado, freio de mão puxado)                        \\
+    $q_4$    & Freio de mão solto (pronto para acelerar)                            \\
+    $q_5$    & Acelerando (embreagem ainda pressionada)                             \\
+    $q_6$    & Embreagem solta (carro em movimento acelerando)                      \\
+    $q_7$    & Acelerador solto (em movimento, sem acelerar)                        \\
+    $q_8$    & Embreagem pressionada durante a condução (troca de marcha)           \\
+    $q_9$    & Marcha trocada (em movimento)                                        \\
+    $q_{10}$ & Freando (pé no freio, embreagem solta)                               \\
+    $q_{11}$ & Embreagem pressionada com carro parado ou freando                    \\
+    $q_{12}$ & Câmbio no neutro                                                     \\
+    $q_{13}$ & Freio de mão puxado (parado, neutro, embreagem solta)                \\
+    $q_{14}$ & Embreagem solta, motor ligado, veículo praticamente pronto p/ desligar\\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsection{Valores Iniciais dos Símbolos do Circuito}
+No estado inicial $q_0$ (carro desligado e estacionado), cada comando do veículo possui um valor inicial bem definido, que corresponde ao estado físico do respectivo componente antes de qualquer ação do motorista:
+
+\begin{center}
+\begin{tabular}{|c|l|l|}
+    \hline
+    \textbf{Símbolo} & \textbf{Comando} & \textbf{Valor inicial} \\
+    \hline
+    \texttt{i} & Ignição       & Desligada (chave fora da posição de ignição) \\
+    \texttt{e} & Embreagem     & Solta (pedal em repouso) \\
+    \texttt{a} & Acelerador    & Solto (pedal em repouso) \\
+    \texttt{f} & Freio de pé   & Solto (pedal em repouso) \\
+    \texttt{m} & Freio de mão  & Puxado (acionado, veículo estacionado) \\
+    \texttt{r} & Marcha à ré   & Não engatada (câmbio em neutro) \\
+    \texttt{s} & Subir marcha  & Nenhuma marcha engatada (câmbio em neutro) \\
+    \texttt{d} & Descer marcha & Nenhuma marcha engatada (câmbio em neutro) \\
+    \texttt{n} & Neutro        & Ativo (câmbio em ponto morto) \\
+    \hline
+\end{tabular}
+\end{center}
+
+Esses valores iniciais são coerentes com $q_0$: motor desligado, todos os pedais soltos, câmbio em ponto morto e freio de mão acionado -- condição típica de um veículo estacionado com segurança. A primeira ação válida a partir desse estado é \texttt{e} (pressionar embreagem), única transição definida em $\delta(q_0, \cdot)$.
+
+\subsection{Tabela de Transições}
+As transições foram extraídas do arquivo \texttt{TrabalhoPratico\_AFD\_v5.jff}. Muitas transições são \textbf{bidirecionais}: aparecem duas linhas com o mesmo símbolo em direções opostas, representando a possibilidade de o motorista desfazer uma ação (por exemplo, soltar a embreagem que acabou de pressionar).
+
+\begin{center}
+\small
+\begin{longtable}{|c|c|c|l|}
+    \hline
+    \textbf{De} & \textbf{Símbolo} & \textbf{Para} & \textbf{Interpretação} \\
+    \hline
+    \endhead
+    $q_0$    & \texttt{e} & $q_1$    & Pressiona embreagem \\
+    $q_1$    & \texttt{e} & $q_0$    & Solta embreagem (desiste) \\
+    $q_1$    & \texttt{i} & $q_2$    & Liga o motor \\
+    $q_2$    & \texttt{i} & $q_1$    & Desliga o motor (desiste) \\
+    $q_2$    & \texttt{r} & $q_3$    & Engata marcha à ré \\
+    $q_2$    & \texttt{s} & $q_3$    & Engata primeira (subir) \\
+    $q_2$    & \texttt{e} & $q_{14}$ & Solta embreagem sem engatar marcha \\
+    $q_{14}$ & \texttt{e} & $q_2$    & Volta a pressionar embreagem \\
+    $q_{14}$ & \texttt{i} & $q_0$    & Desliga o motor (encerra o ciclo) \\
+    $q_3$    & \texttt{m} & $q_4$    & Solta freio de mão \\
+    $q_4$    & \texttt{m} & $q_3$    & Puxa freio de mão de novo \\
+    $q_3$    & \texttt{n} & $q_2$    & Retorna ao neutro sem soltar freio de mão \\
+    $q_4$    & \texttt{a} & $q_5$    & Pressiona acelerador \\
+    $q_5$    & \texttt{a} & $q_4$    & Solta acelerador \\
+    $q_5$    & \texttt{e} & $q_6$    & Solta embreagem: veículo em movimento \\
+    $q_6$    & \texttt{a} & $q_7$    & Tira o pé do acelerador \\
+    $q_7$    & \texttt{a} & $q_6$    & Volta a acelerar \\
+    $q_7$    & \texttt{e} & $q_8$    & Pressiona embreagem (troca) \\
+    $q_8$    & \texttt{e} & $q_7$    & Solta embreagem sem trocar \\
+    $q_8$    & \texttt{r,s,d} & $q_9$ & Realiza troca de marcha em movimento \\
+    $q_9$    & \texttt{r,s,d} & $q_9$ & Troca outra marcha em sequência (\emph{loop}) \\
+    $q_9$    & \texttt{e} & $q_7$    & Solta embreagem após troca de marcha \\
+    $q_7$    & \texttt{f} & $q_{10}$ & Pressiona freio de pé \\
+    $q_{10}$ & \texttt{f} & $q_7$    & Solta freio de pé \\
+    $q_{10}$ & \texttt{e} & $q_{11}$ & Pressiona embreagem enquanto freia \\
+    $q_{11}$ & \texttt{e} & $q_{10}$ & Solta embreagem \\
+    $q_{11}$ & \texttt{f} & $q_8$    & Solta freio (volta para troca em movimento) \\
+    $q_{11}$ & \texttt{n} & $q_{12}$ & Coloca em ponto morto \\
+    $q_{12}$ & \texttt{r,s} & $q_{11}$ & Sai do neutro engatando ré ou subindo \\
+    $q_{12}$ & \texttt{d} & $q_{11}$ & Sai do neutro descendo marcha \\
+    $q_{12}$ & \texttt{m} & $q_{13}$ & Puxa freio de mão \\
+    $q_{13}$ & \texttt{m} & $q_{12}$ & Solta freio de mão \\
+    $q_{13}$ & \texttt{f} & $q_2$    & Solta freio de pé (encaminha p/ desligamento) \\
+    \hline
+\end{longtable}
+\end{center}
+
+\subsection{Ciclos e infinitude da linguagem}
+A linguagem é infinita porque existem múltiplos \emph{loops} no autômato:
+\begin{itemize}
+    \item \textbf{Loops de reversão} (par de transições bidirecionais): permitem que o motorista pressione e solte o mesmo pedal quantas vezes quiser antes de progredir.
+    \item \textbf{Self-loop de troca de marcha em movimento} ($q_9 \xrightarrow{r|s|d} q_9$): permite trocar várias marchas em sequência com a embreagem pressionada.
+    \item \textbf{Ciclo de troca completa em movimento}:
+    $q_6 \xrightarrow{a} q_7 \xrightarrow{e} q_8 \xrightarrow{r|s|d} q_9 \xrightarrow{e} q_7 \xrightarrow{a} q_6$.
+    \item \textbf{Ciclo de frenagem intermediária}:
+    $q_7 \xrightarrow{f} q_{10} \xrightarrow{f} q_7$.
+\end{itemize}
+
+\subsection{Diagrama de Estados}
+O diagrama esquemático abaixo apresenta o AFD. Por clareza, transições reversas são mostradas apenas quando essenciais para a compreensão do ciclo; o arquivo \texttt{TrabalhoPratico\_AFD\_v5.jff} contém a versão completa.
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    ->, >=Stealth, shorten >=1pt,
+    auto, node distance=2.4cm,
+    every state/.style={minimum size=0.95cm, inner sep=1pt, font=\small}
+]
+    \node[state, initial, accepting] (q0)                       {$q_0$};
+    \node[state]                     (q1)  [right=of q0]        {$q_1$};
+    \node[state]                     (q2)  [right=of q1]        {$q_2$};
+    \node[state]                     (q14) [above=of q2]        {$q_{14}$};
+    \node[state]                     (q3)  [below=of q2]        {$q_3$};
+    \node[state]                     (q4)  [below=of q3]        {$q_4$};
+    \node[state]                     (q5)  [right=of q4]        {$q_5$};
+    \node[state]                     (q6)  [right=of q5]        {$q_6$};
+    \node[state]                     (q7)  [above=of q6]        {$q_7$};
+    \node[state]                     (q8)  [above=of q7]        {$q_8$};
+    \node[state]                     (q9)  [right=of q8]        {$q_9$};
+    \node[state]                     (q10) [left=of q7]         {$q_{10}$};
+    \node[state]                     (q11) [above=of q10]       {$q_{11}$};
+    \node[state]                     (q12) [above=of q14]       {$q_{12}$};
+    \node[state]                     (q13) [left=of q12]        {$q_{13}$};
+
+    \path
+        (q0)  edge [bend left]         node        {e} (q1)
+        (q1)  edge [bend left]         node        {i} (q2)
+        (q2)  edge                     node        {e} (q14)
+        (q14) edge [bend left=45]      node        {i} (q0)
+        (q2)  edge                     node        {r,s} (q3)
+        (q3)  edge                     node        {m} (q4)
+        (q4)  edge                     node        {a} (q5)
+        (q5)  edge                     node        {e} (q6)
+        (q6)  edge [bend left]         node        {a} (q7)
+        (q7)  edge                     node        {e} (q8)
+        (q8)  edge [bend left]         node        {r,s,d} (q9)
+        (q9)  edge [loop right]        node        {r,s,d} ()
+        (q9)  edge [bend left]         node        {e} (q7)
+        (q7)  edge                     node        {f} (q10)
+        (q10) edge                     node        {e} (q11)
+        (q11) edge [bend right=15]     node[swap]  {f} (q8)
+        (q11) edge                     node        {n} (q12)
+        (q12) edge                     node        {m} (q13)
+        (q13) edge [bend right=30]     node[swap]  {f} (q2);
+\end{tikzpicture}%
+}
+\end{center}
+
+\noindent\textbf{Observação:} O diagrama é uma representação simplificada com foco no fluxo principal. O arquivo JFLAP contém todas as transições reversíveis omitidas aqui.
+
+% ============ 4. GRAMÁTICA LINEAR UNITÁRIA À DIREITA ============
+\section{Gramática Linear Unitária à Direita (GLUD)}
+
+Como a linguagem é regular, existe uma GLUD $G = (V, \Sigma, P, S)$ que a gera. Cada não-terminal corresponde a um estado do AFD, e cada produção $A \to a B$ corresponde à transição $\delta(A, a) = B$. Produções $A \to \epsilon$ correspondem aos estados finais.
+
+\subsection{Definição Formal}
+\begin{itemize}
+    \item \textbf{Não-terminais:} $V = \{Q_0, Q_1, Q_2, Q_3, Q_4, Q_5, Q_6, Q_7, Q_8, Q_9, Q_{10}, Q_{11}, Q_{12}, Q_{13}, Q_{14}\}$, um para cada estado do AFD;
+    \item \textbf{Terminais:} $\Sigma = \{i, e, a, f, m, r, s, d, n\}$;
+    \item \textbf{Símbolo inicial:} $S = Q_0$;
+    \item \textbf{Produções $P$:} listadas abaixo.
+\end{itemize}
+
+\subsection{Produções}
+
+\begin{align*}
+Q_0    &\to e\,Q_1 \mid \epsilon \\
+Q_1    &\to e\,Q_0 \mid i\,Q_2 \\
+Q_2    &\to i\,Q_1 \mid r\,Q_3 \mid s\,Q_3 \mid e\,Q_{14} \\
+Q_3    &\to n\,Q_2 \mid m\,Q_4 \\
+Q_4    &\to m\,Q_3 \mid a\,Q_5 \\
+Q_5    &\to a\,Q_4 \mid e\,Q_6 \\
+Q_6    &\to a\,Q_7 \\
+Q_7    &\to a\,Q_6 \mid e\,Q_8 \mid f\,Q_{10} \\
+Q_8    &\to e\,Q_7 \mid r\,Q_9 \mid s\,Q_9 \mid d\,Q_9 \\
+Q_9    &\to r\,Q_9 \mid s\,Q_9 \mid d\,Q_9 \mid e\,Q_7 \\
+Q_{10} &\to f\,Q_7 \mid e\,Q_{11} \\
+Q_{11} &\to e\,Q_{10} \mid f\,Q_8 \mid n\,Q_{12} \\
+Q_{12} &\to r\,Q_{11} \mid s\,Q_{11} \mid d\,Q_{11} \mid m\,Q_{13} \\
+Q_{13} &\to m\,Q_{12} \mid f\,Q_2 \\
+Q_{14} &\to e\,Q_2 \mid i\,Q_0
+\end{align*}
+
+A produção $Q_0 \to \epsilon$ marca $q_0$ como estado final: qualquer derivação que retorne ao símbolo $Q_0$ pode ser encerrada, aceitando a palavra correspondente.
+
+\subsection{Exemplo de Derivação}
+
+Derivação da palavra $w_1 = e\,i\,s\,m\,a\,e\,a\,f\,e\,n\,m\,f\,e\,i$ (ciclo mínimo de condução):
+
+\begin{align*}
+Q_0 &\Rightarrow e\,Q_1 \Rightarrow e\,i\,Q_2 \Rightarrow e\,i\,s\,Q_3 \Rightarrow e\,i\,s\,m\,Q_4 \Rightarrow e\,i\,s\,m\,a\,Q_5 \\
+    &\Rightarrow e\,i\,s\,m\,a\,e\,Q_6 \Rightarrow e\,i\,s\,m\,a\,e\,a\,Q_7 \Rightarrow e\,i\,s\,m\,a\,e\,a\,f\,Q_{10} \\
+    &\Rightarrow e\,i\,s\,m\,a\,e\,a\,f\,e\,Q_{11} \Rightarrow e\,i\,s\,m\,a\,e\,a\,f\,e\,n\,Q_{12} \\
+    &\Rightarrow e\,i\,s\,m\,a\,e\,a\,f\,e\,n\,m\,Q_{13} \Rightarrow e\,i\,s\,m\,a\,e\,a\,f\,e\,n\,m\,f\,Q_2 \\
+    &\Rightarrow e\,i\,s\,m\,a\,e\,a\,f\,e\,n\,m\,f\,e\,Q_{14} \Rightarrow e\,i\,s\,m\,a\,e\,a\,f\,e\,n\,m\,f\,e\,i\,Q_0 \\
+    &\Rightarrow e\,i\,s\,m\,a\,e\,a\,f\,e\,n\,m\,f\,e\,i
+\end{align*}
+
+A última etapa aplica $Q_0 \to \epsilon$, encerrando a derivação e produzindo a palavra $w_1 \in L(G)$.
+
+% ============ 5. PALAVRAS DA LINGUAGEM ============
+\section{Palavras da Linguagem}
+
+\subsection{Palavras aceitas (pertencentes à linguagem)}
+
+\textbf{Palavra 1} -- ciclo mínimo, sem troca de marcha:
+\[
+w_1 = e\;i\;s\;m\;a\;e\;a\;f\;e\;n\;m\;f\;e\;i
+\]
+\textit{Trajetória:} $q_0 \xrightarrow{e} q_1 \xrightarrow{i} q_2 \xrightarrow{s} q_3 \xrightarrow{m} q_4 \xrightarrow{a} q_5 \xrightarrow{e} q_6 \xrightarrow{a} q_7 \xrightarrow{f} q_{10} \xrightarrow{e} q_{11} \xrightarrow{n} q_{12} \xrightarrow{m} q_{13} \xrightarrow{f} q_2 \xrightarrow{e} q_{14} \xrightarrow{i} q_0$.
+\emph{Interpretação:} pressiona embreagem, liga o motor, engata primeira, solta freio de mão, acelera, solta embreagem, tira o pé do acelerador, freia, pressiona embreagem, coloca em neutro, puxa freio de mão, solta freio de pé, solta embreagem e desliga.
+
+\vspace{0.3cm}
+\textbf{Palavra 2} -- uma troca de marcha com embreagem em movimento:
+\[
+w_2 = e\;i\;s\;m\;a\;e\;a\;e\;s\;e\;a\;a\;f\;e\;n\;m\;f\;e\;i
+\]
+\emph{Interpretação:} idêntica à anterior, porém depois de andar um pouco o motorista pressiona embreagem, sobe uma marcha, solta embreagem e continua acelerando antes da parada.
+
+\vspace{0.3cm}
+\textbf{Palavra 3} -- reversão explícita (motorista desiste e recomeça):
+\[
+w_3 = e\;e\;e\;i\;i\;e\;r\;m\;a\;e\;a\;f\;e\;n\;m\;f\;e\;i
+\]
+\emph{Interpretação:} motorista pressiona e solta a embreagem duas vezes (hesitação), depois pressiona embreagem, liga o motor, desliga (\texttt{i}), religa (\texttt{i}), engata ré, e segue o ciclo normal. Palavra válida porque todas essas reversões correspondem a transições existentes no autômato.
+
+\subsection{Palavras rejeitadas (não pertencentes à linguagem)}
+
+\textbf{Palavra 4} -- tenta ligar o motor sem pressionar embreagem:
+\[
+w_4 = i\;s\;m\;a\;e\;a\;f\;e\;n\;m\;f\;e\;i
+\]
+\emph{Motivo:} de $q_0$ não existe transição pelo símbolo \texttt{i} (apenas por \texttt{e}). O autômato rejeita imediatamente. \emph{Semanticamente:} carro com câmbio manual não dá partida sem o pedal da embreagem pressionado (trava de segurança).
+
+\vspace{0.3cm}
+\textbf{Palavra 5} -- tenta acelerar antes de soltar o freio de mão:
+\[
+w_5 = e\;i\;s\;a\;m\;a\;e\;a\;f\;e\;n\;m\;f\;e\;i
+\]
+\emph{Motivo:} de $q_3$ (marcha engatada, freio de mão puxado) só existem transições por \texttt{m} e \texttt{n}. O símbolo \texttt{a} não é aceito nesse estado. \emph{Semanticamente:} acelerar com freio de mão puxado é uma operação inválida no modelo.
+
+\vspace{0.3cm}
+\textbf{Palavra 6} -- não desliga o motor no final:
+\[
+w_6 = e\;i\;s\;m\;a\;e\;a\;f\;e\;n\;m\;f\;e
+\]
+\emph{Motivo:} a computação termina em $q_{14}$, que \textbf{não é estado final} ($F = \{q_0\}$). Falta apenas o símbolo \texttt{i} final. \emph{Semanticamente:} o carro permaneceu estacionado com o motor ligado -- não corresponde a um ciclo completo de operação, portanto a palavra não pertence à linguagem.
+
+% ============ 6. CONSIDERAÇÕES FINAIS ============
+\section{Considerações Finais}
+
+O modelo apresentado captura, com um AFD de 15 estados e alfabeto de 9 símbolos, a essência procedural da operação de um veículo com câmbio manual. As principais características linguísticas são:
+\begin{itemize}
+    \item \textbf{Ordem obrigatória} entre partida, condução e desligamento;
+    \item \textbf{Reversibilidade} das ações individuais do motorista (transições bidirecionais), o que aproxima o modelo do comportamento real de um condutor que pode desfazer e refazer um mesmo comando;
+    \item \textbf{Ciclos internos} de troca de marcha e frenagem que tornam a linguagem infinita;
+    \item \textbf{Exigência de fechamento correto}: apenas ciclos completos, terminados com o motor desligado ($q_0$), são aceitos.
+\end{itemize}
+Aspectos contínuos e simultâneos foram deliberadamente abstraídos, mantendo o modelo dentro da expressividade das linguagens regulares. O arquivo JFLAP \texttt{TrabalhoPratico\_AFD\_v5.jff} anexo permite verificar interativamente cada uma das palavras listadas.
+
+\end{document}

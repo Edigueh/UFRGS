@@ -6,7 +6,7 @@
 
 # Unignore all dirs
 !*/
-
+.zip
 .DS_Store
 .fits
 

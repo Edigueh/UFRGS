@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>150.0</x>
+			<y>45.0</y>
+			<label>Carro desligado</label>
+			<initial/>
+			<final/>
+		</state>
+		<state id="1" name="q1">
+			<x>241.0</x>
+			<y>183.0</y>
+			<label>Embreagem pressionada</label>
+		</state>
+		<state id="2" name="q2">
+			<x>606.0</x>
+			<y>261.0</y>
+			<label>Motor ligado, freio solto</label>
+		</state>
+		<state id="3" name="q3">
+			<x>352.0</x>
+			<y>414.0</y>
+			<label>Marcha engatada</label>
+		</state>
+		<state id="4" name="q4">
+			<x>257.0</x>
+			<y>581.0</y>
+			<label>Freio de mão solto</label>
+		</state>
+		<state id="5" name="q5">
+			<x>494.0</x>
+			<y>702.0</y>
+			<label>Acelerando</label>
+		</state>
+		<state id="6" name="q6">
+			<x>857.0</x>
+			<y>666.0</y>
+			<label>Embreagem Solta</label>
+		</state>
+		<state id="7" name="q7">
+			<x>1129.0</x>
+			<y>527.0</y>
+			<label>Acelerador solto, embragem solta</label>
+		</state>
+		<state id="8" name="q8">
+			<x>1540.0</x>
+			<y>484.0</y>
+			<label>Embreagem pressionada, freio solto</label>
+		</state>
+		<state id="9" name="q9">
+			<x>1437.0</x>
+			<y>621.0</y>
+			<label>Marcha trocada</label>
+		</state>
+		<state id="11" name="q10">
+			<x>1357.0</x>
+			<y>402.0</y>
+			<label>Freiando</label>
+		</state>
+		<state id="12" name="q11">
+			<x>1585.0</x>
+			<y>305.0</y>
+			<label>Embreagem pressionada</label>
+		</state>
+		<state id="13" name="q12">
+			<x>1391.0</x>
+			<y>160.0</y>
+			<label>marcha no neutro</label>
+		</state>
+		<state id="14" name="q13">
+			<x>992.0</x>
+			<y>168.0</y>
+			<label>Freio de mão puxado</label>
+		</state>
+		<state id="16" name="q14">
+			<x>462.0</x>
+			<y>95.0</y>
+			<label>Embreagem Solta</label>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>8</from>
+			<to>9</to>
+			<read>d</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>7</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>6</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>1</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>7</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>13</from>
+			<to>12</to>
+			<read>r</read>
+		</transition>
+		<transition>
+			<from>13</from>
+			<to>12</to>
+			<read>s</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>4</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>16</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>16</from>
+			<to>2</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>12</from>
+			<to>13</to>
+			<read>n</read>
+		</transition>
+		<transition>
+			<from>8</from>
+			<to>9</to>
+			<read>s</read>
+		</transition>
+		<transition>
+			<from>8</from>
+			<to>9</to>
+			<read>r</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>m</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>3</to>
+			<read>m</read>
+		</transition>
+		<transition>
+			<from>13</from>
+			<to>12</to>
+			<read>d</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>9</to>
+			<read>d</read>
+		</transition>
+		<transition>
+			<from>16</from>
+			<to>0</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>2</to>
+			<read>n</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>8</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>8</from>
+			<to>7</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>13</from>
+			<to>14</to>
+			<read>m</read>
+		</transition>
+		<transition>
+			<from>14</from>
+			<to>13</to>
+			<read>m</read>
+		</transition>
+		<transition>
+			<from>12</from>
+			<to>8</to>
+			<read>f</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>6</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>9</to>
+			<read>r</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>9</to>
+			<read>s</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>s</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>r</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>11</to>
+			<controlx>1056</controlx>
+			<controly>376</controly>
+			<read>f</read>
+		</transition>
+		<transition>
+			<from>11</from>
+			<to>7</to>
+			<read>f</read>
+		</transition>
+		<transition>
+			<from>14</from>
+			<to>2</to>
+			<read>f</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>0</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>11</from>
+			<to>12</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>12</from>
+			<to>11</to>
+			<read>e</read>
+		</transition>
+	</automaton>
+</structure>
